@@ -1,17 +1,22 @@
 package com.visa.controller;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.multimerchantvisanet.www.ConsultaEnLineaEticket.WSConsultaEticketSoapProxy;
 import com.multimerchantvisanet.www.solicitudtransaccion.WSEticketSoapProxy;
 import com.visa.domain.Campo;
+import com.visa.domain.ConsultaETicket;
+import com.visa.domain.Parametro;
 import com.visa.domain.RespuestaETicket;
 import com.visa.domain.RespuestaVisa;
 import com.visa.services.VisaXmlParserService;
@@ -23,32 +28,39 @@ public class ComercioController {
 	@Autowired
 	private VisaXmlParserService visaXmlParserService;
 
-	private static final Logger LOGGER = Logger
-			.getLogger(ComercioController.class);
+	@Value("#{props.codigoTienda}")
+	public void setCodigoTienda(String codigoTienda) {
+		this.codigoTienda = codigoTienda;
+	}
+
+	public String getCodigoTienda() {
+		return codigoTienda;
+	}
+
+	private static final Logger LOGGER = Logger.getLogger(ComercioController.class);
+
+	private String codigoTienda;
 
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/createETicket", method = RequestMethod.POST)
-	public ModelAndView createETicket(final @RequestBody String xmlService)
-			throws Exception {
+	public ModelAndView createETicket(final @RequestBody String xmlService) throws Exception {
 		LOGGER.info("Request Message");
 		LOGGER.info(xmlService);
 		final WSEticketSoapProxy sampleWSEticketSoapProxyid = new WSEticketSoapProxy();
-		final String generaEticketXml = sampleWSEticketSoapProxyid
-				.generaEticket(xmlService);
+		final String generaEticketXml = sampleWSEticketSoapProxyid.generaEticket(xmlService);
 		LOGGER.info("Response Message");
 		LOGGER.info(generaEticketXml);
 
-		final RespuestaETicket eTicket = visaXmlParserService
-				.parseVisaETicketResponseXml(generaEticketXml);
+		final RespuestaETicket eTicket = visaXmlParserService.parseVisaETicketResponseXml(generaEticketXml);
 
+		if (eTicket == null) {
+			return showErrorPage(VisaIntegrationConstants.MSG_ERROR_GENERICO);
+		}
 		if (eTicket.getMensajes() != null && eTicket.getMensajes().size() > 0) {
-			final ModelAndView mav = new ModelAndView("error");
-			mav.addObject("message", eTicket.getMensajes().get(0).getValue());
-			return mav;
+			return showErrorPage(eTicket.getMensajes().get(0).getValue());
 		}
 		final ModelAndView mav = new ModelAndView("formularioSubmit");
-		for (Iterator iterator = eTicket.getRegistro().iterator(); iterator
-				.hasNext();) {
+		for (Iterator iterator = eTicket.getRegistro().iterator(); iterator.hasNext();) {
 			final Campo campo = (Campo) iterator.next();
 			if (VisaIntegrationConstants.CAMPO_E_TICKET.equals(campo.getId())) {
 				mav.addObject("eTicket", campo.getValue());
@@ -58,32 +70,92 @@ public class ComercioController {
 	}
 
 	@SuppressWarnings("unchecked")
-	@RequestMapping(value = "/visaResponse", method = RequestMethod.POST)
-	public ModelAndView visaResponse(final @RequestBody String xmlResponse)
-			throws Exception {
+	@RequestMapping(value = "/visaTestResponse", method = RequestMethod.POST)
+	public ModelAndView visaTestResponse(final @RequestBody String xmlResponse) throws Exception {
 		LOGGER.info("Visa Message");
 		LOGGER.info(xmlResponse);
 
-		final RespuestaVisa respuestaVisa = visaXmlParserService
-				.parseVisaOperationResponseXml(xmlResponse);
-		if (respuestaVisa.getMensajes() != null
-				&& respuestaVisa.getMensajes().size() > 0) {
-			final ModelAndView mav = new ModelAndView("error");
-			mav.addObject("message", respuestaVisa.getMensajes().get(0)
-					.getValue());
-			return mav;
+		final RespuestaVisa respuestaVisa = visaXmlParserService.parseVisaOperationResponseXml(xmlResponse);
+		if (respuestaVisa == null) {
+			return showErrorPage(VisaIntegrationConstants.MSG_ERROR_GENERICO);
+		}
+		if (respuestaVisa.getMensajes() != null && respuestaVisa.getMensajes().size() > 0) {
+			return showErrorPage(respuestaVisa.getMensajes().get(0).getValue());
 		}
 		final ModelAndView mav = new ModelAndView("visaResponse");
-		for (Iterator iterator = respuestaVisa.getPedido().getOperacion()
-				.getCampos().iterator(); iterator.hasNext();) {
+		for (Iterator iterator = respuestaVisa.getPedido().getOperacion().getCampos().iterator(); iterator
+				.hasNext();) {
 			final Campo campo = (Campo) iterator.next();
 			if (VisaIntegrationConstants.CAMPO_ESTADO.equals(campo.getId())) {
 				mav.addObject("estado", campo.getValue());
-			} else if (VisaIntegrationConstants.CAMPO_RESPUESTA.equals(campo
-					.getId())) {
+			} else if (VisaIntegrationConstants.CAMPO_RESPUESTA.equals(campo.getId())) {
 				mav.addObject("respuesta", campo.getValue());
 			}
 		}
+		return mav;
+	}
+
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/visaResponse", method = RequestMethod.POST)
+	public ModelAndView visaResponse(@RequestBody String eTicket) throws Exception {
+		LOGGER.info("Visa Post eTicket");
+		LOGGER.info(eTicket);
+		final int pos = eTicket.indexOf(VisaIntegrationConstants.CAMPO_E_TICKET + "=");
+		if (pos != -1) {
+			eTicket = eTicket.substring(pos + VisaIntegrationConstants.CAMPO_E_TICKET.length() + 1, eTicket
+					.length());
+			eTicket = eTicket.substring(0, eTicket.indexOf("&"));
+		} else {
+			return showErrorPage(VisaIntegrationConstants.MSG_ERROR_GENERICO);
+		}
+		final ConsultaETicket consultaETicket = new ConsultaETicket();
+		final ArrayList<Parametro> parametros = new ArrayList<Parametro>();
+		Parametro parametro = new Parametro();
+		parametro.setId(VisaIntegrationConstants.CAMPO_COD_TIENDA);
+		parametro.setValue(getCodigoTienda());
+		parametros.add(parametro);
+		parametro = new Parametro();
+		parametro.setId(VisaIntegrationConstants.CAMPO_E_TICKET);
+		parametro.setValue(eTicket);
+		parametros.add(parametro);
+		consultaETicket.setParametros(parametros);
+
+		final String requestXml = visaXmlParserService.parseVisaOperationResultRequestToXml(consultaETicket);
+		if (requestXml == null) {
+			return showErrorPage(VisaIntegrationConstants.MSG_ERROR_GENERICO);
+		}
+
+		LOGGER.info("Request Message");
+		LOGGER.info(requestXml);
+		final WSConsultaEticketSoapProxy sampleWSConsultaEticketSoapProxyid = new WSConsultaEticketSoapProxy();
+		final String consultaEticketXml = sampleWSConsultaEticketSoapProxyid.consultaEticket(requestXml);
+		LOGGER.info("Response Message");
+		LOGGER.info(consultaEticketXml);
+
+		final RespuestaVisa respuestaVisa = visaXmlParserService
+				.parseVisaOperationResponseXml(consultaEticketXml);
+		if (respuestaVisa == null) {
+			return showErrorPage(VisaIntegrationConstants.MSG_ERROR_GENERICO);
+		}
+		if (respuestaVisa.getMensajes() != null && respuestaVisa.getMensajes().size() > 0) {
+			return showErrorPage(respuestaVisa.getMensajes().get(0).getValue());
+		}
+		final ModelAndView mav = new ModelAndView("visaResponse");
+		for (Iterator iterator = respuestaVisa.getPedido().getOperacion().getCampos().iterator(); iterator
+				.hasNext();) {
+			final Campo campo = (Campo) iterator.next();
+			if (VisaIntegrationConstants.CAMPO_ESTADO.equals(campo.getId())) {
+				mav.addObject("estado", campo.getValue());
+			} else if (VisaIntegrationConstants.CAMPO_RESPUESTA.equals(campo.getId())) {
+				mav.addObject("respuesta", campo.getValue());
+			}
+		}
+		return mav;
+	}
+
+	private ModelAndView showErrorPage(final String mensaje) {
+		final ModelAndView mav = new ModelAndView("error");
+		mav.addObject("message", mensaje);
 		return mav;
 	}
 
