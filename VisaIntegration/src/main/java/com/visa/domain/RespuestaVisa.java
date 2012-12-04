@@ -6,7 +6,7 @@ import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 
-@Root(name="respuesta_eticket")
+@Root(name = "respuesta_eticket")
 public class RespuestaVisa {
 
 	@Element

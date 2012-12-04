@@ -6,19 +6,19 @@ import org.simpleframework.xml.Element;
 public class Pedido {
 
 	@Attribute
-	private int id;
+	private String id;
 
 	@Attribute
 	private String eticket;
 
-	@Element
+	@Element(required = false)
 	private Operacion operacion;
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
