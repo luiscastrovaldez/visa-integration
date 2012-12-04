@@ -8,5 +8,6 @@ public class VisaIntegrationConstants {
 	public static final String CAMPO_ESTADO = "estado";
 	public static final String CAMPO_RESPUESTA = "respuesta";
 	public static final String MSG_ERROR_GENERICO = "Ha ocurrido un error, por favor intente más tarde.";
+	public static final String CAMPO_XML_SERVICE = "xmlService";
 
 }

@@ -21,6 +21,7 @@ import com.visa.domain.RespuestaETicket;
 import com.visa.domain.RespuestaVisa;
 import com.visa.services.VisaXmlParserService;
 import com.visa.util.VisaIntegrationConstants;
+import com.visa.util.VisaIntegrationUtil;
 
 @Controller
 public class ComercioController {
@@ -44,10 +45,17 @@ public class ComercioController {
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/createETicket", method = RequestMethod.POST)
 	public ModelAndView createETicket(final @RequestBody String xmlService) throws Exception {
-		LOGGER.info("Request Message");
+		LOGGER.info("Visa create eTicket");
 		LOGGER.info(xmlService);
+		String xmlServiceStr = VisaIntegrationUtil.getParameterValue(xmlService, VisaIntegrationConstants.CAMPO_XML_SERVICE);
+		if (xmlServiceStr == null) {
+			return showErrorPage(VisaIntegrationConstants.MSG_ERROR_GENERICO);
+		}
+		xmlServiceStr = VisaIntegrationUtil.decodeUrl(xmlServiceStr);
+		LOGGER.info("Request Message");
+		LOGGER.info(xmlServiceStr);
 		final WSEticketSoapProxy sampleWSEticketSoapProxyid = new WSEticketSoapProxy();
-		final String generaEticketXml = sampleWSEticketSoapProxyid.generaEticket(xmlService);
+		final String generaEticketXml = sampleWSEticketSoapProxyid.generaEticket(xmlServiceStr);
 		LOGGER.info("Response Message");
 		LOGGER.info(generaEticketXml);
 
@@ -97,15 +105,11 @@ public class ComercioController {
 
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/visaResponse", method = RequestMethod.POST)
-	public ModelAndView visaResponse(@RequestBody String eTicket) throws Exception {
+	public ModelAndView visaResponse(@RequestBody final String parameterList) throws Exception {
 		LOGGER.info("Visa Post eTicket");
-		LOGGER.info(eTicket);
-		final int pos = eTicket.indexOf(VisaIntegrationConstants.CAMPO_E_TICKET + "=");
-		if (pos != -1) {
-			eTicket = eTicket.substring(pos + VisaIntegrationConstants.CAMPO_E_TICKET.length() + 1, eTicket
-					.length());
-			eTicket = eTicket.substring(0, eTicket.indexOf("&"));
-		} else {
+		LOGGER.info(parameterList);
+		final String eTicket = VisaIntegrationUtil.getParameterValue(parameterList, VisaIntegrationConstants.CAMPO_E_TICKET);
+		if (eTicket == null) {
 			return showErrorPage(VisaIntegrationConstants.MSG_ERROR_GENERICO);
 		}
 		final ConsultaETicket consultaETicket = new ConsultaETicket();
