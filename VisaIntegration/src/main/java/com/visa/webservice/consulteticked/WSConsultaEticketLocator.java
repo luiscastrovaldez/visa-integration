@@ -5,9 +5,9 @@
  * by the Apache Axis 1.4 Apr 22, 2006 (06:55:48 PDT) WSDL2Java emitter.
  */
 
-package com.multimerchantvisanet.www.ConsultaEnLineaEticket;
+package com.visa.webservice.consulteticked;
 
-public class WSConsultaEticketLocator extends org.apache.axis.client.Service implements com.multimerchantvisanet.www.ConsultaEnLineaEticket.WSConsultaEticket {
+public class WSConsultaEticketLocator extends org.apache.axis.client.Service implements com.visa.webservice.consulteticked.WSConsultaEticket {
 
 /**
  * Consultas en Linea resultado de la transacción
@@ -43,7 +43,7 @@ public class WSConsultaEticketLocator extends org.apache.axis.client.Service imp
         WSConsultaEticketSoapWSDDServiceName = name;
     }
 
-    public com.multimerchantvisanet.www.ConsultaEnLineaEticket.WSConsultaEticketSoap getWSConsultaEticketSoap() throws javax.xml.rpc.ServiceException {
+    public com.visa.webservice.consulteticked.WSConsultaEticketSoap getWSConsultaEticketSoap() throws javax.xml.rpc.ServiceException {
        java.net.URL endpoint;
         try {
             endpoint = new java.net.URL(WSConsultaEticketSoap_address);
@@ -54,9 +54,9 @@ public class WSConsultaEticketLocator extends org.apache.axis.client.Service imp
         return getWSConsultaEticketSoap(endpoint);
     }
 
-    public com.multimerchantvisanet.www.ConsultaEnLineaEticket.WSConsultaEticketSoap getWSConsultaEticketSoap(java.net.URL portAddress) throws javax.xml.rpc.ServiceException {
+    public com.visa.webservice.consulteticked.WSConsultaEticketSoap getWSConsultaEticketSoap(java.net.URL portAddress) throws javax.xml.rpc.ServiceException {
         try {
-            com.multimerchantvisanet.www.ConsultaEnLineaEticket.WSConsultaEticketSoapStub _stub = new com.multimerchantvisanet.www.ConsultaEnLineaEticket.WSConsultaEticketSoapStub(portAddress, this);
+            com.visa.webservice.consulteticked.WSConsultaEticketSoapStub _stub = new com.visa.webservice.consulteticked.WSConsultaEticketSoapStub(portAddress, this);
             _stub.setPortName(getWSConsultaEticketSoapWSDDServiceName());
             return _stub;
         }
@@ -76,8 +76,8 @@ public class WSConsultaEticketLocator extends org.apache.axis.client.Service imp
      */
     public java.rmi.Remote getPort(Class serviceEndpointInterface) throws javax.xml.rpc.ServiceException {
         try {
-            if (com.multimerchantvisanet.www.ConsultaEnLineaEticket.WSConsultaEticketSoap.class.isAssignableFrom(serviceEndpointInterface)) {
-                com.multimerchantvisanet.www.ConsultaEnLineaEticket.WSConsultaEticketSoapStub _stub = new com.multimerchantvisanet.www.ConsultaEnLineaEticket.WSConsultaEticketSoapStub(new java.net.URL(WSConsultaEticketSoap_address), this);
+            if (com.visa.webservice.consulteticked.WSConsultaEticketSoap.class.isAssignableFrom(serviceEndpointInterface)) {
+                com.visa.webservice.consulteticked.WSConsultaEticketSoapStub _stub = new com.visa.webservice.consulteticked.WSConsultaEticketSoapStub(new java.net.URL(WSConsultaEticketSoap_address), this);
                 _stub.setPortName(getWSConsultaEticketSoapWSDDServiceName());
                 return _stub;
             }

@@ -12,16 +12,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.multimerchantvisanet.www.ConsultaEnLineaEticket.WSConsultaEticketSoapProxy;
-import com.multimerchantvisanet.www.solicitudtransaccion.WSEticketSoapProxy;
-import com.visa.domain.Campo;
-import com.visa.domain.ConsultaETicket;
-import com.visa.domain.Parametro;
-import com.visa.domain.RespuestaETicket;
-import com.visa.domain.RespuestaVisa;
 import com.visa.services.VisaXmlParserService;
 import com.visa.util.VisaIntegrationConstants;
 import com.visa.util.VisaIntegrationUtil;
+import com.visa.webservice.consulteticked.WSConsultaEticketSoapProxy;
+import com.visa.webservice.createeticked.WSEticketSoapProxy;
+import com.visa.xml.domain.Campo;
+import com.visa.xml.domain.ConsultaETicket;
+import com.visa.xml.domain.Parametro;
+import com.visa.xml.domain.RespuestaETicket;
+import com.visa.xml.domain.RespuestaVisa;
 
 @Controller
 public class ComercioController {
@@ -42,7 +42,7 @@ public class ComercioController {
 
 	private String codigoTienda;
 
-	@SuppressWarnings("unchecked")
+	
 	@RequestMapping(value = "/createETicket", method = RequestMethod.POST)
 	public ModelAndView createETicket(final @RequestBody String xmlService) throws Exception {
 		LOGGER.info("Visa create eTicket");
@@ -68,7 +68,7 @@ public class ComercioController {
 			return showErrorPage(eTicket.getMensajes().get(0).getValue());
 		}
 		final ModelAndView mav = new ModelAndView("formularioSubmit");
-		for (Iterator iterator = eTicket.getRegistro().iterator(); iterator.hasNext();) {
+		for (Iterator<Campo> iterator = eTicket.getRegistro().iterator(); iterator.hasNext();) {
 			final Campo campo = (Campo) iterator.next();
 			if (VisaIntegrationConstants.CAMPO_E_TICKET.equals(campo.getId())) {
 				mav.addObject("eTicket", campo.getValue());
@@ -77,7 +77,7 @@ public class ComercioController {
 		return mav;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@RequestMapping(value = "/visaTestResponse", method = RequestMethod.POST)
 	public ModelAndView visaTestResponse(final @RequestBody String xmlResponse) throws Exception {
 		LOGGER.info("Visa Message");
@@ -91,7 +91,7 @@ public class ComercioController {
 			return showErrorPage(respuestaVisa.getMensajes().get(0).getValue());
 		}
 		final ModelAndView mav = new ModelAndView("visaResponse");
-		for (Iterator iterator = respuestaVisa.getPedido().getOperacion().getCampos().iterator(); iterator
+		for (Iterator<Campo> iterator = respuestaVisa.getPedido().getOperacion().getCampos().iterator(); iterator
 				.hasNext();) {
 			final Campo campo = (Campo) iterator.next();
 			if (VisaIntegrationConstants.CAMPO_ESTADO.equals(campo.getId())) {
@@ -103,7 +103,7 @@ public class ComercioController {
 		return mav;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@RequestMapping(value = "/visaResponse", method = RequestMethod.POST)
 	public ModelAndView visaResponse(@RequestBody final String parameterList) throws Exception {
 		LOGGER.info("Visa Post eTicket");
@@ -145,7 +145,7 @@ public class ComercioController {
 			return showErrorPage(respuestaVisa.getMensajes().get(0).getValue());
 		}
 		final ModelAndView mav = new ModelAndView("visaResponse");
-		for (Iterator iterator = respuestaVisa.getPedido().getOperacion().getCampos().iterator(); iterator
+		for (Iterator<Campo> iterator = respuestaVisa.getPedido().getOperacion().getCampos().iterator(); iterator
 				.hasNext();) {
 			final Campo campo = (Campo) iterator.next();
 			if (VisaIntegrationConstants.CAMPO_ESTADO.equals(campo.getId())) {

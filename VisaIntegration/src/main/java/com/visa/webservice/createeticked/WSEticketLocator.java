@@ -5,9 +5,9 @@
  * by the Apache Axis 1.4 Apr 22, 2006 (06:55:48 PDT) WSDL2Java emitter.
  */
 
-package com.multimerchantvisanet.www.solicitudtransaccion;
+package com.visa.webservice.createeticked;
 
-public class WSEticketLocator extends org.apache.axis.client.Service implements com.multimerchantvisanet.www.solicitudtransaccion.WSEticket {
+public class WSEticketLocator extends org.apache.axis.client.Service implements com.visa.webservice.createeticked.WSEticket {
 
 /**
  * Consultas en Linea de transacciones
@@ -43,7 +43,7 @@ public class WSEticketLocator extends org.apache.axis.client.Service implements 
         WSEticketSoapWSDDServiceName = name;
     }
 
-    public com.multimerchantvisanet.www.solicitudtransaccion.WSEticketSoap getWSEticketSoap() throws javax.xml.rpc.ServiceException {
+    public com.visa.webservice.createeticked.WSEticketSoap getWSEticketSoap() throws javax.xml.rpc.ServiceException {
        java.net.URL endpoint;
         try {
             endpoint = new java.net.URL(WSEticketSoap_address);
@@ -54,9 +54,9 @@ public class WSEticketLocator extends org.apache.axis.client.Service implements 
         return getWSEticketSoap(endpoint);
     }
 
-    public com.multimerchantvisanet.www.solicitudtransaccion.WSEticketSoap getWSEticketSoap(java.net.URL portAddress) throws javax.xml.rpc.ServiceException {
+    public com.visa.webservice.createeticked.WSEticketSoap getWSEticketSoap(java.net.URL portAddress) throws javax.xml.rpc.ServiceException {
         try {
-            com.multimerchantvisanet.www.solicitudtransaccion.WSEticketSoapStub _stub = new com.multimerchantvisanet.www.solicitudtransaccion.WSEticketSoapStub(portAddress, this);
+            com.visa.webservice.createeticked.WSEticketSoapStub _stub = new com.visa.webservice.createeticked.WSEticketSoapStub(portAddress, this);
             _stub.setPortName(getWSEticketSoapWSDDServiceName());
             return _stub;
         }
@@ -76,8 +76,8 @@ public class WSEticketLocator extends org.apache.axis.client.Service implements 
      */
     public java.rmi.Remote getPort(Class serviceEndpointInterface) throws javax.xml.rpc.ServiceException {
         try {
-            if (com.multimerchantvisanet.www.solicitudtransaccion.WSEticketSoap.class.isAssignableFrom(serviceEndpointInterface)) {
-                com.multimerchantvisanet.www.solicitudtransaccion.WSEticketSoapStub _stub = new com.multimerchantvisanet.www.solicitudtransaccion.WSEticketSoapStub(new java.net.URL(WSEticketSoap_address), this);
+            if (com.visa.webservice.createeticked.WSEticketSoap.class.isAssignableFrom(serviceEndpointInterface)) {
+                com.visa.webservice.createeticked.WSEticketSoapStub _stub = new com.visa.webservice.createeticked.WSEticketSoapStub(new java.net.URL(WSEticketSoap_address), this);
                 _stub.setPortName(getWSEticketSoapWSDDServiceName());
                 return _stub;
             }

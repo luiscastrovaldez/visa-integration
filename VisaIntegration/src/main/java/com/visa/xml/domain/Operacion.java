@@ -1,4 +1,4 @@
-package com.visa.domain;
+package com.visa.xml.domain;
 
 import java.util.List;
 

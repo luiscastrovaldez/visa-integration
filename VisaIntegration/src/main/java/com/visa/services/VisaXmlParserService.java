@@ -1,8 +1,8 @@
 package com.visa.services;
 
-import com.visa.domain.ConsultaETicket;
-import com.visa.domain.RespuestaETicket;
-import com.visa.domain.RespuestaVisa;
+import com.visa.xml.domain.ConsultaETicket;
+import com.visa.xml.domain.RespuestaETicket;
+import com.visa.xml.domain.RespuestaVisa;
 
 public interface VisaXmlParserService {
 
