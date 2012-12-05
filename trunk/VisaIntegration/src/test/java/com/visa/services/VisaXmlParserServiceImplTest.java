@@ -8,11 +8,11 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.visa.domain.ConsultaETicket;
-import com.visa.domain.Parametro;
-import com.visa.domain.RespuestaETicket;
-import com.visa.domain.RespuestaVisa;
 import com.visa.util.VisaIntegrationConstants;
+import com.visa.xml.domain.ConsultaETicket;
+import com.visa.xml.domain.Parametro;
+import com.visa.xml.domain.RespuestaETicket;
+import com.visa.xml.domain.RespuestaVisa;
 
 public class VisaXmlParserServiceImplTest {
 

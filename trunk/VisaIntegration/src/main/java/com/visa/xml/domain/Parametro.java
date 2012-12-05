@@ -1,9 +1,9 @@
-package com.visa.domain;
+package com.visa.xml.domain;
 
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Text;
 
-public class Campo {
+public class Parametro {
 
 	@Attribute
 	private String id;

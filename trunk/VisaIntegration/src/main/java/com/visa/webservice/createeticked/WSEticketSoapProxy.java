@@ -1,8 +1,8 @@
-package com.multimerchantvisanet.www.solicitudtransaccion;
+package com.visa.webservice.createeticked;
 
-public class WSEticketSoapProxy implements com.multimerchantvisanet.www.solicitudtransaccion.WSEticketSoap {
+public class WSEticketSoapProxy implements com.visa.webservice.createeticked.WSEticketSoap {
   private String _endpoint = null;
-  private com.multimerchantvisanet.www.solicitudtransaccion.WSEticketSoap wSEticketSoap = null;
+  private com.visa.webservice.createeticked.WSEticketSoap wSEticketSoap = null;
   
   public WSEticketSoapProxy() {
     _initWSEticketSoapProxy();
@@ -15,7 +15,7 @@ public class WSEticketSoapProxy implements com.multimerchantvisanet.www.solicitu
   
   private void _initWSEticketSoapProxy() {
     try {
-      wSEticketSoap = (new com.multimerchantvisanet.www.solicitudtransaccion.WSEticketLocator()).getWSEticketSoap();
+      wSEticketSoap = (new com.visa.webservice.createeticked.WSEticketLocator()).getWSEticketSoap();
       if (wSEticketSoap != null) {
         if (_endpoint != null)
           ((javax.xml.rpc.Stub)wSEticketSoap)._setProperty("javax.xml.rpc.service.endpoint.address", _endpoint);
@@ -38,7 +38,7 @@ public class WSEticketSoapProxy implements com.multimerchantvisanet.www.solicitu
     
   }
   
-  public com.multimerchantvisanet.www.solicitudtransaccion.WSEticketSoap getWSEticketSoap() {
+  public com.visa.webservice.createeticked.WSEticketSoap getWSEticketSoap() {
     if (wSEticketSoap == null)
       _initWSEticketSoapProxy();
     return wSEticketSoap;

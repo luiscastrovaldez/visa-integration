@@ -1,8 +1,8 @@
-package com.multimerchantvisanet.www.ConsultaEnLineaEticket;
+package com.visa.webservice.consulteticked;
 
-public class WSConsultaEticketSoapProxy implements com.multimerchantvisanet.www.ConsultaEnLineaEticket.WSConsultaEticketSoap {
+public class WSConsultaEticketSoapProxy implements com.visa.webservice.consulteticked.WSConsultaEticketSoap {
   private String _endpoint = null;
-  private com.multimerchantvisanet.www.ConsultaEnLineaEticket.WSConsultaEticketSoap wSConsultaEticketSoap = null;
+  private com.visa.webservice.consulteticked.WSConsultaEticketSoap wSConsultaEticketSoap = null;
   
   public WSConsultaEticketSoapProxy() {
     _initWSConsultaEticketSoapProxy();
@@ -15,7 +15,7 @@ public class WSConsultaEticketSoapProxy implements com.multimerchantvisanet.www.
   
   private void _initWSConsultaEticketSoapProxy() {
     try {
-      wSConsultaEticketSoap = (new com.multimerchantvisanet.www.ConsultaEnLineaEticket.WSConsultaEticketLocator()).getWSConsultaEticketSoap();
+      wSConsultaEticketSoap = (new com.visa.webservice.consulteticked.WSConsultaEticketLocator()).getWSConsultaEticketSoap();
       if (wSConsultaEticketSoap != null) {
         if (_endpoint != null)
           ((javax.xml.rpc.Stub)wSConsultaEticketSoap)._setProperty("javax.xml.rpc.service.endpoint.address", _endpoint);
@@ -38,7 +38,7 @@ public class WSConsultaEticketSoapProxy implements com.multimerchantvisanet.www.
     
   }
   
-  public com.multimerchantvisanet.www.ConsultaEnLineaEticket.WSConsultaEticketSoap getWSConsultaEticketSoap() {
+  public com.visa.webservice.consulteticked.WSConsultaEticketSoap getWSConsultaEticketSoap() {
     if (wSConsultaEticketSoap == null)
       _initWSConsultaEticketSoapProxy();
     return wSConsultaEticketSoap;
