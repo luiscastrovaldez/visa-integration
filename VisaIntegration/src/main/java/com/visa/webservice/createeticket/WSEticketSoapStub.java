@@ -1,13 +1,13 @@
 /**
- * WSConsultaEticketSoapStub.java
+ * WSEticketSoapStub.java
  *
  * This file was auto-generated from WSDL
  * by the Apache Axis 1.4 Apr 22, 2006 (06:55:48 PDT) WSDL2Java emitter.
  */
 
-package com.visa.webservice.consulteticked;
+package com.visa.webservice.createeticket;
 
-public class WSConsultaEticketSoapStub extends org.apache.axis.client.Stub implements com.visa.webservice.consulteticked.WSConsultaEticketSoap {
+public class WSEticketSoapStub extends org.apache.axis.client.Stub implements com.visa.webservice.createeticket.WSEticketSoap {
     private java.util.Vector cachedSerClasses = new java.util.Vector();
     private java.util.Vector cachedSerQNames = new java.util.Vector();
     private java.util.Vector cachedSerFactories = new java.util.Vector();
@@ -24,29 +24,29 @@ public class WSConsultaEticketSoapStub extends org.apache.axis.client.Stub imple
         org.apache.axis.description.OperationDesc oper;
         org.apache.axis.description.ParameterDesc param;
         oper = new org.apache.axis.description.OperationDesc();
-        oper.setName("ConsultaEticket");
-        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("https://www.multimerchantvisanet.com/ConsultaEnLineaEticket", "xmlIn"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+        oper.setName("GeneraEticket");
+        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("https://www.multimerchantvisanet.com/solicitudtransaccion", "xmlIn"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
         param.setOmittable(true);
         oper.addParameter(param);
         oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         oper.setReturnClass(java.lang.String.class);
-        oper.setReturnQName(new javax.xml.namespace.QName("https://www.multimerchantvisanet.com/ConsultaEnLineaEticket", "ConsultaEticketResult"));
+        oper.setReturnQName(new javax.xml.namespace.QName("https://www.multimerchantvisanet.com/solicitudtransaccion", "GeneraEticketResult"));
         oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
         oper.setUse(org.apache.axis.constants.Use.LITERAL);
         _operations[0] = oper;
 
     }
 
-    public WSConsultaEticketSoapStub() throws org.apache.axis.AxisFault {
+    public WSEticketSoapStub() throws org.apache.axis.AxisFault {
          this(null);
     }
 
-    public WSConsultaEticketSoapStub(java.net.URL endpointURL, javax.xml.rpc.Service service) throws org.apache.axis.AxisFault {
+    public WSEticketSoapStub(java.net.URL endpointURL, javax.xml.rpc.Service service) throws org.apache.axis.AxisFault {
          this(service);
          super.cachedEndpoint = endpointURL;
     }
 
-    public WSConsultaEticketSoapStub(javax.xml.rpc.Service service) throws org.apache.axis.AxisFault {
+    public WSEticketSoapStub(javax.xml.rpc.Service service) throws org.apache.axis.AxisFault {
         if (service == null) {
             super.service = new org.apache.axis.client.Service();
         } else {
@@ -88,19 +88,19 @@ public class WSConsultaEticketSoapStub extends org.apache.axis.client.Stub imple
         }
     }
 
-    public java.lang.String consultaEticket(java.lang.String xmlIn) throws java.rmi.RemoteException {
+    public java.lang.String generaEticket(java.lang.String xmlIn) throws java.rmi.RemoteException {
         if (super.cachedEndpoint == null) {
             throw new org.apache.axis.NoEndPointException();
         }
         org.apache.axis.client.Call _call = createCall();
         _call.setOperation(_operations[0]);
         _call.setUseSOAPAction(true);
-        _call.setSOAPActionURI("https://www.multimerchantvisanet.com/ConsultaEnLineaEticket/ConsultaEticket");
+        _call.setSOAPActionURI("https://www.multimerchantvisanet.com/solicitudtransaccion/GeneraEticket");
         _call.setEncodingStyle(null);
         _call.setProperty(org.apache.axis.client.Call.SEND_TYPE_ATTR, Boolean.FALSE);
         _call.setProperty(org.apache.axis.AxisEngine.PROP_DOMULTIREFS, Boolean.FALSE);
         _call.setSOAPVersion(org.apache.axis.soap.SOAPConstants.SOAP11_CONSTANTS);
-        _call.setOperationName(new javax.xml.namespace.QName("https://www.multimerchantvisanet.com/ConsultaEnLineaEticket", "ConsultaEticket"));
+        _call.setOperationName(new javax.xml.namespace.QName("https://www.multimerchantvisanet.com/solicitudtransaccion", "GeneraEticket"));
 
         setRequestHeaders(_call);
         setAttachments(_call);

@@ -1,8 +1,8 @@
-package com.visa.webservice.createeticked;
+package com.visa.webservice.createeticket;
 
-public class WSEticketSoapProxy implements com.visa.webservice.createeticked.WSEticketSoap {
+public class WSEticketSoapProxy implements com.visa.webservice.createeticket.WSEticketSoap {
   private String _endpoint = null;
-  private com.visa.webservice.createeticked.WSEticketSoap wSEticketSoap = null;
+  private com.visa.webservice.createeticket.WSEticketSoap wSEticketSoap = null;
   
   public WSEticketSoapProxy() {
     _initWSEticketSoapProxy();
@@ -15,7 +15,7 @@ public class WSEticketSoapProxy implements com.visa.webservice.createeticked.WSE
   
   private void _initWSEticketSoapProxy() {
     try {
-      wSEticketSoap = (new com.visa.webservice.createeticked.WSEticketLocator()).getWSEticketSoap();
+      wSEticketSoap = (new com.visa.webservice.createeticket.WSEticketLocator()).getWSEticketSoap();
       if (wSEticketSoap != null) {
         if (_endpoint != null)
           ((javax.xml.rpc.Stub)wSEticketSoap)._setProperty("javax.xml.rpc.service.endpoint.address", _endpoint);
@@ -38,7 +38,7 @@ public class WSEticketSoapProxy implements com.visa.webservice.createeticked.WSE
     
   }
   
-  public com.visa.webservice.createeticked.WSEticketSoap getWSEticketSoap() {
+  public com.visa.webservice.createeticket.WSEticketSoap getWSEticketSoap() {
     if (wSEticketSoap == null)
       _initWSEticketSoapProxy();
     return wSEticketSoap;
