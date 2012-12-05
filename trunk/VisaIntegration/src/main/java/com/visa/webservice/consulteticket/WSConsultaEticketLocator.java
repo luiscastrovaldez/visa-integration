@@ -1,63 +1,63 @@
 /**
- * WSEticketLocator.java
+ * WSConsultaEticketLocator.java
  *
  * This file was auto-generated from WSDL
  * by the Apache Axis 1.4 Apr 22, 2006 (06:55:48 PDT) WSDL2Java emitter.
  */
 
-package com.visa.webservice.createeticked;
+package com.visa.webservice.consulteticket;
 
-public class WSEticketLocator extends org.apache.axis.client.Service implements com.visa.webservice.createeticked.WSEticket {
+public class WSConsultaEticketLocator extends org.apache.axis.client.Service implements com.visa.webservice.consulteticket.WSConsultaEticket {
 
 /**
- * Consultas en Linea de transacciones
+ * Consultas en Linea resultado de la transacción
  */
 
-    public WSEticketLocator() {
+    public WSConsultaEticketLocator() {
     }
 
 
-    public WSEticketLocator(org.apache.axis.EngineConfiguration config) {
+    public WSConsultaEticketLocator(org.apache.axis.EngineConfiguration config) {
         super(config);
     }
 
-    public WSEticketLocator(java.lang.String wsdlLoc, javax.xml.namespace.QName sName) throws javax.xml.rpc.ServiceException {
+    public WSConsultaEticketLocator(java.lang.String wsdlLoc, javax.xml.namespace.QName sName) throws javax.xml.rpc.ServiceException {
         super(wsdlLoc, sName);
     }
 
-    // Use to get a proxy class for WSEticketSoap
-    private java.lang.String WSEticketSoap_address = "http://cal2testing.sytes.net/WSGenerarEticket/WSEticket.asmx";
+    // Use to get a proxy class for WSConsultaEticketSoap
+    private java.lang.String WSConsultaEticketSoap_address = "http://cal2testing.sytes.net/WSConsulta/WSConsultaEticket.asmx";
 
-    public java.lang.String getWSEticketSoapAddress() {
-        return WSEticketSoap_address;
+    public java.lang.String getWSConsultaEticketSoapAddress() {
+        return WSConsultaEticketSoap_address;
     }
 
     // The WSDD service name defaults to the port name.
-    private java.lang.String WSEticketSoapWSDDServiceName = "WSEticketSoap";
+    private java.lang.String WSConsultaEticketSoapWSDDServiceName = "WSConsultaEticketSoap";
 
-    public java.lang.String getWSEticketSoapWSDDServiceName() {
-        return WSEticketSoapWSDDServiceName;
+    public java.lang.String getWSConsultaEticketSoapWSDDServiceName() {
+        return WSConsultaEticketSoapWSDDServiceName;
     }
 
-    public void setWSEticketSoapWSDDServiceName(java.lang.String name) {
-        WSEticketSoapWSDDServiceName = name;
+    public void setWSConsultaEticketSoapWSDDServiceName(java.lang.String name) {
+        WSConsultaEticketSoapWSDDServiceName = name;
     }
 
-    public com.visa.webservice.createeticked.WSEticketSoap getWSEticketSoap() throws javax.xml.rpc.ServiceException {
+    public com.visa.webservice.consulteticket.WSConsultaEticketSoap getWSConsultaEticketSoap() throws javax.xml.rpc.ServiceException {
        java.net.URL endpoint;
         try {
-            endpoint = new java.net.URL(WSEticketSoap_address);
+            endpoint = new java.net.URL(WSConsultaEticketSoap_address);
         }
         catch (java.net.MalformedURLException e) {
             throw new javax.xml.rpc.ServiceException(e);
         }
-        return getWSEticketSoap(endpoint);
+        return getWSConsultaEticketSoap(endpoint);
     }
 
-    public com.visa.webservice.createeticked.WSEticketSoap getWSEticketSoap(java.net.URL portAddress) throws javax.xml.rpc.ServiceException {
+    public com.visa.webservice.consulteticket.WSConsultaEticketSoap getWSConsultaEticketSoap(java.net.URL portAddress) throws javax.xml.rpc.ServiceException {
         try {
-            com.visa.webservice.createeticked.WSEticketSoapStub _stub = new com.visa.webservice.createeticked.WSEticketSoapStub(portAddress, this);
-            _stub.setPortName(getWSEticketSoapWSDDServiceName());
+            com.visa.webservice.consulteticket.WSConsultaEticketSoapStub _stub = new com.visa.webservice.consulteticket.WSConsultaEticketSoapStub(portAddress, this);
+            _stub.setPortName(getWSConsultaEticketSoapWSDDServiceName());
             return _stub;
         }
         catch (org.apache.axis.AxisFault e) {
@@ -65,8 +65,8 @@ public class WSEticketLocator extends org.apache.axis.client.Service implements 
         }
     }
 
-    public void setWSEticketSoapEndpointAddress(java.lang.String address) {
-        WSEticketSoap_address = address;
+    public void setWSConsultaEticketSoapEndpointAddress(java.lang.String address) {
+        WSConsultaEticketSoap_address = address;
     }
 
     /**
@@ -76,9 +76,9 @@ public class WSEticketLocator extends org.apache.axis.client.Service implements 
      */
     public java.rmi.Remote getPort(Class serviceEndpointInterface) throws javax.xml.rpc.ServiceException {
         try {
-            if (com.visa.webservice.createeticked.WSEticketSoap.class.isAssignableFrom(serviceEndpointInterface)) {
-                com.visa.webservice.createeticked.WSEticketSoapStub _stub = new com.visa.webservice.createeticked.WSEticketSoapStub(new java.net.URL(WSEticketSoap_address), this);
-                _stub.setPortName(getWSEticketSoapWSDDServiceName());
+            if (com.visa.webservice.consulteticket.WSConsultaEticketSoap.class.isAssignableFrom(serviceEndpointInterface)) {
+                com.visa.webservice.consulteticket.WSConsultaEticketSoapStub _stub = new com.visa.webservice.consulteticket.WSConsultaEticketSoapStub(new java.net.URL(WSConsultaEticketSoap_address), this);
+                _stub.setPortName(getWSConsultaEticketSoapWSDDServiceName());
                 return _stub;
             }
         }
@@ -98,8 +98,8 @@ public class WSEticketLocator extends org.apache.axis.client.Service implements 
             return getPort(serviceEndpointInterface);
         }
         java.lang.String inputPortName = portName.getLocalPart();
-        if ("WSEticketSoap".equals(inputPortName)) {
-            return getWSEticketSoap();
+        if ("WSConsultaEticketSoap".equals(inputPortName)) {
+            return getWSConsultaEticketSoap();
         }
         else  {
             java.rmi.Remote _stub = getPort(serviceEndpointInterface);
@@ -109,7 +109,7 @@ public class WSEticketLocator extends org.apache.axis.client.Service implements 
     }
 
     public javax.xml.namespace.QName getServiceName() {
-        return new javax.xml.namespace.QName("https://www.multimerchantvisanet.com/solicitudtransaccion", "WSEticket");
+        return new javax.xml.namespace.QName("https://www.multimerchantvisanet.com/ConsultaEnLineaEticket", "WSConsultaEticket");
     }
 
     private java.util.HashSet ports = null;
@@ -117,7 +117,7 @@ public class WSEticketLocator extends org.apache.axis.client.Service implements 
     public java.util.Iterator getPorts() {
         if (ports == null) {
             ports = new java.util.HashSet();
-            ports.add(new javax.xml.namespace.QName("https://www.multimerchantvisanet.com/solicitudtransaccion", "WSEticketSoap"));
+            ports.add(new javax.xml.namespace.QName("https://www.multimerchantvisanet.com/ConsultaEnLineaEticket", "WSConsultaEticketSoap"));
         }
         return ports.iterator();
     }
@@ -127,8 +127,8 @@ public class WSEticketLocator extends org.apache.axis.client.Service implements 
     */
     public void setEndpointAddress(java.lang.String portName, java.lang.String address) throws javax.xml.rpc.ServiceException {
         
-if ("WSEticketSoap".equals(portName)) {
-            setWSEticketSoapEndpointAddress(address);
+if ("WSConsultaEticketSoap".equals(portName)) {
+            setWSConsultaEticketSoapEndpointAddress(address);
         }
         else 
 { // Unknown Port Name
