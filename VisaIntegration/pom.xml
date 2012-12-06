@@ -8,7 +8,7 @@
 	<packaging>war</packaging>
 
 	<properties>
-		<org.springframework.version>3.0.5.RELEASE</org.springframework.version>
+		<org.springframework.version>3.1.1.RELEASE</org.springframework.version>
 		<org.primefaces.version>3.4.2</org.primefaces.version>
 	</properties>
 
@@ -75,6 +75,11 @@
 			<version>1</version>
 		</dependency>
 		<dependency>
+			<groupId>javax.inject</groupId>
+			<artifactId>javax.inject</artifactId>
+			<version>1</version>
+		</dependency>
+		<dependency>
 			<groupId>commons-discovery</groupId>
 			<artifactId>commons-discovery</artifactId>
 			<version>0.2</version>
@@ -123,18 +128,16 @@
 			<version>2.5</version>
 		</dependency>
 
-
-	
-
+		<dependency>
+			<groupId>com.visa</groupId>
+			<artifactId>visaintegrationcore</artifactId>
+			<version>1.0.0.0</version>
+		</dependency>
 		<dependency>
 			<groupId>c3p0</groupId>
 			<artifactId>c3p0</artifactId>
 			<version>0.9.1.2</version>
 		</dependency>
-
-	
-
-
 	</dependencies>
 	<repositories>
 		<repository>

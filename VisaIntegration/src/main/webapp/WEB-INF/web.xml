@@ -20,7 +20,8 @@
 	<context-param>
       <param-name>contextConfigLocation</param-name>
       <param-value>
-      /WEB-INF/spring-servlet.xml
+      /WEB-INF/spring-servlet.xml,
+      classpath:com/visa/resources/applicationContext-hibernate.xml
       </param-value>
    </context-param>
    
