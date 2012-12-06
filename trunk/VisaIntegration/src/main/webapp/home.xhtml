@@ -1,0 +1,148 @@
+<html xmlns="http://www.w3c.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<link type="text/css" rel="stylesheet" href="themes/bluesky/skin.css" />
+</h:head>
+<h:body>
+	<center>
+		<p:ajaxStatus onstart="statusDialog.show();"
+			onsuccess="statusDialog.hide();" />
+		<p:dialog modal="true" widgetVar="statusDialog" header="Status"
+			draggable="false" closable="false">
+			<p:graphicImage value="/images/ajaxloadingbar.gif" />
+		</p:dialog>
+		<h:form id="form">
+			<p:panel id="panel" header="New Person" style="margin-bottom:10px;">
+				<p:messages id="messagess" />
+				<h:panelGrid columns="3">
+					<h:outputLabel for="firstname" value="Firstname: *" />
+					<p:inputText id="firstname" value="#{userManagedBean.firstname}"
+						required="true" label="Firstname">
+						<f:validateLength minimum="2" />
+					</p:inputText>
+					<p:message for="firstname" />
+
+					<h:outputLabel for="surname" value="Surname: *" />
+					<p:inputText id="surname" value="#{userManagedBean.surname}"
+						required="true" label="Surname" />
+					<p:message for="surname" />
+				</h:panelGrid>
+			</p:panel>
+
+			<p:commandButton value="Ajax Submit" update="panel,display" id="ajax"
+				actionListener="#{userManagedBean.savePerson}"
+				styleClass="ui-priority-primary" />
+
+			<p:commandButton value="Non-Ajax Submit"
+				actionListener="#{userManagedBean.savePerson}" ajax="false" />
+
+			<p:commandButton value="With Icon"
+				actionListener="#{userManagedBean.savePerson}" id="withIcon"
+				update="panel,display" icon="ui-icon-disk" />
+
+			<p:commandButton actionListener="#{userManagedBean.savePerson}"
+				update="panel,display" id="iconOnly" icon="ui-icon-disk"
+				title="Icon Only" />
+
+			<p:commandButton value="Disabled" disabled="true" id="disabled" />
+
+			<p:panel id="display" header="Information" style="margin-top:10px;">
+				<h:panelGrid columns="2">
+					<h:outputText value="Firstname: " />
+					<h:outputText value="#{userManagedBean.firstname}" />
+
+					<h:outputText value="Surname: " />
+					<h:outputText value="#{userManagedBean.surname}" />
+				</h:panelGrid>
+			</p:panel>
+
+			<p:growl id="messages" />
+
+			<p:splitButton value="Save" actionListener="#{buttonBean.save}"
+				update="messages" icon="ui-icon-disk">
+				<p:menuitem value="Update" actionListener="#{buttonBean.update}"
+					update="messages" icon="ui-icon-arrowrefresh-1-w" />
+				<p:menuitem value="Delete" actionListener="#{buttonBean.delete}"
+					ajax="false" icon="ui-icon-close" />
+				<p:separator />
+				<p:menuitem value="Homepage" url="http://www.primefaces.org"
+					icon="ui-icon-extlink" />
+			</p:splitButton>
+
+
+			<p:dataTable id="multiCars" var="car"
+				value="#{tableBean.mediumCarsModel}" paginator="true" rows="10"
+				selection="#{tableBean.selectedCars}">
+
+				<f:facet name="header">  
+            Checkbox Based Selection  
+        </f:facet>
+
+				<p:column selectionMode="multiple" style="width:18px" />
+
+				<p:column headerText="Model">  
+            #{car.model}  
+        </p:column>
+
+				<p:column headerText="Year">  
+            #{car.year}  
+        </p:column>
+
+				<p:column headerText="Manufacturer">  
+            #{car.manufacturer}  
+        </p:column>
+
+				<p:column headerText="Color">  
+            #{car.color}  
+        </p:column>
+
+				<f:facet name="footer">
+					<p:commandButton id="multiViewButton" value="View"
+						icon="ui-icon-search" update=":form:displayMulti"
+						oncomplete="multiCarDialog.show()" />
+				</f:facet>
+			</p:dataTable>
+
+
+			<p:dialog id="dialog" header="Car Detail" widgetVar="singleCarDialog"
+				resizable="false" showEffect="fade" hideEffect="explode">
+
+				<h:panelGrid id="displaySingle" columns="2" cellpadding="4">
+
+					<f:facet name="header">
+						<p:graphicImage
+							value="/images/cars/#{tableBean.selectedCar.manufacturer}.jpg" />
+					</f:facet>
+
+					<h:outputText value="Model:" />
+					<h:outputText value="#{tableBean.selectedCar.model}" />
+
+					<h:outputText value="Year:" />
+					<h:outputText value="#{tableBean.selectedCar.year}" />
+
+					<h:outputText value="Manufacturer:" />
+					<h:outputText value="#{tableBean.selectedCar.manufacturer}" />
+
+					<h:outputText value="Color:" />
+					<h:outputText value="#{tableBean.selectedCar.color}" />
+				</h:panelGrid>
+			</p:dialog>
+
+			<p:dialog id="multiDialog" header="Car Detail"
+				widgetVar="multiCarDialog" height="300" showEffect="fade"
+				hideEffect="explode">
+
+				<p:dataList id="displayMulti" value="#{tableBean.selectedCars}"
+					var="selectedCar">  
+            Model: #{selectedCar.model}, Year: #{selectedCar.year}  
+        </p:dataList>
+
+			</p:dialog>
+
+		</h:form>
+
+	</center>
+</h:body>
+</html>
