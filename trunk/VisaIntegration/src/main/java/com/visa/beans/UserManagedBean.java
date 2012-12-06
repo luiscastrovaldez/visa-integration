@@ -6,14 +6,30 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.UnselectEvent;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import com.visa.domain.LogTransaction;
+import com.visa.services.VisaIntegration;
+
+
+@Component
 @ManagedBean
 @ApplicationScoped
 public class UserManagedBean {
 	UserService userService = new UserService();
+	
+	@Autowired
+	VisaIntegration visaIntegration;
+	
+
+	public void setVisaIntegration(VisaIntegration visaIntegration) {
+		this.visaIntegration = visaIntegration;
+	}
 
 	private String username;
 	private String password;
@@ -91,6 +107,12 @@ public class UserManagedBean {
 
 	public String login() {
 		System.out.println("user " + getUsername());
+		
+		LogTransaction logTransaction = visaIntegration.findById(1L);
+		if (logTransaction != null){
+			System.out.println(" id = "+ logTransaction.getId());
+		}
+		
 		if ("test".equalsIgnoreCase(getUsername())
 				&& "test".equals(getPassword())) {
 			return "home";
