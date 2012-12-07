@@ -1,24 +1,29 @@
-<html xmlns="http://www.w3c.org/1999/xhtml"
+<ui:composition template="/WEB-INF/templates/layout.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:p="http://primefaces.org/ui">
-<h:head>
-    <link type="text/css" rel="stylesheet" href="themes/bluesky/skin.css" />
-</h:head>
-<h:body>
+
+	<ui:define name="content" styleClass="pnlLoginContent">
     <center>
-    <p:panel header="Login Form" style="width: 350;">
+    <p:panel id="TablaLogin">
         <h:form>
+        	<span class="titulo">Iniciar sesion para pagos electronicos</span>
             <h:panelGrid columns="2" cellpadding="2">
-                <h:outputLabel for="#{userManagedBean.username}" value="UserName"/>
-                <h:inputText value="#{userManagedBean.username}" label="UserName"></h:inputText>
-                <h:outputLabel for="#{userManagedBean.password}" value="Password"/>
+            	<h:outputText value= "Institucion"/>
+            	<h:outputText value= "Universidad Norbert Wiener" styleClass="nombreInstitucion"/>
+                <h:outputLabel for="#{userManagedBean.username}" value="#{userManagedBean.userNameLabelText}"/>
+                <h:inputText value="#{userManagedBean.username}" ></h:inputText>
+                <h:outputLabel for="#{userManagedBean.password}" value="#{userManagedBean.passwordLabelText}"/>
                 <h:inputSecret value="#{userManagedBean.password}"></h:inputSecret>
-                <h:commandButton type="submit" value="Login" action="#{userManagedBean.login}"></h:commandButton>
             </h:panelGrid>
+            <h:panelGrid columns="1">
+            	<h:commandButton type="submit" value=" Iniciar Sesion " action="#{userManagedBean.login}" styleClass="Boton"></h:commandButton>
+			</h:panelGrid>
         </h:form>
     </p:panel>
     <div><h:messages ></h:messages></div>
     </center>
-</h:body>
-</html>
+    </ui:define>
+</ui:composition>

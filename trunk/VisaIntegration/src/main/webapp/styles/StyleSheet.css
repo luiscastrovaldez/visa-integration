@@ -1,0 +1,168 @@
+body {
+	margin: 0px;
+	font-family: verdana, Arial;
+	font-size: 11px;
+	background-color: #ffffff;
+}
+
+h1 {
+	font-size: 16px;
+	color: #990000;
+}
+
+a img {
+	border-width: 0px;
+}
+
+#Pagina {
+	width: 100%;
+	margin: auto;
+}
+
+#Cabecera {
+	background-image: url('../images/header.jpg');
+	height: 73px;
+	width: 100%;
+	margin-bottom: 5px;
+}
+
+#Logo {
+	border-width: 0;
+	left: 0;
+	position: absolute;
+	top: 0;
+}
+
+#Cabecera h1 {
+	margin: 0px;
+	text-align: right;
+	padding: 15px;
+	color: #ffffff;
+	font-family: Arial;
+	font-size: 20px;
+}
+
+#CerrarSesion {
+	background-color: #00699B;
+	text-align: right;
+	padding: 3px;
+	padding-right: 5px;
+	height: 15px;
+}
+
+#CerrarSesion a {
+	color: #ECB415;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+#CerrarSesion a:hover {
+	color: #ffffff;
+	text-decoration: underline;
+}
+
+#PiePagina {
+	margin-top: 3px;
+	padding-top: 5px;
+	border-top: solid 1px #336699;
+	text-align: center;
+}
+
+#TablaLogin {
+	margin: 10px auto auto;
+	width: 550px;
+}
+
+#TablaLogin span.titulo {
+	padding: 20px;
+	text-align: left;
+	background-image: url('../images/lock.png');
+	background-repeat: no-repeat;
+	background-position: left center;
+	font-size: 12px;
+}
+
+#TablaLogin tr:last-child td {
+    text-align: center;
+}
+
+#TablaPagos {
+	width: 100%;
+	border: solid 1px #cccccc;
+}
+
+#TablaPagos thead tr th,#TablaPagos tfoot tr th,#TablaPagos tbody tr td
+	{
+	border: solid 1px #cccccc;
+}
+
+#TablaPagos thead tr th {
+	background-color: #336699;
+	border: solid 1px #003366;
+	color: #FFFFFF;
+}
+
+.TablaDetallePago caption {
+	margin-top: 15px;
+	font-weight: bold;
+	margin-bottom: 10px;
+}
+
+.TablaDetallePago tbody tr th {
+	border: solid 1px #003366;
+	text-align: left;
+	background-color: #336699;
+	color: #ffffff;
+}
+
+.TablaDetallePago tbody tr td {
+	border: dotted 1px #003366;
+	text-align: left;
+}
+
+/* ================== */
+.pnlLogin {
+	margin: 0px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	padding: 5px;
+	border-top: solid 1px #0066CC;
+	border-bottom: solid 1px #0066CC;
+	background-color: #F8F8F8;
+	border-radius: 0px;
+}
+
+.pnlLoginContent {
+	background-color: #F8F8F8;
+	color: black;
+	border: none;
+}
+
+.Mensaje {
+	color: #ff0000;
+	font-weight: bold;
+}
+
+/* === Elementos de Formulario === */
+.Boton {
+	padding: 5px;
+	color: #ffffff;
+	background-color: #336699;
+	font-weight: bold;
+	border: solid 1px #000000;
+	cursor: pointer;
+}
+
+.CajaTexto {
+	border: solid 1px #333333;
+	padding: 2px;
+	font-family: Verdana;
+	font-size: 11px;
+	color: #333333;
+	width: 150px;
+}
+
+.nombreInstitucion {
+	color: #336699;
+	font-weight: bold;
+}
