@@ -1,0 +1,39 @@
+<ui:composition template="/WEB-INF/templates/layout.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="header">
+		<script type="text/javascript" language="javascript" src="scripts/pagos.js"></script>
+	</ui:define>
+	<ui:define name="content">
+	<div id="tabs">
+        <ul>
+            <li><a href="#tab"><h:outputText value= "#{commonBean.paginaPagosTitulo}"/></a></li>
+        </ul>
+        <div id="tab">
+            <table border="0" cellpadding="2" cellspacing="2" style="width:100%;">
+                <tr>
+                    <td style="width:130px; font-weight:bold;">
+                        <h:outputText value= "#{paymentBean.tipoUsuarioTexto}"/>
+                    </td>
+                    <td><h:outputText value= "#{userManagedBean.username}"/></td>
+                </tr>
+                <tr>
+                    <td style="font-weight:bold;">
+                    	<h:outputLabel for="#{paymentBean.listaCarreras}" value="Carreras:"/>
+                    </td>
+                    <td>  
+        				<p:selectOneMenu value="#{paymentBean.carrera}" effect="fade" >
+        					<f:selectItems value="#{paymentBean.listaCarreras}" var="carrera" itemLabel="#{carrera.nombre}" itemValue="#{carrera.codigo}"/>  
+        				</p:selectOneMenu>
+                    </td>
+                </tr>
+            </table>
+            <br />
+		</div>
+    </div>
+	</ui:define>
+</ui:composition>
