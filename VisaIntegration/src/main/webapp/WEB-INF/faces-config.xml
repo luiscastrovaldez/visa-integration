@@ -6,12 +6,11 @@
     <!--
     No ManagedBean declarations here as we are using @ManagedBean Annotations.
     -->
-    
+
     <application>
      <el-resolver>
 	     org.springframework.web.jsf.el.SpringBeanFacesELResolver
      </el-resolver>
    </application>
-    
-    
+
 </faces-config>

@@ -1,0 +1,37 @@
+<html xmlns="http://www.w3c.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <link type="text/css" rel="stylesheet" href="styles/StyleSheet.css" />
+    <title>Universidad</title>
+</h:head>
+<h:body>
+	<div id="Pagina">
+		<div id="Cabecera">
+			<h:form>
+				<h1>Sistema de Pago Electronico</h1>
+				<div id="CerrarSesion">
+					<div id="pnlCerrarSesion" >
+						<a href="#" onClick="javascript:print();">Imprimir</a>
+						<h:commandLink action="#{userManagedBean.cerrarSesion}" value ="Cerrar sesion."/>
+					</div>
+				</div>
+			</h:form>
+		</div>
+		<h:graphicImage id ="Logo" value="images/img_uwiener.jpg"/>
+		<p:layoutUnit position="center" styleClass="pnlLogin">
+			<ui:insert name="content"></ui:insert>
+		</p:layoutUnit>
+	   	<div id="PiePagina">
+		    <h:outputLink value="http://www.visanet.com.pe" title="" alt="">
+				<h:graphicImage value="images/LogoVisa.jpg"/>
+			</h:outputLink>
+			<h:outputLink value="http://www.visanet.com.pe/visa.htm" title="" alt="">
+				<h:graphicImage value="images/VerifiedByVisaLearnMore.gif"/>
+			</h:outputLink>
+	    </div>
+	</div>
+</h:body>
+</html>

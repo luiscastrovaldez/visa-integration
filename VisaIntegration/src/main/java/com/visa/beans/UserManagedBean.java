@@ -6,7 +6,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
-import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.UnselectEvent;
@@ -15,17 +15,17 @@ import org.springframework.stereotype.Component;
 
 import com.visa.domain.LogTransaction;
 import com.visa.services.VisaIntegration;
-
+import com.visa.util.VisaIntegrationConstants;
 
 @Component
 @ManagedBean
 @ApplicationScoped
 public class UserManagedBean {
+
 	UserService userService = new UserService();
-	
+
 	@Autowired
 	VisaIntegration visaIntegration;
-	
 
 	public void setVisaIntegration(VisaIntegration visaIntegration) {
 		this.visaIntegration = visaIntegration;
@@ -39,9 +39,7 @@ public class UserManagedBean {
 
 	private String firstname;
 	private String surname;
-	
-	
-	
+
 	public String getFirstname() {
 		return firstname;
 	}
@@ -58,10 +56,10 @@ public class UserManagedBean {
 		this.surname = surname;
 	}
 
-	public void savePerson(){
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Welcome " + firstname + " " + surname + "!"));  
+	public void savePerson() {
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Welcome " + firstname + " " + surname + "!"));
 	}
-	
+
 	public String getUsername() {
 		return username;
 	}
@@ -107,26 +105,23 @@ public class UserManagedBean {
 
 	public String login() {
 		System.out.println("user " + getUsername());
-		
+
 		LogTransaction logTransaction = visaIntegration.findById(1L);
-		if (logTransaction != null){
-			System.out.println(" id = "+ logTransaction.getId());
+		if (logTransaction != null) {
+			System.out.println(" id = " + logTransaction.getId());
 		}
-		
-		if ("test".equalsIgnoreCase(getUsername())
-				&& "test".equals(getPassword())) {
+
+		if ("test".equalsIgnoreCase(getUsername()) && "test".equals(getPassword())) {
 			return "home";
 		} else {
 			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage("username", new FacesMessage(
-					"Invalid UserName and Password"));
+			context.addMessage("username", new FacesMessage("Invalid UserName and Password"));
 			return "login";
 		}
 	}
 
 	public String searchUser() {
-		String username = (this.searchUser == null) ? "" : this.searchUser
-				.trim();
+		String username = (this.searchUser == null) ? "" : this.searchUser.trim();
 		this.searchUsersResults = userService.searchUsers(username);
 		System.out.println(searchUsersResults);
 		return "home";
@@ -145,4 +140,37 @@ public class UserManagedBean {
 	public void onUserUnselect(UnselectEvent event) {
 		selectedUser = null;
 	}
+
+	public void cerrarSesion() {
+	}
+
+	public String getUserNameLabelText() {
+		final String strTipoUsuario = getTipoUsuario();
+		if (VisaIntegrationConstants.TIPO_USUARIO_ALUMNO.equals(strTipoUsuario)) {
+			return VisaIntegrationConstants.LOGIN_USUARIO_ALUMNO;
+		} else if (VisaIntegrationConstants.TIPO_USUARIO_POSTULANTE.equals(strTipoUsuario)) {
+			return VisaIntegrationConstants.LOGIN_USUARIO_POSTULANTE;
+		} else if (VisaIntegrationConstants.TIPO_USUARIO_PROSPECTO.equals(strTipoUsuario)) {
+			return VisaIntegrationConstants.LOGIN_USUARIO_PROSPECTO;
+		}
+		return null;
+	}
+
+	public String getPasswordLabelText() {
+		final String strTipoUsuario = getTipoUsuario();
+		if (VisaIntegrationConstants.TIPO_USUARIO_ALUMNO.equals(strTipoUsuario)) {
+			return VisaIntegrationConstants.LOGIN_CLAVE_ALUMNO;
+		} else if (VisaIntegrationConstants.TIPO_USUARIO_POSTULANTE.equals(strTipoUsuario)) {
+			return VisaIntegrationConstants.LOGIN_CLAVE_POSTULANTE;
+		} else if (VisaIntegrationConstants.TIPO_USUARIO_PROSPECTO.equals(strTipoUsuario)) {
+			return VisaIntegrationConstants.LOGIN_CLAVE_PROSPECTO;
+		}
+		return null;
+	}
+
+	private String getTipoUsuario() {
+		final HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+		return request.getParameter("usr") == null ? VisaIntegrationConstants.TIPO_USUARIO_ALUMNO : request.getParameter("usr");
+	}
+
 }
