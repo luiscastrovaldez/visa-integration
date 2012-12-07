@@ -5,23 +5,30 @@
     xmlns:p="http://primefaces.org/ui">
 <h:head>
     <link type="text/css" rel="stylesheet" href="styles/StyleSheet.css" />
-    <title>Universidad</title>
+    <link type="text/css" rel="stylesheet" href="styles/jquery-ui.css" />
+    <script type="text/javascript" language="javascript" src="scripts/jquery.js"></script>
+    <script type="text/javascript" language="javascript" src="scripts/jquery-ui.js"></script>
+    <ui:insert name="header"></ui:insert>
+    <title><h:outputText value= "#{commonBean.appTituloVentana}"/></title>
 </h:head>
 <h:body>
 	<div id="Pagina">
 		<div id="Cabecera">
 			<h:form>
-				<h1>Sistema de Pago Electronico</h1>
+				<h1><h:outputText value= "#{commonBean.appTitulo}"/></h1>
 				<div id="CerrarSesion">
-					<div id="pnlCerrarSesion" >
-						<a href="#" onClick="javascript:print();">Imprimir</a>
-						<h:commandLink action="#{userManagedBean.cerrarSesion}" value ="Cerrar sesion."/>
-					</div>
+					<p:panel id="pnlCerrarSesion" styleClass="pnlLoginContent" rendered="#{userManagedBean.usuarioLogueado}">
+						<a href="#" onClick="javascript:print();">
+							<h:outputText value= "#{commonBean.imprimirTexto}"/>
+						</a>
+						<h:outputText value= "#{commonBean.separadorLinksCabecera}"/>
+						<h:commandLink action="#{userManagedBean.cerrarSesion}" value ="#{commonBean.loginCerrarSesion}"/>
+					</p:panel>
 				</div>
 			</h:form>
 		</div>
 		<h:graphicImage id ="Logo" value="images/img_uwiener.jpg"/>
-		<p:layoutUnit position="center" styleClass="pnlLogin">
+		<p:layoutUnit position="center" styleClass="pnlLayoutContenido">
 			<ui:insert name="content"></ui:insert>
 		</p:layoutUnit>
 	   	<div id="PiePagina">

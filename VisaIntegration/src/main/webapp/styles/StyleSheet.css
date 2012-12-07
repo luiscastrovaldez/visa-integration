@@ -54,11 +54,25 @@ a img {
 	color: #ECB415;
 	font-weight: bold;
 	text-decoration: none;
+	font-family: verdana, Arial;
+	font-size: 11px;
 }
 
 #CerrarSesion a:hover {
 	color: #ffffff;
 	text-decoration: underline;
+}
+
+#CerrarSesion div.pnlLoginContent {
+	background: none;
+	background-color: #00699B;
+	border: medium none;
+	border-radius: 0px;
+	height: 10px;
+	padding: 0;
+}
+#CerrarSesion div.pnlLoginContent div.ui-panel-content {
+	padding: 0;
 }
 
 #PiePagina {
@@ -82,8 +96,18 @@ a img {
 	font-size: 12px;
 }
 
-#TablaLogin tr:last-child td {
-    text-align: center;
+#TablaLogin table:last-child tr:last-child td {
+	text-align: center;
+}
+
+#TablaLogin table {
+	font-size: 11px;
+	margin-top: 20px;
+}
+
+#TablaLogin .ColumnaLabel {
+	text-align: right;
+	width: 50%;
 }
 
 #TablaPagos {
@@ -121,7 +145,7 @@ a img {
 }
 
 /* ================== */
-.pnlLogin {
+.pnlLayoutContenido {
 	margin: 0px;
 	margin-top: 5px;
 	margin-bottom: 5px;
@@ -132,7 +156,7 @@ a img {
 	border-radius: 0px;
 }
 
-.pnlLoginContent {
+div.pnlLayoutContenido .ui-layout-unit-content,#TablaLogin {
 	background-color: #F8F8F8;
 	color: black;
 	border: none;
@@ -165,4 +189,8 @@ a img {
 .nombreInstitucion {
 	color: #336699;
 	font-weight: bold;
+}
+
+.ui-widget {
+	font-family: verdana, Arial;
 }

@@ -9,17 +9,17 @@
     <center>
     <p:panel id="TablaLogin">
         <h:form>
-        	<span class="titulo">Iniciar sesion para pagos electronicos</span>
-            <h:panelGrid columns="2" cellpadding="2">
-            	<h:outputText value= "Institucion"/>
+        	<span class="titulo"><h:outputText value="#{commonBean.loginTexto}"/></span>
+            <h:panelGrid columns="2" cellpadding="2" columnClasses="ColumnaLabel, ColumnaTexto">
+            	<h:outputText value= "#{commonBean.institucionTexto}"/>
             	<h:outputText value= "Universidad Norbert Wiener" styleClass="nombreInstitucion"/>
                 <h:outputLabel for="#{userManagedBean.username}" value="#{userManagedBean.userNameLabelText}"/>
-                <h:inputText value="#{userManagedBean.username}" ></h:inputText>
+                <h:inputText value="#{userManagedBean.username}" styleClass="CajaTexto"></h:inputText>
                 <h:outputLabel for="#{userManagedBean.password}" value="#{userManagedBean.passwordLabelText}"/>
-                <h:inputSecret value="#{userManagedBean.password}"></h:inputSecret>
+                <h:inputSecret value="#{userManagedBean.password}" styleClass="CajaTexto"></h:inputSecret>
             </h:panelGrid>
             <h:panelGrid columns="1">
-            	<h:commandButton type="submit" value=" Iniciar Sesion " action="#{userManagedBean.login}" styleClass="Boton"></h:commandButton>
+            	<h:commandButton type="submit" value="#{commonBean.loginIniciarSesion}" action="#{userManagedBean.login}" styleClass="Boton"></h:commandButton>
 			</h:panelGrid>
         </h:form>
     </p:panel>

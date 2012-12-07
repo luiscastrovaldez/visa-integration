@@ -112,7 +112,7 @@ public class UserManagedBean {
 		}
 
 		if ("test".equalsIgnoreCase(getUsername()) && "test".equals(getPassword())) {
-			return "home";
+			return "pagos";
 		} else {
 			FacesContext context = FacesContext.getCurrentInstance();
 			context.addMessage("username", new FacesMessage("Invalid UserName and Password"));
@@ -166,6 +166,10 @@ public class UserManagedBean {
 			return VisaIntegrationConstants.LOGIN_CLAVE_PROSPECTO;
 		}
 		return null;
+	}
+
+	public boolean getUsuarioLogueado() {
+		return getUsername() != null;
 	}
 
 	private String getTipoUsuario() {
