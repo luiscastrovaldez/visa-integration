@@ -5,25 +5,31 @@ import java.util.Collection;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.log4j.Logger;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.UnselectEvent;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.visa.services.VisaIntegration;
 import com.visa.util.VisaIntegrationConstants;
 
-@ManagedBean(name="userManagedBean")
+@ManagedBean(name = "userManagedBean")
 @SessionScoped
-public class UserManagedBean implements Serializable{
+public class UserManagedBean implements Serializable {
 
-  UserService userService = new UserService();
+  private static final long serialVersionUID = 1L;
+  private static final Logger LOGGER = Logger.getLogger(UserManagedBean.class);
 
-  @Autowired
-  VisaIntegration visaIntegration;
+  @ManagedProperty(value = "#{visaIntegration}")
+  private VisaIntegration visaIntegration;
+
+  public VisaIntegration getVisaIntegration() {
+    return visaIntegration;
+  }
 
   public void setVisaIntegration(VisaIntegration visaIntegration) {
     this.visaIntegration = visaIntegration;
@@ -31,12 +37,30 @@ public class UserManagedBean implements Serializable{
 
   private String username;
   private String password;
+  private int numAtencion;
+  private String tipoUsuarioLogueado;
   private String searchUser;
   private Collection<User> searchUsersResults;
   private User selectedUser;
 
   private String firstname;
   private String surname;
+
+  public int getNumAtencion() {
+    return numAtencion;
+  }
+
+  public void setNumAtencion(int numAtencion) {
+    this.numAtencion = numAtencion;
+  }
+
+  public String getTipoUsuarioLogueado() {
+    return tipoUsuarioLogueado;
+  }
+
+  public void setTipoUsuarioLogueado(String tipoUsuarioLogueado) {
+    this.tipoUsuarioLogueado = tipoUsuarioLogueado;
+  }
 
   public String getFirstname() {
     return firstname;
@@ -102,32 +126,16 @@ public class UserManagedBean implements Serializable{
   }
 
   public String login() {
-    System.out.println("user " + getUsername());
+    LOGGER.info("usuario" + getUsername());
 
-    /*LogTransaction logTransaction = visaIntegration.findById(1L);
-    if (logTransaction != null) {
-      System.out.println(" id = " + logTransaction.getId());
-    }*/
-
-    if ("test".equalsIgnoreCase(getUsername()) && "test".equals(getPassword())) {
+    if ("test".equals(getPassword())) {
+      setTipoUsuarioLogueado("0");
       return "pagos";
     } else {
       FacesContext context = FacesContext.getCurrentInstance();
       context.addMessage("username", new FacesMessage("Invalid UserName and Password"));
       return "login";
     }
-  }
-
-  public String searchUser() {
-    String username = (this.searchUser == null) ? "" : this.searchUser.trim();
-    this.searchUsersResults = userService.searchUsers(username);
-    System.out.println(searchUsersResults);
-    return "home";
-  }
-
-  public String updateUser() {
-    userService.update(this.selectedUser);
-    return "home";
   }
 
   public void onUserSelect(SelectEvent event) {
