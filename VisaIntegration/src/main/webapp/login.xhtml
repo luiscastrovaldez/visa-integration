@@ -19,11 +19,11 @@
                 <h:inputSecret value="#{userManagedBean.password}" styleClass="CajaTexto"></h:inputSecret>
             </h:panelGrid>
             <h:panelGrid columns="1">
-            	<h:commandButton type="submit" value="#{commonBean.loginIniciarSesion}" action="#{userManagedBean.login}" styleClass="Boton"></h:commandButton>
+            	<h:commandButton type="submit" value="#{commonBean.loginIniciarSesion}" action="#{userManagedBean.loginAlumno}" styleClass="Boton"></h:commandButton>
 			</h:panelGrid>
         </h:form>
     </p:panel>
-    <div><h:messages ></h:messages></div>
+    <div><h:messages id="message" style="color:red;" >${message}</h:messages></div>
     </center>
     </ui:define>
 </ui:composition>

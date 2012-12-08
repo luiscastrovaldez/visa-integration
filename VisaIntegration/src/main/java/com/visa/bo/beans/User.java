@@ -1,4 +1,4 @@
-package com.visa.beans;
+package com.visa.bo.beans;
 import java.util.Date;
 
 public class User

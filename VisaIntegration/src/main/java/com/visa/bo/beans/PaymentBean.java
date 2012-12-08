@@ -1,4 +1,4 @@
-package com.visa.beans;
+package com.visa.bo.beans;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -7,6 +7,7 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 
 import org.apache.log4j.Logger;
 
@@ -16,7 +17,7 @@ import com.visa.services.VisaIntegration;
 import com.visa.util.VisaIntegrationConstants;
 
 @ManagedBean(name = "paymentBean")
-@SessionScoped
+@ViewScoped
 public class PaymentBean implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -27,6 +28,7 @@ public class PaymentBean implements Serializable {
   private List<Concepto> listaConceptos;
   private List<Concepto> listaConceptosSeleecionados;
   private Carrera carrera;
+  
 
   @ManagedProperty(value = "#{userManagedBean}")
   private UserManagedBean userManagedBean;
@@ -70,13 +72,21 @@ public class PaymentBean implements Serializable {
     LOGGER.info("num atencion = " + userManagedBean.getNumAtencion());
     listaCarreras = new ArrayList<Carrera>();
     try {
+    	    	
       if (VisaIntegrationConstants.TIPO_USUARIO_ALUMNO.equals(userManagedBean.getTipoUsuarioLogueado())) {
-        listaCarreras = visaIntegration.obtenerCarrerasPostgrado(userManagedBean.getUsername());
+    	  listaCarreras = visaIntegration.obtenerCarrerasPostgrado(userManagedBean.getUsername());
+            
       } else if (VisaIntegrationConstants.TIPO_USUARIO_POSTULANTE.equals(userManagedBean.getTipoUsuarioLogueado())) {
-        listaCarreras = visaIntegration.obtenerCarrerasPostulante(userManagedBean.getUsername());
+    	  listaCarreras = visaIntegration.obtenerCarrerasPostulante(userManagedBean.getUsername());
+    	  
       } else if (VisaIntegrationConstants.TIPO_USUARIO_PROSPECTO.equals(userManagedBean.getTipoUsuarioLogueado())) {
-        listaCarreras = visaIntegration.obtenerCarrerasProspecto(userManagedBean.getUsername(), userManagedBean.getNumAtencion());
+    	  listaCarreras = listaCarreras = visaIntegration.obtenerCarrerasProspecto(userManagedBean.getUsername(), userManagedBean.getNumAtencion());
+        
       }
+      
+      
+      
+      
 
     } catch (Exception e) {
       e.printStackTrace();

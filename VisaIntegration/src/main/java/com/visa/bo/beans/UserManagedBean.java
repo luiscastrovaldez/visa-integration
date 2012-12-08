@@ -1,4 +1,4 @@
-package com.visa.beans;
+package com.visa.bo.beans;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -182,5 +182,50 @@ public class UserManagedBean implements Serializable {
     final HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
     return request.getParameter("usr") == null ? VisaIntegrationConstants.TIPO_USUARIO_ALUMNO : request.getParameter("usr");
   }
+  
+	public String loginAlumno() throws Exception {
+
+		Integer flag = null;
+		FacesContext context = FacesContext.getCurrentInstance();;
+		try {
+			LOGGER.info("usuario" + getUsername());
+
+			setTipoUsuarioLogueado("0");
+
+			flag = this.visaIntegration.verificaUsuarioExiste(getUsername(),getPassword());
+			LOGGER.info(" verificaUsuarioExiste = " + flag);
+			if (flag != null) {
+				switch (flag.intValue()) {
+				case 0:
+					return "pagos";					
+				case 1:
+					context.addMessage("messaje", new FacesMessage("El nombre de usuario y/o la contraseña son incorrectos. Verifique y vuelva a intentarlo."));
+					break;
+				case 2:
+					context.addMessage("messaje", new FacesMessage("Ud. no está matriculado en el presente periodo o ha dejado de estudiar en la institución."));
+					break;
+				case 3:
+					context.addMessage("messaje", new FacesMessage("Ud. no tiene contrato activo con la institución. Por favor, verifique y vuelva a intentarlo."));
+					break;
+				case 4:
+					context.addMessage("messaje", new FacesMessage("Ud. no está programado para dictar curso alguno de esta institución. Verifique y vuelva a intentarlo."));
+					break;	
+
+				default:
+					context.addMessage("messaje", new FacesMessage("Se ha producido un error inesperado. Por favor vuelva a intentarlo en unos minutos."));
+					break;
+				}								
+			} 
+
+			return "login";
+		} catch (Exception e) {
+			e.printStackTrace();
+			context = FacesContext.getCurrentInstance();
+			context.addMessage("messaje", new FacesMessage(e.getMessage()));
+			return "error";
+		}
+
+	}
+  
 
 }

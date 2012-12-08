@@ -1,4 +1,4 @@
-package com.visa.beans;
+package com.visa.web.beans;
 
 import java.io.Serializable;
 import javax.faces.model.ListDataModel;

@@ -1,4 +1,4 @@
-package com.visa.beans;
+package com.visa.web.beans;
 
 import java.io.Serializable;  
 import java.util.ArrayList;  
@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
+
   
 
   

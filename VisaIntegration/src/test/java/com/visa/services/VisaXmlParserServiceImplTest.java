@@ -13,6 +13,7 @@ import com.visa.xml.domain.ConsultaETicket;
 import com.visa.xml.domain.Parametro;
 import com.visa.xml.domain.RespuestaETicket;
 import com.visa.xml.domain.RespuestaVisa;
+import com.visa.xml.services.VisaXmlParserServiceImpl;
 
 public class VisaXmlParserServiceImplTest {
 
