@@ -1,29 +1,53 @@
 package com.visa.beans;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.SessionScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
 import com.visa.domain.Carrera;
+import com.visa.services.VisaIntegration;
 import com.visa.util.VisaIntegrationConstants;
 
-@Component
-@ManagedBean
-@ApplicationScoped
-public class PaymentBean {
+
+@ManagedBean(name="paymentBean")
+@SessionScoped
+public class PaymentBean implements Serializable{
 
 	private String tipoUsuarioTexto;
 	private List<Carrera> listaCarreras;
 	private Carrera carrera;
+	
+	@ManagedProperty(value="#{userManagedBean}")
+	private UserManagedBean userManagedBean;
+	
+	
+	
+	public UserManagedBean getUserManagedBean() {
+		return userManagedBean;
+	}
+
+	public void setUserManagedBean(UserManagedBean userManagedBean) {
+		this.userManagedBean = userManagedBean;
+	}
+
+	@Autowired
+	VisaIntegration visaIntegration;
 
 	public PaymentBean() {
 		listaCarreras = new ArrayList<Carrera>();
+		
 		// TODO get user type
-		tipoUsuarioTexto = VisaIntegrationConstants.CODIGO_USUARIO_TEXTO + VisaIntegrationConstants.USUARIO_ALUMNO;
+		tipoUsuarioTexto = VisaIntegrationConstants.CODIGO_USUARIO_TEXTO
+				+ VisaIntegrationConstants.USUARIO_ALUMNO;
 	}
 
 	public String getTipoUsuarioTexto() {
@@ -35,6 +59,16 @@ public class PaymentBean {
 	}
 
 	public List<Carrera> getListaCarreras() {
+		listaCarreras = new ArrayList<Carrera>();
+		System.out.println("userManagedBean = " + userManagedBean);
+		System.out.println(" username = " + userManagedBean.getUsername());
+		System.out.println(" clave = " + userManagedBean.getPassword());
+		try {
+			listaCarreras = visaIntegration.obtenerCarrerasPostgrado("CL20031506");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		return listaCarreras;
 	}
 
