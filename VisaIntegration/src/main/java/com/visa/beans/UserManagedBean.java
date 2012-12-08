@@ -1,26 +1,30 @@
 package com.visa.beans;
 
+import java.io.Serializable;
 import java.util.Collection;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.UnselectEvent;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 
 import com.visa.domain.LogTransaction;
 import com.visa.services.VisaIntegration;
 import com.visa.util.VisaIntegrationConstants;
 
-@Component
-@ManagedBean
-@ApplicationScoped
-public class UserManagedBean {
+//@Component
+@ManagedBean(name="userManagedBean")
+@SessionScoped
+public class UserManagedBean implements Serializable{
 
 	UserService userService = new UserService();
 
@@ -106,10 +110,10 @@ public class UserManagedBean {
 	public String login() {
 		System.out.println("user " + getUsername());
 
-		LogTransaction logTransaction = visaIntegration.findById(1L);
+		/*LogTransaction logTransaction = visaIntegration.findById(1L);
 		if (logTransaction != null) {
 			System.out.println(" id = " + logTransaction.getId());
-		}
+		}*/
 
 		if ("test".equalsIgnoreCase(getUsername()) && "test".equals(getPassword())) {
 			return "pagos";

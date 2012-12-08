@@ -3,6 +3,8 @@ package com.visa.controller;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import javax.faces.bean.ManagedProperty;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.visa.beans.UserManagedBean;
 import com.visa.services.VisaXmlParserService;
 import com.visa.util.VisaIntegrationConstants;
 import com.visa.util.VisaIntegrationUtil;
@@ -26,6 +29,10 @@ import com.visa.xml.domain.RespuestaVisa;
 @Controller
 public class ComercioController {
 
+	
+	@ManagedProperty(value="#{userManagedBean}")
+    private UserManagedBean userManagedBean; 
+	
 	@Autowired
 	private VisaXmlParserService visaXmlParserService;
 
@@ -47,6 +54,10 @@ public class ComercioController {
 	public ModelAndView createETicket(final @RequestBody String xmlService) throws Exception {
 		LOGGER.info("Visa create eTicket");
 		LOGGER.info(xmlService);
+		
+		LOGGER.info(" user name = " + userManagedBean.getFirstname());
+		LOGGER.info(" user password = " + userManagedBean.getPassword());
+		
 		String xmlServiceStr = VisaIntegrationUtil.getParameterValue(xmlService, VisaIntegrationConstants.CAMPO_XML_SERVICE);
 		if (xmlServiceStr == null) {
 			return showErrorPage(VisaIntegrationConstants.MSG_ERROR_GENERICO);
