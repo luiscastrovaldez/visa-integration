@@ -1,9 +1,10 @@
-package com.visa.beans;
+package com.visa.web.beans;
 
 import java.util.List;  
 import javax.faces.model.ListDataModel;  
 
 import org.primefaces.model.SelectableDataModel;  
+
   
 public class CarDataModel extends PrimeDataModel<Car> {    
   

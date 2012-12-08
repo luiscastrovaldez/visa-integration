@@ -1,4 +1,4 @@
-package com.visa.services;
+package com.visa.xml.services;
 
 import com.visa.xml.domain.ConsultaETicket;
 import com.visa.xml.domain.RespuestaETicket;

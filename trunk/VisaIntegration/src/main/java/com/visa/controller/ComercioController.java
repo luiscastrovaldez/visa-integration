@@ -14,8 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.visa.beans.UserManagedBean;
-import com.visa.services.VisaXmlParserService;
+import com.visa.bo.beans.UserManagedBean;
 import com.visa.util.VisaIntegrationConstants;
 import com.visa.util.VisaIntegrationUtil;
 import com.visa.webservice.consulteticket.WSConsultaEticketSoapProxy;
@@ -25,6 +24,7 @@ import com.visa.xml.domain.ConsultaETicket;
 import com.visa.xml.domain.Parametro;
 import com.visa.xml.domain.RespuestaETicket;
 import com.visa.xml.domain.RespuestaVisa;
+import com.visa.xml.services.VisaXmlParserService;
 
 @Controller
 public class ComercioController {
