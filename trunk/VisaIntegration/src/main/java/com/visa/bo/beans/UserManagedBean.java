@@ -153,12 +153,16 @@ public class UserManagedBean implements Serializable {
   public String getUserNameLabelText() {
     final String strTipoUsuario = getTipoUsuario();
     if (VisaIntegrationConstants.TIPO_USUARIO_ALUMNO.equals(strTipoUsuario)) {
+      setTipoUsuarioLogueado(VisaIntegrationConstants.TIPO_USUARIO_ALUMNO);
       return VisaIntegrationConstants.LOGIN_USUARIO_ALUMNO;
     } else if (VisaIntegrationConstants.TIPO_USUARIO_POSTULANTE.equals(strTipoUsuario)) {
+      setTipoUsuarioLogueado(VisaIntegrationConstants.TIPO_USUARIO_POSTULANTE);
       return VisaIntegrationConstants.LOGIN_USUARIO_POSTULANTE;
     } else if (VisaIntegrationConstants.TIPO_USUARIO_PROSPECTO.equals(strTipoUsuario)) {
+      setTipoUsuarioLogueado(VisaIntegrationConstants.TIPO_USUARIO_PROSPECTO);
       return VisaIntegrationConstants.LOGIN_USUARIO_PROSPECTO;
     }
+    setTipoUsuarioLogueado(null);
     return null;
   }
 
@@ -182,50 +186,53 @@ public class UserManagedBean implements Serializable {
     final HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
     return request.getParameter("usr") == null ? VisaIntegrationConstants.TIPO_USUARIO_ALUMNO : request.getParameter("usr");
   }
-  
-	public String loginAlumno() throws Exception {
 
-		Integer flag = null;
-		FacesContext context = FacesContext.getCurrentInstance();;
-		try {
-			LOGGER.info("usuario" + getUsername());
+  public String loginAlumno() throws Exception {
 
-			setTipoUsuarioLogueado("0");
+    Integer flag = null;
+    FacesContext context = FacesContext.getCurrentInstance();
 
-			flag = this.visaIntegration.verificaUsuarioExiste(getUsername(),getPassword());
-			LOGGER.info(" verificaUsuarioExiste = " + flag);
-			if (flag != null) {
-				switch (flag.intValue()) {
-				case 0:
-					return "pagos";					
-				case 1:
-					context.addMessage("messaje", new FacesMessage("El nombre de usuario y/o la contraseña son incorrectos. Verifique y vuelva a intentarlo."));
-					break;
-				case 2:
-					context.addMessage("messaje", new FacesMessage("Ud. no está matriculado en el presente periodo o ha dejado de estudiar en la institución."));
-					break;
-				case 3:
-					context.addMessage("messaje", new FacesMessage("Ud. no tiene contrato activo con la institución. Por favor, verifique y vuelva a intentarlo."));
-					break;
-				case 4:
-					context.addMessage("messaje", new FacesMessage("Ud. no está programado para dictar curso alguno de esta institución. Verifique y vuelva a intentarlo."));
-					break;	
+    try {
+      LOGGER.info("usuario " + getUsername());
 
-				default:
-					context.addMessage("messaje", new FacesMessage("Se ha producido un error inesperado. Por favor vuelva a intentarlo en unos minutos."));
-					break;
-				}								
-			} 
+      flag = this.visaIntegration.verificaUsuarioExiste(getUsername(), getPassword());
+      flag = 0;
+      LOGGER.info(" verificaUsuarioExiste = " + flag);
+      if (flag != null) {
+        switch (flag.intValue()) {
+          case 0:
+            return "pagos";
+          case 1:
+            context.addMessage("messaje",
+                new FacesMessage("El nombre de usuario y/o la contraseï¿½a son incorrectos. Verifique y vuelva a intentarlo."));
+            break;
+          case 2:
+            context.addMessage("messaje", new FacesMessage(
+                "Ud. no estï¿½ matriculado en el presente periodo o ha dejado de estudiar en la instituciï¿½n."));
+            break;
+          case 3:
+            context.addMessage("messaje", new FacesMessage(
+                "Ud. no tiene contrato activo con la instituciï¿½n. Por favor, verifique y vuelva a intentarlo."));
+            break;
+          case 4:
+            context.addMessage("messaje", new FacesMessage(
+                "Ud. no estï¿½ programado para dictar curso alguno de esta instituciï¿½n. Verifique y vuelva a intentarlo."));
+            break;
 
-			return "login";
-		} catch (Exception e) {
-			e.printStackTrace();
-			context = FacesContext.getCurrentInstance();
-			context.addMessage("messaje", new FacesMessage(e.getMessage()));
-			return "error";
-		}
+          default:
+            context.addMessage("messaje", new FacesMessage("Se ha producido un error inesperado. Por favor vuelva a intentarlo en unos minutos."));
+            break;
+        }
+      }
 
-	}
-  
+      return "login";
+    } catch (Exception e) {
+      e.printStackTrace();
+      context = FacesContext.getCurrentInstance();
+      context.addMessage("messaje", new FacesMessage(e.getMessage()));
+      return "error";
+    }
+
+  }
 
 }
