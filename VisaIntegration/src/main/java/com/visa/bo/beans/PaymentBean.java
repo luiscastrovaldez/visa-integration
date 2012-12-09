@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 
 import org.apache.log4j.Logger;
@@ -26,9 +25,8 @@ public class PaymentBean implements Serializable {
   private String tipoUsuarioTexto;
   private List<Carrera> listaCarreras;
   private List<Concepto> listaConceptos;
-  private List<Concepto> listaConceptosSeleecionados;
+  private List<Concepto> listaConceptosSeleccionados;
   private Carrera carrera;
-  
 
   @ManagedProperty(value = "#{userManagedBean}")
   private UserManagedBean userManagedBean;
@@ -70,28 +68,30 @@ public class PaymentBean implements Serializable {
     LOGGER.info("usuario = " + userManagedBean.getUsername());
     LOGGER.info("tipo usuario = " + userManagedBean.getTipoUsuarioLogueado());
     LOGGER.info("num atencion = " + userManagedBean.getNumAtencion());
+    if (listaCarreras != null) {
+      return listaCarreras;
+    }
     listaCarreras = new ArrayList<Carrera>();
     try {
-    	    	
-      if (VisaIntegrationConstants.TIPO_USUARIO_ALUMNO.equals(userManagedBean.getTipoUsuarioLogueado())) {
-    	  listaCarreras = visaIntegration.obtenerCarrerasPostgrado(userManagedBean.getUsername());
-            
-      } else if (VisaIntegrationConstants.TIPO_USUARIO_POSTULANTE.equals(userManagedBean.getTipoUsuarioLogueado())) {
-    	  listaCarreras = visaIntegration.obtenerCarrerasPostulante(userManagedBean.getUsername());
-    	  
-      } else if (VisaIntegrationConstants.TIPO_USUARIO_PROSPECTO.equals(userManagedBean.getTipoUsuarioLogueado())) {
-    	  listaCarreras = listaCarreras = visaIntegration.obtenerCarrerasProspecto(userManagedBean.getUsername(), userManagedBean.getNumAtencion());
-        
-      }
-      
-      
-      
-      
 
+      if (VisaIntegrationConstants.TIPO_USUARIO_ALUMNO.equals(userManagedBean.getTipoUsuarioLogueado())) {
+        listaCarreras = visaIntegration.obtenerCarrerasPostgrado(userManagedBean.getUsername());
+
+      } else if (VisaIntegrationConstants.TIPO_USUARIO_POSTULANTE.equals(userManagedBean.getTipoUsuarioLogueado())) {
+        listaCarreras = visaIntegration.obtenerCarrerasPostulante(userManagedBean.getUsername());
+
+      } else if (VisaIntegrationConstants.TIPO_USUARIO_PROSPECTO.equals(userManagedBean.getTipoUsuarioLogueado())) {
+        listaCarreras = visaIntegration.obtenerCarrerasProspecto(userManagedBean.getUsername(), userManagedBean.getNumAtencion());
+      }
+
+      Carrera carrera = new Carrera();
+      carrera.setCodigo("test");
+      carrera.setNombre("Test");
+      listaCarreras.add(carrera);
     } catch (Exception e) {
       e.printStackTrace();
     }
-
+    LOGGER.info("cantidad de carreras: " + listaCarreras.size());
     return listaCarreras;
   }
 
@@ -109,11 +109,12 @@ public class PaymentBean implements Serializable {
 
   public List<Concepto> getListaConceptos() {
     LOGGER.info("getListaConceptos");
+    LOGGER.info("Tipo Usuario Logueado: " + userManagedBean.getTipoUsuarioLogueado());
+    LOGGER.info("Carrera: " + carrera);
     listaConceptos = new ArrayList<Concepto>();
     try {
-      if (VisaIntegrationConstants.TIPO_USUARIO_ALUMNO.equals(userManagedBean.getTipoUsuarioLogueado())
-          && (carrera != null)) {
-        listaConceptos = visaIntegration.obtenerCuotasActuales(userManagedBean.getUsername(), carrera.getCodigo());
+      if (VisaIntegrationConstants.TIPO_USUARIO_ALUMNO.equals(userManagedBean.getTipoUsuarioLogueado()) && (carrera != null)) {
+        listaConceptos = visaIntegration.obtenerCuotasActuales("W200932473", "113");
       } else if (VisaIntegrationConstants.TIPO_USUARIO_POSTULANTE.equals(userManagedBean.getTipoUsuarioLogueado())) {
         listaConceptos = visaIntegration.obtenerListarCuotasPostulante(userManagedBean.getUsername());
       } else if (VisaIntegrationConstants.TIPO_USUARIO_PROSPECTO.equals(userManagedBean.getTipoUsuarioLogueado())) {
@@ -123,7 +124,7 @@ public class PaymentBean implements Serializable {
     } catch (Exception e) {
       e.printStackTrace();
     }
-
+    LOGGER.info("cantidad de conceptos: " + listaConceptos.size());
     return listaConceptos;
   }
 
@@ -131,20 +132,21 @@ public class PaymentBean implements Serializable {
     this.listaConceptos = listaConceptos;
   }
 
-  public List<Concepto> getListaConceptosSeleecionados() {
-    return listaConceptosSeleecionados;
+  public List<Concepto> getListaConceptosSeleccionados() {
+    return listaConceptosSeleccionados;
   }
 
-  public void setListaConceptosSeleecionados(List<Concepto> listaConceptosSeleecionados) {
-    this.listaConceptosSeleecionados = listaConceptosSeleecionados;
+  public void setListaConceptosSeleccionados(List<Concepto> listaConceptosSeleccionados) {
+    this.listaConceptosSeleccionados = listaConceptosSeleccionados;
   }
 
   public void cambioCarrera() {
     LOGGER.info("cambioCarrera");
     if (carrera != null && (carrera.getCodigo().length() > 0)) {
+      LOGGER.info("carrera" + carrera);
+      LOGGER.info("carrera codigo" + carrera.getCodigo());
       getListaConceptos();
-    }
-    else {
+    } else {
       listaConceptos = new ArrayList<Concepto>();
     }
   }

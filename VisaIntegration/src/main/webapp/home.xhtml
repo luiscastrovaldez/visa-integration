@@ -72,41 +72,41 @@
 			</p:splitButton>
 
 
-			<p:dataTable id="multiCars" var="car"
-				value="#{tableBean.mediumCarsModel}" paginator="true" rows="10"
-				selection="#{tableBean.selectedCars}">
+      <p:dataTable id="multiCars" var="car"
+        value="#{tableBean.mediumCarsModel}" paginator="true" rows="10"
+        selection="#{tableBean.selectedCars}">
 
-				<f:facet name="header">  
+        <f:facet name="header">  
             Checkbox Based Selection  
         </f:facet>
 
-				<p:column selectionMode="multiple" style="width:18px" />
+        <p:column selectionMode="multiple" style="width:18px" />
 
-				<p:column headerText="Model">  
+        <p:column headerText="Model">  
             #{car.model}  
         </p:column>
 
-				<p:column headerText="Year">  
+        <p:column headerText="Year">  
             #{car.year}  
         </p:column>
 
-				<p:column headerText="Manufacturer">  
+        <p:column headerText="Manufacturer">  
             #{car.manufacturer}  
         </p:column>
 
-				<p:column headerText="Color">  
+        <p:column headerText="Color">  
             #{car.color}  
         </p:column>
 
-				<f:facet name="footer">
-					<p:commandButton id="multiViewButton" value="View"
-						icon="ui-icon-search" update=":form:displayMulti"
-						oncomplete="multiCarDialog.show()" />
-				</f:facet>
-			</p:dataTable>
+        <f:facet name="footer">
+          <p:commandButton id="multiViewButton" value="View"
+            icon="ui-icon-search" update=":form:displayMulti"
+            oncomplete="multiCarDialog.show()" />
+        </f:facet>
+      </p:dataTable>
 
 
-			<p:dialog id="dialog" header="Car Detail" widgetVar="singleCarDialog"
+      <p:dialog id="dialog" header="Car Detail" widgetVar="singleCarDialog"
 				resizable="false" showEffect="fade" hideEffect="explode">
 
 				<h:panelGrid id="displaySingle" columns="2" cellpadding="4">

@@ -15,11 +15,4 @@ jQuery(function($) {
 	var $tabs = $('#tabs').tabs();
 	$tabs.tabs('select', 0);
 
-	var floMontoTotal = 0;
-
-	$('.monto').each(function() {
-		floMontoTotal += parseFloat($(this).text());
-	});
-
-	$('#<%=txtMontoTotal.ClientID %>').val(floMontoTotal.toFixed(2));
 });
