@@ -67,8 +67,11 @@
           *** Considere que las cuotas deben ser del mismo periodo academico.<br />
           <h:messages id="message" style="color:#ff0000; font-weight:bold;" >${message}</h:messages>
           <h:commandButton type="submit" value=" Pagar con VISA " disabled="#{paymentBean.pagarHabilitado}"
-            action="#{paymentBean.registrarPago}" styleClass="Boton"></h:commandButton>
+            action="#{paymentBean.registrarPago}" styleClass="Boton" onclick="return validarTransaccionVisa();"></h:commandButton>
         </div>
+        <p:dialog id="modalDialog" widgetVar="dlg2" modal="true">  
+		    <h:outputText value="#{commonBean.mensajeErrorPeriodo}" />  
+		</p:dialog>
       </h:form>
     </div>
   </ui:define>

@@ -1,6 +1,7 @@
 package com.visa.util;
 
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
 import java.net.URLDecoder;
 import java.util.Locale;
 
@@ -35,6 +36,10 @@ public class VisaIntegrationUtil {
 		} catch (Exception e) {
 			number = 0;
 		}
+		return String.format(Locale.ENGLISH, "%1$,.2f", number);
+	}
+
+	public static String formatBigDecimal(BigDecimal number) {
 		return String.format(Locale.ENGLISH, "%1$,.2f", number);
 	}
 }

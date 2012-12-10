@@ -185,7 +185,7 @@ public class UserManagedBean implements Serializable {
 
 			return page;
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.error("Error Login General", e);
 			context = FacesContext.getCurrentInstance();
 			context.addMessage("messaje", new FacesMessage(e.getMessage()));
 			return "error";

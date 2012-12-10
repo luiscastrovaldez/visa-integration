@@ -45,4 +45,8 @@ public class CommonBean {
 		return VisaIntegrationConstants.PAGINA_PAGOS_TITULO;
 	}
 
+	public String getMensajeErrorPeriodo() {
+		return VisaIntegrationConstants.MENSAJE_ERROR_PERIODO;
+	}
+
 }

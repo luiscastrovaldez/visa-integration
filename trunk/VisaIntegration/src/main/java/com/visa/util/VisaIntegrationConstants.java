@@ -71,5 +71,6 @@ public class VisaIntegrationConstants {
 	public static final String USUARIO_ALUMNO = "Alumno:";
 	public static final String USUARIO_POSTULANTE = "Postulante:";
 	public static final String USUARIO_PROSPECTO = "Prospecto:";
+	public static final String MENSAJE_ERROR_PERIODO = "El periodo académico debe ser el mismo por cada operación";
 
 }

@@ -16,3 +16,10 @@ jQuery(function($) {
 	$tabs.tabs('select', 0);
 
 });
+
+function validarTransaccionVisa() {
+	var strCadena = '';
+    var intCant = 0;
+    var strCuotas = ''; //Variable para verificar el orden de las cuotas seleccionadas
+	return true;
+}
