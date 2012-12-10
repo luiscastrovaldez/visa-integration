@@ -48,15 +48,6 @@ public class PaymentBean implements Serializable {
 
 	public PaymentBean() {
 		LOGGER.info("--------------PaymentBean------------");
-		final String tipoUsuario = userManagedBean.getTipoUsuarioLogueado();
-		LOGGER.info("tipoUsuario: " + tipoUsuario);
-		if (VisaIntegrationConstants.TIPO_USUARIO_ALUMNO.equals(tipoUsuario)) {
-			setTipoUsuarioTexto(VisaIntegrationConstants.CODIGO_USUARIO_TEXTO + VisaIntegrationConstants.USUARIO_ALUMNO);
-		} else if (VisaIntegrationConstants.TIPO_USUARIO_POSTULANTE.equals(tipoUsuario)) {
-			setTipoUsuarioTexto(VisaIntegrationConstants.CODIGO_USUARIO_TEXTO + VisaIntegrationConstants.USUARIO_POSTULANTE);
-		} else if (VisaIntegrationConstants.TIPO_USUARIO_PROSPECTO.equals(tipoUsuario)) {
-			setTipoUsuarioTexto(VisaIntegrationConstants.CODIGO_USUARIO_TEXTO + VisaIntegrationConstants.USUARIO_PROSPECTO);
-		}
 	}
 
 	public UserManagedBean getUserManagedBean() {
@@ -84,6 +75,15 @@ public class PaymentBean implements Serializable {
 	}
 
 	public String getTipoUsuarioTexto() {
+		final String tipoUsuario = userManagedBean.getTipoUsuarioLogueado();
+		LOGGER.info("tipoUsuario: " + tipoUsuario);
+		if (VisaIntegrationConstants.TIPO_USUARIO_ALUMNO.equals(tipoUsuario)) {
+			tipoUsuarioTexto =  VisaIntegrationConstants.CODIGO_USUARIO_TEXTO + VisaIntegrationConstants.USUARIO_ALUMNO;
+		} else if (VisaIntegrationConstants.TIPO_USUARIO_POSTULANTE.equals(tipoUsuario)) {
+			tipoUsuarioTexto = VisaIntegrationConstants.CODIGO_USUARIO_TEXTO + VisaIntegrationConstants.USUARIO_POSTULANTE;
+		} else if (VisaIntegrationConstants.TIPO_USUARIO_PROSPECTO.equals(tipoUsuario)) {
+			tipoUsuarioTexto = VisaIntegrationConstants.CODIGO_USUARIO_TEXTO + VisaIntegrationConstants.USUARIO_PROSPECTO;
+		}
 		return tipoUsuarioTexto;
 	}
 
@@ -264,4 +264,7 @@ public class PaymentBean implements Serializable {
 		return null;
 	}
 
+	private void calcularMontosTotales() {
+		LOGGER.info("calcularMontosTotales");
+	}
 }
