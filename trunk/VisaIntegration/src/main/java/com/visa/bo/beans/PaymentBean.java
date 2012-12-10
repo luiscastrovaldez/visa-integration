@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 
 import org.apache.log4j.Logger;
@@ -14,9 +15,13 @@ import com.visa.domain.Carrera;
 import com.visa.domain.Concepto;
 import com.visa.services.VisaIntegration;
 import com.visa.util.VisaIntegrationConstants;
+import com.visa.util.VisaIntegrationUtil;
+import com.visa.xml.domain.NuevoETicket;
+import com.visa.xml.domain.Parametro;
+import com.visa.xml.services.VisaXmlParserService;
 
 @ManagedBean(name = "paymentBean")
-@ViewScoped
+@SessionScoped
 public class PaymentBean implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -24,15 +29,28 @@ public class PaymentBean implements Serializable {
 
   private String tipoUsuarioTexto;
   private List<Carrera> listaCarreras;
-  private List<Concepto> listaConceptos;
-  private List<Concepto> listaConceptosSeleccionados;
+  private Concepto[] listaConceptosSeleccionados;
   private Carrera carrera;
+  private Concepto concepto;
+  private ConceptoDataModel conceptosModel;
+  private String montoTotal;
+  private String totalVisa;
+  private boolean pagarHabilitado;
+  private String visaXmlData;
 
   @ManagedProperty(value = "#{userManagedBean}")
   private UserManagedBean userManagedBean;
 
   @ManagedProperty(value = "#{visaIntegration}")
   private VisaIntegration visaIntegration;
+
+  @ManagedProperty(value = "#{visaXmlParserServiceImpl}")
+  private VisaXmlParserService visaXmlParserService;
+
+  public PaymentBean() {
+    LOGGER.info("--------------PaymentBean------------");
+    tipoUsuarioTexto = VisaIntegrationConstants.CODIGO_USUARIO_TEXTO + VisaIntegrationConstants.USUARIO_ALUMNO;
+  }
 
   public UserManagedBean getUserManagedBean() {
     return userManagedBean;
@@ -50,9 +68,28 @@ public class PaymentBean implements Serializable {
     this.visaIntegration = visaIntegration;
   }
 
-  public PaymentBean() {
-    LOGGER.info("--------------PaymentBean------------");
-    tipoUsuarioTexto = VisaIntegrationConstants.CODIGO_USUARIO_TEXTO + VisaIntegrationConstants.USUARIO_ALUMNO;
+  public VisaXmlParserService getVisaXmlParserService() {
+    return visaXmlParserService;
+  }
+
+  public void setVisaXmlParserService(VisaXmlParserService visaXmlParserService) {
+    this.visaXmlParserService = visaXmlParserService;
+  }
+
+  public ConceptoDataModel getConceptosModel() {
+    return conceptosModel;
+  }
+
+  public void setConceptosModel(ConceptoDataModel conceptosModel) {
+    this.conceptosModel = conceptosModel;
+  }
+
+  public Concepto[] getListaConceptosSeleccionados() {
+    return listaConceptosSeleccionados;
+  }
+
+  public void setListaConceptosSeleccionados(Concepto[] listaConceptosSeleccionados) {
+    this.listaConceptosSeleccionados = listaConceptosSeleccionados;
   }
 
   public String getTipoUsuarioTexto() {
@@ -107,12 +144,22 @@ public class PaymentBean implements Serializable {
     this.carrera = carrera;
   }
 
+  public Concepto getConcepto() {
+    return concepto;
+  }
+
+  public void setConcepto(Concepto concepto) {
+    this.concepto = concepto;
+  }
+
   public List<Concepto> getListaConceptos() {
     LOGGER.info("getListaConceptos");
     LOGGER.info("Tipo Usuario Logueado: " + userManagedBean.getTipoUsuarioLogueado());
     LOGGER.info("Carrera: " + carrera);
-    listaConceptos = new ArrayList<Concepto>();
+    List<Concepto> listaConceptos = new ArrayList<Concepto>();
     try {
+      listaConceptos = visaIntegration.obtenerCuotasActuales("W200932473", "113");
+      conceptosModel = new ConceptoDataModel(listaConceptos);
       if (VisaIntegrationConstants.TIPO_USUARIO_ALUMNO.equals(userManagedBean.getTipoUsuarioLogueado()) && (carrera != null)) {
         listaConceptos = visaIntegration.obtenerCuotasActuales("W200932473", "113");
       } else if (VisaIntegrationConstants.TIPO_USUARIO_POSTULANTE.equals(userManagedBean.getTipoUsuarioLogueado())) {
@@ -120,35 +167,94 @@ public class PaymentBean implements Serializable {
       } else if (VisaIntegrationConstants.TIPO_USUARIO_PROSPECTO.equals(userManagedBean.getTipoUsuarioLogueado())) {
         listaConceptos = visaIntegration.obtenerListarCuotasProspecto(userManagedBean.getUsername(), userManagedBean.getNumAtencion());
       }
-
     } catch (Exception e) {
       e.printStackTrace();
     }
     LOGGER.info("cantidad de conceptos: " + listaConceptos.size());
+    double monto = 0;
+    for (final Concepto concepto : listaConceptos) {
+      monto += Double.valueOf(concepto.getMonto()); 
+    }
+    setMontoTotal(Double.toString(monto));
     return listaConceptos;
-  }
-
-  public void setListaConceptos(List<Concepto> listaConceptos) {
-    this.listaConceptos = listaConceptos;
-  }
-
-  public List<Concepto> getListaConceptosSeleccionados() {
-    return listaConceptosSeleccionados;
-  }
-
-  public void setListaConceptosSeleccionados(List<Concepto> listaConceptosSeleccionados) {
-    this.listaConceptosSeleccionados = listaConceptosSeleccionados;
   }
 
   public void cambioCarrera() {
     LOGGER.info("cambioCarrera");
     if (carrera != null && (carrera.getCodigo().length() > 0)) {
-      LOGGER.info("carrera" + carrera);
-      LOGGER.info("carrera codigo" + carrera.getCodigo());
+      LOGGER.info("carrera " + carrera);
+      LOGGER.info("carrera codigo " + carrera.getCodigo());
       getListaConceptos();
-    } else {
-      listaConceptos = new ArrayList<Concepto>();
     }
+  }
+
+  public String registrarPago() {
+    LOGGER.info("registrarPago");
+    final NuevoETicket nuevoETicket = new NuevoETicket();
+    final ArrayList<Parametro> parametros = new ArrayList<Parametro>();
+    Parametro parametro = new Parametro(VisaIntegrationConstants.CAMPO_CANAL, VisaIntegrationConstants.CAMPO_CANAL_VALOR);
+    parametros.add(parametro);
+    parametro = new Parametro(VisaIntegrationConstants.CAMPO_PRODUCTO, VisaIntegrationConstants.CAMPO_PRODUCTO_VALOR);
+    parametros.add(parametro);
+    // obtener el numero de tienda
+    parametro = new Parametro(VisaIntegrationConstants.CAMPO_COD_TIENDA, VisaIntegrationConstants.CODIGO_TIENDA);
+    parametros.add(parametro);
+    // obtener el numero de orden
+    parametro = new Parametro(VisaIntegrationConstants.CAMPO_NUM_ORDEN, "");
+    parametros.add(parametro);
+    parametro = new Parametro(VisaIntegrationConstants.CAMPO_MOUNT, obtenerMontoTransaccionVisa());
+    parametros.add(parametro);
+    parametro = new Parametro(VisaIntegrationConstants.CAMPO_DATO_COMERCIO, "");
+    parametros.add(parametro);
+    nuevoETicket.setParametros(parametros);
+    setVisaXmlData(visaXmlParserService.parseVisaNewETicketRequestToXml(nuevoETicket));
+    // TODO llamar SP para registrar pago y obtener num de orden
+    return "envioVisa";
+
+  }
+
+  public void totalizarPagos() {
+    LOGGER.info("totalizarPagos");
+
+  }
+
+  public String getMontoTotal() {
+    return VisaIntegrationUtil.formatDoubleString(montoTotal);
+  }
+
+  public void setMontoTotal(String montoTotal) {
+    this.montoTotal = montoTotal;
+  }
+
+  public String getTotalVisa() {
+    return VisaIntegrationUtil.formatDoubleString(totalVisa);
+  }
+
+  public void setTotalVisa(String totalVisa) {
+    this.totalVisa = totalVisa;
+  }
+
+  public boolean isPagarHabilitado() {
+    return pagarHabilitado;
+  }
+
+  public void setPagarHabilitado(boolean pagarHabilitado) {
+    this.pagarHabilitado = pagarHabilitado;
+  }
+
+  public String getVisaXmlData() {
+    LOGGER.info("getVisaXmlData");
+    LOGGER.info(visaXmlData);
+    return visaXmlData;
+  }
+
+  public void setVisaXmlData(String visaXmlData) {
+    this.visaXmlData = visaXmlData;
+  }
+
+  private String obtenerMontoTransaccionVisa() {
+    // TODO Auto-generated method stub
+    return null;
   }
 
 }

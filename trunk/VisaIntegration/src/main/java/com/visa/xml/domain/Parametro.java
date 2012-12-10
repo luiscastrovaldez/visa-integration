@@ -11,7 +11,15 @@ public class Parametro {
 	@Text(required = false)
 	private String value;
 
-	public String getId() {
+	public Parametro(String id, String value) {
+	  this.id = id;
+    this.value = value;
+  }
+
+  public Parametro() {
+  }
+
+  public String getId() {
 		return id;
 	}
 

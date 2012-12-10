@@ -2,6 +2,7 @@ package com.visa.util;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.Locale;
 
 public class VisaIntegrationUtil {
 
@@ -25,5 +26,15 @@ public class VisaIntegrationUtil {
 		} catch (UnsupportedEncodingException e) {
 			return null;
 		}
+	}
+	
+	public static String formatDoubleString (String numberStr) {
+	  double number;
+	  try {
+      number = Double.valueOf(numberStr);
+    } catch (Exception e) {
+      number = 0;
+    }
+    return String.format(Locale.ENGLISH, "%1$,.2f", number);
 	}
 }

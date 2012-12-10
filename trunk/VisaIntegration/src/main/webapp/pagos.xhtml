@@ -14,7 +14,7 @@
         <li><a href="#tab"><h:outputText
               value="#{commonBean.paginaPagosTitulo}" /></a></li>
       </ul>
-      <h:form>
+      <h:form id="pagosForm">
         <div id="tab">
           <table border="0" cellpadding="2" cellspacing="2"
             style="width: 100%;">
@@ -25,21 +25,22 @@
             </tr>
             <tr>
               <td style="font-weight: bold;"><h:outputLabel
-                  for="#{paymentBean.listaCarreras}" value="Carreras:" />
+                  for="#{paymentBean.carrera}" value="Carreras:" />
               </td>
               <td>
                 <p:selectOneMenu value="#{paymentBean.carrera}" effect="fade" converter="#{carreraConverter}">
                   <f:selectItems value="#{paymentBean.listaCarreras}"
                     var="carrera" itemLabel="#{carrera.nombre}" itemValue="#{carrera}" />
-                  <p:ajax update="TablaPagos" listener="#{paymentBean.cambioCarrera}" />
+                    <p:ajax event="change" update="TablaPagos" listener="#{paymentBean.cambioCarrera}" process="@this"/>
                 </p:selectOneMenu>
               </td>
             </tr>
           </table>
           <br />
-          <p:dataTable id="TablaPagos" var="concepto"
-            value="#{paymentBean.listaConceptos}"
+          <p:dataTable id="TablaPagos" var="concepto" emptyMessage="No hay registros."
+            value="#{paymentBean.conceptosModel}"
             selection="#{paymentBean.listaConceptosSeleccionados}">
+            <p:ajax event="rowSelectCheckbox" update="TablaPagos" listener="#{paymentBean.totalizarPagos}" />
             <p:column selectionMode="multiple" style="width:18px" />
             <p:column headerText="Nro. Cuota">#{concepto.cuota}</p:column>
             <p:column headerText="Codigo Servicio">#{concepto.codigoServicio}</p:column>
@@ -48,8 +49,23 @@
             <p:column headerText="Periodo Academico">#{concepto.periodoacademico}</p:column>
             <p:column headerText="Periodo de Pago">#{concepto.periodopago}</p:column>
             <p:column headerText="Monto">#{concepto.monto}</p:column>
-            <p:column headerText="Nro. Doc">#{concepto.recibo}</p:column>
+            <p:columnGroup type="footer">
+              <p:row>
+                <p:column colspan="7" style="text-align:right" footerText="Total S/.: "/>
+                <p:column footerText="#{paymentBean.montoTotal}" />
+              </p:row>
+              <p:row>
+                <p:column colspan="7" style="text-align:right" footerText="Total (S/.) seleccionado para pagar con VISA: "/>
+                <p:column footerText="#{paymentBean.totalVisa}" />
+              </p:row>
+            </p:columnGroup>
           </p:dataTable>
+          * Considere el orden de las cuotas para el pago.<br />
+          ** Las cuotas sombreadas ya han sido canceladas.<br />
+          *** Considere que las cuotas deben ser del mismo periodo academico.<br />
+          <h:messages id="message" style="color:#ff0000; font-weight:bold;" >${message}</h:messages>
+          <h:commandButton type="submit" value=" Pagar con VISA " disabled="#{paymentBean.pagarHabilitado}"
+            action="#{paymentBean.registrarPago}" styleClass="Boton"></h:commandButton>
         </div>
       </h:form>
     </div>
