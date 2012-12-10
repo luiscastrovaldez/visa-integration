@@ -120,11 +120,7 @@ public class PaymentBean implements Serializable {
       } else if (VisaIntegrationConstants.TIPO_USUARIO_PROSPECTO.equals(userManagedBean.getTipoUsuarioLogueado())) {
         listaCarreras = visaIntegration.obtenerCarrerasProspecto(userManagedBean.getUsername(), userManagedBean.getNumAtencion());
       }
-
-      Carrera carrera = new Carrera();
-      carrera.setCodigo("test");
-      carrera.setNombre("Test");
-      listaCarreras.add(carrera);
+     
     } catch (Exception e) {
       e.printStackTrace();
     }
