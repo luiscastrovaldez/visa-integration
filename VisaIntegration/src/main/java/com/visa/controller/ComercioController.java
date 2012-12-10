@@ -3,8 +3,6 @@ package com.visa.controller;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import javax.faces.bean.ManagedProperty;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.visa.bo.beans.UserManagedBean;
 import com.visa.util.VisaIntegrationConstants;
 import com.visa.util.VisaIntegrationUtil;
 import com.visa.webservice.consulteticket.WSConsultaEticketSoapProxy;
@@ -28,10 +25,6 @@ import com.visa.xml.services.VisaXmlParserService;
 
 @Controller
 public class ComercioController {
-
-	
-	@ManagedProperty(value="#{userManagedBean}")
-    private UserManagedBean userManagedBean; 
 	
 	@Autowired
 	private VisaXmlParserService visaXmlParserService;
@@ -111,7 +104,6 @@ public class ComercioController {
 		return mav;
 	}
 
-	
 	@RequestMapping(value = "/visaResponse", method = RequestMethod.POST)
 	public ModelAndView visaResponse(@RequestBody final String parameterList) throws Exception {
 		LOGGER.info("Visa Post eTicket");
