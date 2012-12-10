@@ -8,14 +8,14 @@ import org.simpleframework.xml.core.Persister;
 import org.springframework.stereotype.Service;
 
 import com.visa.xml.domain.ConsultaETicket;
+import com.visa.xml.domain.NuevoETicket;
 import com.visa.xml.domain.RespuestaETicket;
 import com.visa.xml.domain.RespuestaVisa;
 
 @Service("visaXmlParserServiceImpl")
 public class VisaXmlParserServiceImpl implements VisaXmlParserService {
 
-	private static final Logger LOGGER = Logger
-			.getLogger(VisaXmlParserServiceImpl.class);
+  private static final Logger LOGGER = Logger.getLogger(VisaXmlParserServiceImpl.class);
 
 	public RespuestaVisa parseVisaOperationResponseXml(final String xml) {
 		final Serializer serializer = new Persister();
@@ -51,5 +51,18 @@ public class VisaXmlParserServiceImpl implements VisaXmlParserService {
 		}
 		return null;
 	}
+
+  @Override
+  public String parseVisaNewETicketRequestToXml(final NuevoETicket nuevoETicket) {
+    final Serializer serializer = new Persister();
+    try {
+      final StringWriter writer = new StringWriter();
+      serializer.write(nuevoETicket, writer);
+      return writer.toString();
+    } catch (Exception e) {
+      LOGGER.error("Error en parseo de XML", e);
+    }
+    return null;
+  }
 
 }

@@ -54,10 +54,7 @@ public class ComercioController {
 	public ModelAndView createETicket(final @RequestBody String xmlService) throws Exception {
 		LOGGER.info("Visa create eTicket");
 		LOGGER.info(xmlService);
-		
-		LOGGER.info(" user name = " + userManagedBean.getFirstname());
-		LOGGER.info(" user password = " + userManagedBean.getPassword());
-		
+
 		String xmlServiceStr = VisaIntegrationUtil.getParameterValue(xmlService, VisaIntegrationConstants.CAMPO_XML_SERVICE);
 		if (xmlServiceStr == null) {
 			return showErrorPage(VisaIntegrationConstants.MSG_ERROR_GENERICO);
