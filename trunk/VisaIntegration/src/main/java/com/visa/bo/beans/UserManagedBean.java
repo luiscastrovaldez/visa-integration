@@ -213,9 +213,18 @@ public class UserManagedBean implements Serializable {
 
 	private String prospectoLogin(FacesContext context) throws Exception {
 		int intAtencion = 0;
+		String [] strIdentificacion = getPassword().trim().split("-");
+		if (strIdentificacion.length > 1) {
+			try {
+				intAtencion = Integer.valueOf(strIdentificacion[0]);
+			} catch (Exception ex) {
+				LOGGER.error("No se pudo convertir el num de atencion", ex);
+			}	
+		}
 		int intProspecto = this.visaIntegration.verificarProspectoExiste(getUsername(), getPassword(), intAtencion);
 		if (intProspecto == 1) {
 			setTipoUsuarioLogueado(VisaIntegrationConstants.TIPO_USUARIO_PROSPECTO);
+			setNumAtencion(intAtencion);
 			return "pagos";
 		} else {
 			context.addMessage("messaje", new FacesMessage(
