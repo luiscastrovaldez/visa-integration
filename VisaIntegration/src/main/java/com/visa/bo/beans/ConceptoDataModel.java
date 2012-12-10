@@ -41,7 +41,7 @@ public class ConceptoDataModel extends PrimeDataModel<Concepto> {
   @Override
   public Object getRowKey(Concepto concepto) {
     LOGGER.info("get Row Key: " + concepto.getItem());
-    return concepto.getCodigoServicio();
+    return concepto.getItem();
   }
 
 }

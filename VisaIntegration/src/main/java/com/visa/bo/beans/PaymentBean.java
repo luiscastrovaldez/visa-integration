@@ -117,9 +117,8 @@ public class PaymentBean implements Serializable {
 		}
 		listaCarreras = new ArrayList<Carrera>();
 		try {
-
 			if (VisaIntegrationConstants.TIPO_USUARIO_ALUMNO.equals(userManagedBean.getTipoUsuarioLogueado())) {
-				listaCarreras = visaIntegration.obtenerCarrerasPostgrado(userManagedBean.getUsername());
+				listaCarreras = visaIntegration.obtenerCarrerasPostgrado(userManagedBean.getUsername().substring(1));
 
 			} else if (VisaIntegrationConstants.TIPO_USUARIO_POSTULANTE.equals(userManagedBean.getTipoUsuarioLogueado())) {
 				listaCarreras = visaIntegration.obtenerCarrerasPostulante(userManagedBean.getUsername());
@@ -127,12 +126,12 @@ public class PaymentBean implements Serializable {
 			} else if (VisaIntegrationConstants.TIPO_USUARIO_PROSPECTO.equals(userManagedBean.getTipoUsuarioLogueado())) {
 				listaCarreras = visaIntegration.obtenerCarrerasProspecto(userManagedBean.getUsername(), userManagedBean.getNumAtencion());
 			}
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		if (listaCarreras.size() > 1) {
+		if (listaCarreras.size() > 0) {
 			carrera = listaCarreras.get(0);
+			getListaConceptos();
 		}
 		LOGGER.info("cantidad de carreras: " + listaCarreras.size());
 		return listaCarreras;
@@ -169,6 +168,7 @@ public class PaymentBean implements Serializable {
 			conceptosModel = new ConceptoDataModel(listaConceptos);
 			if (VisaIntegrationConstants.TIPO_USUARIO_ALUMNO.equals(userManagedBean.getTipoUsuarioLogueado()) && (carrera != null)) {
 				listaConceptos = visaIntegration.obtenerCuotasActuales("W200932473", "113");
+				//listaConceptos = visaIntegration.obtenerCuotasActuales(userManagedBean.getUsername().substring(1), carrera.getCodigo());
 			} else if (VisaIntegrationConstants.TIPO_USUARIO_POSTULANTE.equals(userManagedBean.getTipoUsuarioLogueado())) {
 				listaConceptos = visaIntegration.obtenerListarCuotasPostulante(userManagedBean.getUsername());
 			} else if (VisaIntegrationConstants.TIPO_USUARIO_PROSPECTO.equals(userManagedBean.getTipoUsuarioLogueado())) {
@@ -222,7 +222,19 @@ public class PaymentBean implements Serializable {
 
 	public void totalizarPagos() {
 		LOGGER.info("totalizarPagos");
-
+		LOGGER.info("listaConceptosSeleccionados: " + listaConceptosSeleccionados.length);
+		double totalVisaNum = 0;
+		for (final Concepto concepto : listaConceptosSeleccionados) {
+			double monto;
+			try {
+				monto = Double.valueOf(concepto.getMonto());
+			} catch (Exception e) {
+				monto = 0;
+			}
+			totalVisaNum += monto;
+		}
+		setTotalVisa(Double.toString(totalVisaNum));
+		LOGGER.info("total Visa: " + getTotalVisa());
 	}
 
 	public String getMontoTotal() {
@@ -264,7 +276,4 @@ public class PaymentBean implements Serializable {
 		return null;
 	}
 
-	private void calcularMontosTotales() {
-		LOGGER.info("calcularMontosTotales");
-	}
 }

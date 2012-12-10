@@ -40,7 +40,9 @@
           <p:dataTable id="TablaPagos" var="concepto" emptyMessage="No hay registros."
             value="#{paymentBean.conceptosModel}"
             selection="#{paymentBean.listaConceptosSeleccionados}">
-            <p:ajax event="rowSelectCheckbox" update="TablaPagos" listener="#{paymentBean.totalizarPagos}" />
+            <p:ajax event="rowSelectCheckbox" update="TablaPagos" listener="#{paymentBean.totalizarPagos}"/>
+            <p:ajax event="rowUnselectCheckbox" update="TablaPagos" listener="#{paymentBean.totalizarPagos}"/>
+            <p:ajax event="toggleSelect" update="TablaPagos" listener="#{paymentBean.totalizarPagos}"/>
             <p:column selectionMode="multiple" style="width:18px" />
             <p:column headerText="Nro. Cuota">#{concepto.cuota}</p:column>
             <p:column headerText="Codigo Servicio">#{concepto.codigoServicio}</p:column>

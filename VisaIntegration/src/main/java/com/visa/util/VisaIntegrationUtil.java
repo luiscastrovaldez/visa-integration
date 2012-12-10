@@ -28,13 +28,13 @@ public class VisaIntegrationUtil {
 		}
 	}
 	
-	public static String formatDoubleString (String numberStr) {
-	  double number;
-	  try {
-      number = Double.valueOf(numberStr);
-    } catch (Exception e) {
-      number = 0;
-    }
-    return String.format(Locale.ENGLISH, "%1$,.2f", number);
+	public static String formatDoubleString(String numberStr) {
+		double number;
+		try {
+			number = Double.valueOf(numberStr);
+		} catch (Exception e) {
+			number = 0;
+		}
+		return String.format(Locale.ENGLISH, "%1$,.2f", number);
 	}
 }
