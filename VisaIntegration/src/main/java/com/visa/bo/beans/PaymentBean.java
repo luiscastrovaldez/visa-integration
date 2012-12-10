@@ -1,12 +1,15 @@
 package com.visa.bo.beans;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
 import org.apache.log4j.Logger;
 
@@ -197,27 +200,34 @@ public class PaymentBean implements Serializable {
 
 	public String registrarPago() {
 		LOGGER.info("registrarPago");
-		final NuevoETicket nuevoETicket = new NuevoETicket();
-		final ArrayList<Parametro> parametros = new ArrayList<Parametro>();
-		Parametro parametro = new Parametro(VisaIntegrationConstants.CAMPO_CANAL, VisaIntegrationConstants.CAMPO_CANAL_VALOR);
-		parametros.add(parametro);
-		parametro = new Parametro(VisaIntegrationConstants.CAMPO_PRODUCTO, VisaIntegrationConstants.CAMPO_PRODUCTO_VALOR);
-		parametros.add(parametro);
-		// TODO obtener el numero de tienda
-		parametro = new Parametro(VisaIntegrationConstants.CAMPO_COD_TIENDA, VisaIntegrationConstants.CODIGO_TIENDA);
-		parametros.add(parametro);
-		// TODO obtener el numero de orden
-		parametro = new Parametro(VisaIntegrationConstants.CAMPO_NUM_ORDEN, "");
-		parametros.add(parametro);
-		parametro = new Parametro(VisaIntegrationConstants.CAMPO_MOUNT, obtenerMontoTransaccionVisa());
-		parametros.add(parametro);
-		parametro = new Parametro(VisaIntegrationConstants.CAMPO_DATO_COMERCIO, "");
-		parametros.add(parametro);
-		nuevoETicket.setParametros(parametros);
-		setVisaXmlData(visaXmlParserService.parseVisaNewETicketRequestToXml(nuevoETicket));
-		// TODO llamar SP para registrar pago y obtener num de orden
-		return "envioVisa";
-
+		final String usuario = VisaIntegrationConstants.TIPO_USUARIO_ALUMNO.equals(userManagedBean.getTipoUsuarioLogueado())?
+		userManagedBean.getUsername().substring(1): userManagedBean.getUsername();
+		// TODO obtener periodoacademico
+		final Integer numOperacion = registraTransaccionVisa(carrera.getCodigo(), usuario, BigDecimal.valueOf(Double.parseDouble(getTotalVisa())),
+				"", Integer.toString(userManagedBean.getNumAtencion()));
+		if (numOperacion > 0) {
+			final NuevoETicket nuevoETicket = new NuevoETicket();
+			final ArrayList<Parametro> parametros = new ArrayList<Parametro>();
+			Parametro parametro = new Parametro(VisaIntegrationConstants.CAMPO_CANAL, VisaIntegrationConstants.CAMPO_CANAL_VALOR);
+			parametros.add(parametro);
+			parametro = new Parametro(VisaIntegrationConstants.CAMPO_PRODUCTO, VisaIntegrationConstants.CAMPO_PRODUCTO_VALOR);
+			parametros.add(parametro);
+			parametro = new Parametro(VisaIntegrationConstants.CAMPO_COD_TIENDA, VisaIntegrationConstants.CODIGO_TIENDA);
+			parametros.add(parametro);
+			parametro = new Parametro(VisaIntegrationConstants.CAMPO_NUM_ORDEN, numOperacion.toString());
+			parametros.add(parametro);
+			parametro = new Parametro(VisaIntegrationConstants.CAMPO_MOUNT, obtenerMontoTransaccionVisa(numOperacion));
+			parametros.add(parametro);
+			parametro = new Parametro(VisaIntegrationConstants.CAMPO_DATO_COMERCIO, "");
+			parametros.add(parametro);
+			nuevoETicket.setParametros(parametros);
+			setVisaXmlData(visaXmlParserService.parseVisaNewETicketRequestToXml(nuevoETicket));
+			return "envioVisa";
+		} else {
+			final FacesContext context = FacesContext.getCurrentInstance();
+			context.addMessage("messaje", new FacesMessage("Ha ocurrido un error, su operación no puede procesarse. Por favor, vuelva a intentarlo en unos minutos."));
+			return "pagos";
+		}
 	}
 
 	public void totalizarPagos() {
@@ -271,9 +281,22 @@ public class PaymentBean implements Serializable {
 		this.visaXmlData = visaXmlData;
 	}
 
-	private String obtenerMontoTransaccionVisa() {
-		// TODO Auto-generated method stub
-		return null;
+	private String obtenerMontoTransaccionVisa(final Integer idTransaccion) {
+		try {
+			return VisaIntegrationUtil.formatBigDecimal(visaIntegration.obtenerMontoTransaccionVisa(idTransaccion));
+		} catch (Exception e) {
+			LOGGER.error("No se pudo obtener el monto", e);
+			return "0.00";
+		}
 	}
 
+	private Integer registraTransaccionVisa(final String codigoCarrera, final String codigoUsuario, final BigDecimal monto,
+			final String periodoAcademico, final String numAtencion) {
+		try {
+			return visaIntegration.registraTransaccionVisa(codigoCarrera, codigoUsuario, monto, periodoAcademico, numAtencion);
+		} catch (Exception e) {
+			LOGGER.error("No se pudo registrar la operacion", e);
+			return Integer.valueOf(0);
+		}
+	}
 }
