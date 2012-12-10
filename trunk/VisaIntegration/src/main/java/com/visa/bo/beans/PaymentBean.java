@@ -166,12 +166,9 @@ public class PaymentBean implements Serializable {
 		LOGGER.info("Carrera: " + carrera);
 		List<Concepto> listaConceptos = new ArrayList<Concepto>();
 		try {
-			// TODO remover linea
-			listaConceptos = visaIntegration.obtenerCuotasActuales("W200932473", "113");
 			conceptosModel = new ConceptoDataModel(listaConceptos);
 			if (VisaIntegrationConstants.TIPO_USUARIO_ALUMNO.equals(userManagedBean.getTipoUsuarioLogueado()) && (carrera != null)) {
-				listaConceptos = visaIntegration.obtenerCuotasActuales("W200932473", "113");
-				//listaConceptos = visaIntegration.obtenerCuotasActuales(userManagedBean.getUsername().substring(1), carrera.getCodigo());
+				listaConceptos = visaIntegration.obtenerCuotasActuales(userManagedBean.getUsername().substring(1), carrera.getCodigo());
 			} else if (VisaIntegrationConstants.TIPO_USUARIO_POSTULANTE.equals(userManagedBean.getTipoUsuarioLogueado())) {
 				listaConceptos = visaIntegration.obtenerListarCuotasPostulante(userManagedBean.getUsername());
 			} else if (VisaIntegrationConstants.TIPO_USUARIO_PROSPECTO.equals(userManagedBean.getTipoUsuarioLogueado())) {
@@ -298,5 +295,10 @@ public class PaymentBean implements Serializable {
 			LOGGER.error("No se pudo registrar la operacion", e);
 			return Integer.valueOf(0);
 		}
+	}
+
+	public boolean mostrarCombo() {
+		final Concepto concepto = (Concepto) conceptosModel.getRowData();
+		return (concepto.getRecibo() != null) && (!concepto.getRecibo().isEmpty());
 	}
 }
