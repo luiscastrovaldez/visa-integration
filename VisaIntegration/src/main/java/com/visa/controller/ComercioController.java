@@ -158,9 +158,57 @@ public class ComercioController {
 			final Campo campo = (Campo) iterator.next();
 			if (VisaIntegrationConstants.CAMPO_ESTADO.equals(campo.getId())) {
 				mav.addObject("estado", campo.getValue());
-			} else if (VisaIntegrationConstants.CAMPO_RESPUESTA.equals(campo.getId())) {
+			} else if (VisaIntegrationConstants.CAMPO_RESPUESTA.equals(campo
+					.getId())) {
 				mav.addObject("respuesta", campo.getValue());
+			} else if (VisaIntegrationConstants.CAMPO_COD_TIENDA.equals(campo
+					.getId())) {
+				mav.addObject("cod_tienda", campo.getValue());
+			} else if (VisaIntegrationConstants.CAMPO_NORDENT.equals(campo
+					.getId())) {
+				mav.addObject("nordent", campo.getValue());
+			} else if (VisaIntegrationConstants.CAMPO_COD_ACCION.equals(campo
+					.getId())) {
+				mav.addObject("cod_accion", campo.getValue());
+			} else if (VisaIntegrationConstants.CAMPO_PAN.equals(campo.getId())) {
+				mav.addObject("pan", campo.getValue());
+			} else if (VisaIntegrationConstants.CAMPO_NOMBRE_TH.equals(campo
+					.getId())) {
+				mav.addObject("nombre_th", campo.getValue());
+			} else if (VisaIntegrationConstants.CAMPO_ORI_TARJETA.equals(campo
+					.getId())) {
+				mav.addObject("ori_tarjeta", campo.getValue());
+			} else if (VisaIntegrationConstants.CAMPO_NOM_EMISOR.equals(campo
+					.getId())) {
+				mav.addObject("nom_emisor", campo.getValue());
+			} else if (VisaIntegrationConstants.CAMPO_ECI.equals(campo.getId())) {
+				mav.addObject("eci", campo.getValue());
+			} else if (VisaIntegrationConstants.CAMPO_DSC_ECI.equals(campo
+					.getId())) {
+				mav.addObject("dsc_eci", campo.getValue());
+			} else if (VisaIntegrationConstants.CAMPO_COD_AUTORIZA.equals(campo
+					.getId())) {
+				mav.addObject("cod_autoriza", campo.getValue());
+			} else if (VisaIntegrationConstants.CAMPO_COD_RESCVV2.equals(campo
+					.getId())) {
+				mav.addObject("cod_rescvv2", campo.getValue());
+			} else if (VisaIntegrationConstants.CAMPO_IMP_AUTORIZADO
+					.equals(campo.getId())) {
+				mav.addObject("imp_autorizado", campo.getValue());
+			} else if (VisaIntegrationConstants.CAMPO_FECHAYHORA_TX
+					.equals(campo.getId())) {
+				mav.addObject("fechayhora_tx", campo.getValue());
+			} else if (VisaIntegrationConstants.CAMPO_FECHAYHORA_DEPOSITO
+					.equals(campo.getId())) {
+				mav.addObject("fechayhora_deposito", campo.getValue());
+			} else if (VisaIntegrationConstants.CAMPO_FECHAYHORA_DEVOLUCION
+					.equals(campo.getId())) {
+				mav.addObject("fechayhora_devolucion", campo.getValue());
+			} else if (VisaIntegrationConstants.CAMPO_DATO_COMERCIO
+					.equals(campo.getId())) {
+				mav.addObject("dato_comercio", campo.getValue());
 			}
+					
 		}
 		return mav;
 	}
