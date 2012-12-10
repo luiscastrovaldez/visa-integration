@@ -200,7 +200,7 @@ public class UserManagedBean implements Serializable {
 
 	private String postulanteLogin(FacesContext context) throws Exception {
 		int intPostulante;
-		intPostulante = this.visaIntegration.verificarPostulanteExiste(getUsername(), getPassword());
+		intPostulante = this.visaIntegration.verificaPostulanteExiste(getUsername(), getPassword());
 		if (intPostulante == 1) {
 			setTipoUsuarioLogueado(VisaIntegrationConstants.TIPO_USUARIO_POSTULANTE);
 			return "pagos";
@@ -221,7 +221,7 @@ public class UserManagedBean implements Serializable {
 				LOGGER.error("No se pudo convertir el num de atencion", ex);
 			}	
 		}
-		int intProspecto = this.visaIntegration.verificarProspectoExiste(getUsername(), getPassword(), intAtencion);
+		int intProspecto = this.visaIntegration.verificaProspectoExiste(getUsername(), getPassword(), intAtencion);
 		if (intProspecto == 1) {
 			setTipoUsuarioLogueado(VisaIntegrationConstants.TIPO_USUARIO_PROSPECTO);
 			setNumAtencion(intAtencion);
