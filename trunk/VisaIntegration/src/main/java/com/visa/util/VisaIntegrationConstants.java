@@ -59,7 +59,7 @@ public class VisaIntegrationConstants {
 	public static final String LOGIN_CLAVE_POSTULANTE = "Nro. Identificación:";
 	public static final String LOGIN_CLAVE_PROSPECTO = "Nro. Identificación:";
 
-	public static final String LOGIN_TEXTO = "Iniciar sesian para pagos electrónicos";
+	public static final String LOGIN_TEXTO = "Iniciar sesión para pagos electrónicos";
 	public static final String LOGIN_INICIAR_SESION = " Iniciar Sesión ";
 	public static final String INSTITUCION_TEXTO = "Institución:";
 
