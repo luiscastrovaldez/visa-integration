@@ -42,7 +42,6 @@ public class ComercioController {
 
 	private String codigoTienda;
 
-	
 	@RequestMapping(value = "/createETicket", method = RequestMethod.POST)
 	public ModelAndView createETicket(final @RequestBody String xmlService) throws Exception {
 		LOGGER.info("Visa create eTicket");
@@ -78,7 +77,6 @@ public class ComercioController {
 		return mav;
 	}
 
-	
 	@RequestMapping(value = "/visaTestResponse", method = RequestMethod.POST)
 	public ModelAndView visaTestResponse(final @RequestBody String xmlResponse) throws Exception {
 		LOGGER.info("Visa Message");

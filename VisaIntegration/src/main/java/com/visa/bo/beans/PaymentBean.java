@@ -3,6 +3,7 @@ package com.visa.bo.beans;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -37,7 +38,7 @@ public class PaymentBean implements Serializable {
 	private ConceptoDataModel conceptosModel;
 	private String montoTotal;
 	private String totalVisa;
-	private boolean pagarHabilitado;
+	private boolean pagarDeshabilitado;
 	private String visaXmlData;
 
 	@ManagedProperty(value = "#{userManagedBean}")
@@ -178,6 +179,7 @@ public class PaymentBean implements Serializable {
 			LOGGER.error("Error al traer la lista de conceptos", e);
 		}
 		LOGGER.info("cantidad de conceptos: " + listaConceptos.size());
+		setPagarDeshabilitado(listaConceptos.size() == 0);
 		double monto = 0;
 		for (final Concepto concepto : listaConceptos) {
 			monto += Double.valueOf(concepto.getMonto());
@@ -196,12 +198,15 @@ public class PaymentBean implements Serializable {
 	}
 
 	public String registrarPago() {
+	  if (listaConceptosSeleccionados == null || listaConceptosSeleccionados.length == 0) {
+	    return "pagos";
+	  }
 		LOGGER.info("registrarPago");
 		final String usuario = VisaIntegrationConstants.TIPO_USUARIO_ALUMNO.equals(userManagedBean.getTipoUsuarioLogueado())?
 		userManagedBean.getUsername().substring(1): userManagedBean.getUsername();
-		// TODO obtener periodoacademico
 		final Integer numOperacion = registraTransaccionVisa(carrera.getCodigo(), usuario, BigDecimal.valueOf(Double.parseDouble(getTotalVisa())),
-				"", Integer.toString(userManagedBean.getNumAtencion()));
+		    listaConceptosSeleccionados[0].getPeriodoacademico(), Integer.toString(userManagedBean.getNumAtencion()),
+		    Arrays.asList(listaConceptosSeleccionados));
 		if (numOperacion > 0) {
 			final NuevoETicket nuevoETicket = new NuevoETicket();
 			final ArrayList<Parametro> parametros = new ArrayList<Parametro>();
@@ -260,12 +265,12 @@ public class PaymentBean implements Serializable {
 		this.totalVisa = totalVisa;
 	}
 
-	public boolean isPagarHabilitado() {
-		return pagarHabilitado;
+	public boolean isPagarDeshabilitado() {
+		return pagarDeshabilitado;
 	}
 
-	public void setPagarHabilitado(boolean pagarHabilitado) {
-		this.pagarHabilitado = pagarHabilitado;
+	public void setPagarDeshabilitado(boolean pagarDeshabilitado) {
+		this.pagarDeshabilitado = pagarDeshabilitado;
 	}
 
 	public String getVisaXmlData() {
@@ -288,9 +293,9 @@ public class PaymentBean implements Serializable {
 	}
 
 	private Integer registraTransaccionVisa(final String codigoCarrera, final String codigoUsuario, final BigDecimal monto,
-			final String periodoAcademico, final String numAtencion) {
+			final String periodoAcademico, final String cadenaValores, final List<Concepto> listaDetalle) {
 		try {
-			return visaIntegration.registraTransaccionVisa(codigoCarrera, codigoUsuario, monto, periodoAcademico, numAtencion);
+			return visaIntegration.registraTransaccionVisa(codigoCarrera, codigoUsuario, monto, periodoAcademico, cadenaValores, listaDetalle);
 		} catch (Exception e) {
 			LOGGER.error("No se pudo registrar la operacion", e);
 			return Integer.valueOf(0);
