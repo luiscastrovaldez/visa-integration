@@ -9,6 +9,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.primefaces.event.SelectEvent;
@@ -134,7 +135,13 @@ public class UserManagedBean implements Serializable {
 		selectedUser = null;
 	}
 
-	public void cerrarSesion() {
+	public String cerrarSesion() {
+		FacesContext context = FacesContext.getCurrentInstance();
+		HttpSession session = (HttpSession) context.getExternalContext()
+				.getSession(false);
+		if (session != null)session.invalidate();
+		
+		return "login" ;
 	}
 
 	public String getUserNameLabelText() {
@@ -166,13 +173,24 @@ public class UserManagedBean implements Serializable {
 	}
 
 
+	private void manejoSession() {
+		FacesContext context = FacesContext.getCurrentInstance();
+		HttpSession session = (HttpSession) context.getExternalContext()
+				.getSession(false);
+		if (session.isNew()) {
+			session.setAttribute("username", getUsername());
+			session.setAttribute("password", getPassword());
+		} 
+	}
+	
+	
 	public String loginGeneral() throws Exception {
 
 		FacesContext context = FacesContext.getCurrentInstance();
 		String page = "";
 		try {
 			LOGGER.info("usuario " + getUsername());
-
+			
 			final String strTipoUsuario = getTipoUsuario();
 
 			if (VisaIntegrationConstants.TIPO_USUARIO_ALUMNO.equals(strTipoUsuario)) {
