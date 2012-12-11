@@ -50,7 +50,8 @@
             <p:column headerText="Fecha Vencimiento">#{concepto.fechaVencimiento}</p:column>
             <p:column headerText="Periodo Academico">#{concepto.periodoacademico}</p:column>
             <p:column headerText="Periodo de Pago">#{concepto.periodopago}</p:column>
-            <p:column headerText="Monto">#{concepto.monto}</p:column>
+            <p:column headerText="Monto" styleClass="monto">#{concepto.monto}</p:column>
+            <p:column headerText="Monto" style="text-align:right;display:none;" styleClass="nroDoc">#{concepto.recibo}</p:column>
             <p:columnGroup type="footer">
               <p:row>
                 <p:column colspan="7" style="text-align:right" footerText="Total S/.: "/>
