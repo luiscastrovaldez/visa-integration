@@ -3,6 +3,8 @@ package com.visa.controller;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -43,13 +45,13 @@ public class ComercioController {
 	private String codigoTienda;
 
 	@RequestMapping(value = "/createETicket", method = RequestMethod.POST)
-	public ModelAndView createETicket(final @RequestBody String xmlService) throws Exception {
+	public ModelAndView createETicket(final @RequestBody String xmlService, final HttpSession session) throws Exception {
 		LOGGER.info("Visa create eTicket");
 		LOGGER.info(xmlService);
 
 		String xmlServiceStr = VisaIntegrationUtil.getParameterValue(xmlService, VisaIntegrationConstants.CAMPO_XML_SERVICE);
 		if (xmlServiceStr == null) {
-			return showErrorPage(VisaIntegrationConstants.MSG_ERROR_GENERICO);
+			return showErrorPage(VisaIntegrationConstants.MSG_ERROR_GENERICO, session);
 		}
 		xmlServiceStr = VisaIntegrationUtil.decodeUrl(xmlServiceStr);
 		LOGGER.info("Request Message");
@@ -62,53 +64,28 @@ public class ComercioController {
 		final RespuestaETicket eTicket = visaXmlParserService.parseVisaETicketResponseXml(generaEticketXml);
 
 		if (eTicket == null) {
-			return showErrorPage(VisaIntegrationConstants.MSG_ERROR_GENERICO);
+			return showErrorPage(VisaIntegrationConstants.MSG_ERROR_GENERICO, session);
 		}
 		if (eTicket.getMensajes() != null && eTicket.getMensajes().size() > 0) {
-			return showErrorPage(eTicket.getMensajes().get(0).getValue());
+			return showErrorPage(eTicket.getMensajes().get(0).getValue(), session);
 		}
-		final ModelAndView mav = new ModelAndView("formularioSubmit");
+		final ModelAndView mav = new ModelAndView(getRedirect("formularioSubmit"));
 		for (Iterator<Campo> iterator = eTicket.getRegistro().iterator(); iterator.hasNext();) {
 			final Campo campo = (Campo) iterator.next();
 			if (VisaIntegrationConstants.CAMPO_E_TICKET.equals(campo.getId())) {
-				mav.addObject("eTicket", campo.getValue());
-			}
-		}
-		return mav;
-	}
-
-	@RequestMapping(value = "/visaTestResponse", method = RequestMethod.POST)
-	public ModelAndView visaTestResponse(final @RequestBody String xmlResponse) throws Exception {
-		LOGGER.info("Visa Message");
-		LOGGER.info(xmlResponse);
-
-		final RespuestaVisa respuestaVisa = visaXmlParserService.parseVisaOperationResponseXml(xmlResponse);
-		if (respuestaVisa == null) {
-			return showErrorPage(VisaIntegrationConstants.MSG_ERROR_GENERICO);
-		}
-		if (respuestaVisa.getMensajes() != null && respuestaVisa.getMensajes().size() > 0) {
-			return showErrorPage(respuestaVisa.getMensajes().get(0).getValue());
-		}
-		final ModelAndView mav = new ModelAndView("visaResponse");
-		for (Iterator<Campo> iterator = respuestaVisa.getPedido().getOperacion().getCampos().iterator(); iterator
-				.hasNext();) {
-			final Campo campo = (Campo) iterator.next();
-			if (VisaIntegrationConstants.CAMPO_ESTADO.equals(campo.getId())) {
-				mav.addObject("estado", campo.getValue());
-			} else if (VisaIntegrationConstants.CAMPO_RESPUESTA.equals(campo.getId())) {
-				mav.addObject("respuesta", campo.getValue());
+				session.setAttribute(VisaIntegrationConstants.CAMPO_E_TICKET, campo.getValue());
 			}
 		}
 		return mav;
 	}
 
 	@RequestMapping(value = "/visaResponse", method = RequestMethod.POST)
-	public ModelAndView visaResponse(@RequestBody final String parameterList) throws Exception {
+	public ModelAndView visaResponse(@RequestBody final String parameterList, final HttpSession session) throws Exception {
 		LOGGER.info("Visa Post eTicket");
 		LOGGER.info(parameterList);
 		final String eTicket = VisaIntegrationUtil.getParameterValue(parameterList, VisaIntegrationConstants.CAMPO_E_TICKET);
 		if (eTicket == null) {
-			return showErrorPage(VisaIntegrationConstants.MSG_ERROR_GENERICO);
+			return showErrorPage(VisaIntegrationConstants.MSG_ERROR_GENERICO, session);
 		}
 		final ConsultaETicket consultaETicket = new ConsultaETicket();
 		final ArrayList<Parametro> parametros = new ArrayList<Parametro>();
@@ -124,7 +101,7 @@ public class ComercioController {
 
 		final String requestXml = visaXmlParserService.parseVisaOperationResultRequestToXml(consultaETicket);
 		if (requestXml == null) {
-			return showErrorPage(VisaIntegrationConstants.MSG_ERROR_GENERICO);
+			return showErrorPage(VisaIntegrationConstants.MSG_ERROR_GENERICO, session);
 		}
 
 		LOGGER.info("Request Message");
@@ -137,10 +114,10 @@ public class ComercioController {
 		final RespuestaVisa respuestaVisa = visaXmlParserService
 				.parseVisaOperationResponseXml(consultaEticketXml);
 		if (respuestaVisa == null) {
-			return showErrorPage(VisaIntegrationConstants.MSG_ERROR_GENERICO);
+			return showErrorPage(VisaIntegrationConstants.MSG_ERROR_GENERICO, session);
 		}
 		if (respuestaVisa.getMensajes() != null && respuestaVisa.getMensajes().size() > 0) {
-			return showErrorPage(respuestaVisa.getMensajes().get(0).getValue());
+			return showErrorPage(respuestaVisa.getMensajes().get(0).getValue(), session);
 		}
 		final ModelAndView mav = new ModelAndView("visaResponse");
 		for (Iterator<Campo> iterator = respuestaVisa.getPedido().getOperacion().getCampos().iterator(); iterator
@@ -203,10 +180,13 @@ public class ComercioController {
 		return mav;
 	}
 
-	private ModelAndView showErrorPage(final String mensaje) {
-		final ModelAndView mav = new ModelAndView("error");
-		mav.addObject("message", mensaje);
+	private ModelAndView showErrorPage(final String mensaje, final HttpSession session) {
+		final ModelAndView mav = new ModelAndView(getRedirect("error"));
+		session.setAttribute(VisaIntegrationConstants.CLAVE_MENSAJE_SESION, mensaje);
 		return mav;
 	}
 
+	private String getRedirect(String url) {
+		return "redirect:" + url + ".visa";
+	}
 }
