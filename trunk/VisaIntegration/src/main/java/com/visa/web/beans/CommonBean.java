@@ -2,12 +2,18 @@ package com.visa.web.beans;
 
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
+
+import org.apache.log4j.Logger;
 
 import com.visa.util.VisaIntegrationConstants;
 
 @ManagedBean
 @ApplicationScoped
 public class CommonBean {
+
+	private static final Logger LOGGER = Logger.getLogger(CommonBean.class);
 
 	public String getAppTitulo() {
 		return VisaIntegrationConstants.APP_TITULO;
@@ -47,6 +53,31 @@ public class CommonBean {
 
 	public String getMensajeErrorPeriodo() {
 		return VisaIntegrationConstants.MENSAJE_ERROR_PERIODO;
+	}
+
+	public String getErrorMessage() {
+		final HttpSession session = getCurrentSession();
+		if (session != null) {
+			return (String)session.getAttribute(VisaIntegrationConstants.CLAVE_MENSAJE_SESION);
+		}
+		LOGGER.info("No existe la sesion");
+		return VisaIntegrationConstants.MSG_ERROR_GENERICO;
+	}
+
+	public String getEticket() {
+		final HttpSession session = getCurrentSession();
+		if (session != null) {
+			final String eTicket = (String)session.getAttribute(VisaIntegrationConstants.CAMPO_E_TICKET);
+			LOGGER.info(VisaIntegrationConstants.CAMPO_E_TICKET + ": " + eTicket);
+			return eTicket;
+		}
+		LOGGER.info("No existe la sesion");
+		return null;
+	}
+
+	private HttpSession getCurrentSession() {
+		final FacesContext context = FacesContext.getCurrentInstance();
+		return (HttpSession) context.getExternalContext().getSession(false);
 	}
 
 }
