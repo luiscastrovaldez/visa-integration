@@ -141,7 +141,7 @@ public class UserManagedBean implements Serializable {
 				.getSession(false);
 		if (session != null)session.invalidate();
 		
-		return "login" ;
+		return "login?faces-redirect=true" ;
 	}
 
 	public String getUserNameLabelText() {
@@ -260,7 +260,7 @@ public class UserManagedBean implements Serializable {
 			switch (flag.intValue()) {
 			case 0:
 				setTipoUsuarioLogueado(VisaIntegrationConstants.TIPO_USUARIO_ALUMNO);
-				return "pagos";
+				return "pagos?faces-redirect=true";
 			case 1:
 				context.addMessage("messaje", new FacesMessage(
 						"El nombre de usuario y/o la contraseña son incorrectos. Verifique y vuelva a intentarlo."));
@@ -285,7 +285,7 @@ public class UserManagedBean implements Serializable {
 				break;
 			}
 		}
-		return "login";
+		return "login?faces-redirect=true";
 	}
 
 }
