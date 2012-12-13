@@ -81,6 +81,8 @@ public class VisaIntegrationConstants {
 	/*
 	 * Pagina Respuesta de Visa
 	 */
+	public static final String CLAVE_RESPUESTA_SESION = "VISA_RESPUESTA";
+	public static final String CLAVE_RESPUESTA_ERROR_SESION = "VISA_RESPUESTA_ERROR";
 	public static final String PAGINA_REPUESTA_TITULO = "Detalle de la Operación de Pago electrónico:";
 	public static final String NUMERO_PEDIDO_TEXTO = "Número Pedido:";
 	public static final String IMPORTE_TRANSACCION_TEXTO = "Importe de la transacción:";
@@ -89,5 +91,8 @@ public class VisaIntegrationConstants {
 	public static final String DESCRIPCION_CODIGO_TEXTO = "Descripción del código de acción:";
 	public static final String POLITICAS_DEVOLUCION_TEXTO = "Políticas de Devolución:";
 	public static final String TERMINOS_CONDICIONES_TEXTO = "Términos y Condiciones:";
+	public static final String ERROR_RESPUESTA_VISA = "No se ha podido procesar la solicitud de pago electrónico. Revise los datos de su tarjeta.";
+	public static final String ERROR_PROCESO_SOLICITUD = "No se ha podido procesar la solicitud de pago electrónico.";
+	public static final String CORRECTO_PROCESO_SOLICITUD = "El pago electrónico se ha efectuado de forma satisfactoria.";
 
 }
