@@ -1,7 +1,9 @@
 package com.visa.xml.domain;
 
+import java.util.List;
+
 import org.simpleframework.xml.Attribute;
-import org.simpleframework.xml.Element;
+import org.simpleframework.xml.ElementList;
 
 public class Pedido {
 
@@ -11,8 +13,8 @@ public class Pedido {
 	@Attribute
 	private String eticket;
 
-	@Element(required = false)
-	private Operacion operacion;
+	@ElementList(required = false, entry = "operacion", inline = true)
+	private List<Operacion> operaciones;
 
 	public String getId() {
 		return id;
@@ -30,12 +32,12 @@ public class Pedido {
 		this.eticket = eticket;
 	}
 
-	public Operacion getOperacion() {
-		return operacion;
+	public List<Operacion> getOperaciones() {
+		return operaciones;
 	}
 
-	public void setOperacion(Operacion operacion) {
-		this.operacion = operacion;
+	public void setOperaciones(List<Operacion> operaciones) {
+		this.operaciones = operaciones;
 	}
 
 }

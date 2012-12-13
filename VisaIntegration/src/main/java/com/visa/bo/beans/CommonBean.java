@@ -1,4 +1,4 @@
-package com.visa.web.beans;
+package com.visa.bo.beans;
 
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;

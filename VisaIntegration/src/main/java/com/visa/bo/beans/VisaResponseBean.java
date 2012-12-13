@@ -4,12 +4,20 @@ import java.io.Serializable;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
+
+import org.apache.log4j.Logger;
+
+import com.visa.domain.TranVisaRespuesta;
+import com.visa.util.VisaIntegrationConstants;
 
 @ManagedBean(name = "visaResponseBean")
 @SessionScoped
 public class VisaResponseBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	private static final Logger LOGGER = Logger.getLogger(PaymentBean.class);
 
 	private String numeroPedido;
 	private String numeroTarjeta;
@@ -82,6 +90,34 @@ public class VisaResponseBean implements Serializable {
 
 	public void setMensaje(String mensaje) {
 		this.mensaje = mensaje;
+	}
+
+	public VisaResponseBean() {
+		final HttpSession session = getCurrentSession();
+		if (session != null) {
+			final String mensajeError = (String) session.getAttribute(VisaIntegrationConstants.CLAVE_RESPUESTA_ERROR_SESION);
+			if (mensajeError != null && !mensajeError.isEmpty()) {
+				setMensaje(mensajeError);
+				LOGGER.info(mensajeError);
+				return;
+			}
+			final TranVisaRespuesta tranVisaRespuesta = (TranVisaRespuesta) session.getAttribute(VisaIntegrationConstants.CLAVE_RESPUESTA_SESION);
+
+			setNumeroPedido(tranVisaRespuesta.getnOrdenT());
+			setNumeroTarjeta(tranVisaRespuesta.getPan());
+			setFechaHoraPedido(tranVisaRespuesta.getFechaHoraTx());
+			setImporteTransaccion(tranVisaRespuesta.getImpAutorizado());
+			setDescripcionProducto(tranVisaRespuesta.getDescripcionProducto());
+			setCodigoComprador(tranVisaRespuesta.getAlumno());
+			setDescripcionCodigo(tranVisaRespuesta.getDescripcionCodigo());
+			setMensaje(VisaIntegrationConstants.CORRECTO_PROCESO_SOLICITUD);
+		}
+		LOGGER.info("No existe la sesion");
+	}
+
+	private HttpSession getCurrentSession() {
+		final FacesContext context = FacesContext.getCurrentInstance();
+		return (HttpSession) context.getExternalContext().getSession(false);
 	}
 
 }
