@@ -55,6 +55,38 @@ public class CommonBean {
 		return VisaIntegrationConstants.MENSAJE_ERROR_PERIODO;
 	}
 
+	public String getPaginaRespuestaTitulo() {
+		return VisaIntegrationConstants.PAGINA_REPUESTA_TITULO;
+	}
+
+	public String getNumeroPedidoTexto() {
+		return VisaIntegrationConstants.NUMERO_PEDIDO_TEXTO;
+	}
+
+	public String getImporteTransaccionTexto() {
+		return VisaIntegrationConstants.IMPORTE_TRANSACCION_TEXTO;
+	}
+
+	public String getDescripcionProductoTexto() {
+		return VisaIntegrationConstants.DESCRIPCION_PRODUCTO_TEXTO;
+	}
+
+	public String getCodigoCompradorTexto() {
+		return VisaIntegrationConstants.CODIGO_COMPRADOR_TEXTO;
+	}
+
+	public String getDescripcionCodigoTexto() {
+		return VisaIntegrationConstants.DESCRIPCION_CODIGO_TEXTO;
+	}
+
+	public String getPoliticasDevolucionTexto() {
+		return VisaIntegrationConstants.POLITICAS_DEVOLUCION_TEXTO;
+	}
+
+	public String getTerminosCondicionesTexto() {
+		return VisaIntegrationConstants.TERMINOS_CONDICIONES_TEXTO;
+	}
+
 	public String getErrorMessage() {
 		final HttpSession session = getCurrentSession();
 		if (session != null) {

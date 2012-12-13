@@ -38,19 +38,19 @@
           </table>
           <br />
           <p:dataTable id="TablaPagos" var="concepto" emptyMessage="No hay registros."
-            value="#{paymentBean.conceptosModel}"
+            value="#{paymentBean.conceptosModel}" styleClass="TablaPagos"
             selection="#{paymentBean.listaConceptosSeleccionados}">
             <p:ajax event="rowSelectCheckbox" update="TablaPagos" listener="#{paymentBean.totalizarPagos}"/>
             <p:ajax event="rowUnselectCheckbox" update="TablaPagos" listener="#{paymentBean.totalizarPagos}"/>
             <p:ajax event="toggleSelect" update="TablaPagos" listener="#{paymentBean.totalizarPagos}"/>
-            <p:column selectionMode="multiple" style="width:18px" />
-            <p:column headerText="Nro. Cuota">#{concepto.cuota}</p:column>
-            <p:column headerText="Codigo Servicio">#{concepto.codigoServicio}</p:column>
-            <p:column headerText="Descripcion">#{concepto.nombreServicio}</p:column>
-            <p:column headerText="Fecha Vencimiento">#{concepto.fechaVencimiento}</p:column>
-            <p:column headerText="Periodo Academico">#{concepto.periodoacademico}</p:column>
-            <p:column headerText="Periodo de Pago">#{concepto.periodopago}</p:column>
-            <p:column headerText="Monto" styleClass="monto">#{concepto.monto}</p:column>
+            <p:column selectionMode="multiple" styleClass="#{paymentBean.estiloCelda(concepto.recibo)}" />
+            <p:column headerText="Nro. Cuota" styleClass="#{paymentBean.estiloCelda(concepto.recibo)}">#{concepto.cuota}</p:column>
+            <p:column headerText="Codigo Servicio" styleClass="#{paymentBean.estiloCelda(concepto.recibo)}">#{concepto.codigoServicio}</p:column>
+            <p:column headerText="Descripcion" styleClass="#{paymentBean.estiloCelda(concepto.recibo)}">#{concepto.nombreServicio}</p:column>
+            <p:column headerText="Fecha Vencimiento" styleClass="#{paymentBean.estiloCelda(concepto.recibo)}">#{concepto.fechaVencimiento}</p:column>
+            <p:column headerText="Periodo Academico" styleClass="#{paymentBean.estiloCelda(concepto.recibo)}">#{concepto.periodoacademico}</p:column>
+            <p:column headerText="Periodo de Pago" styleClass="#{paymentBean.estiloCelda(concepto.recibo)}">#{concepto.periodopago}</p:column>
+            <p:column headerText="Monto" styleClass="#{paymentBean.estiloCelda(concepto.recibo)}">#{concepto.monto}</p:column>
             <p:column headerText="Monto" style="text-align:right;display:none;" styleClass="nroDoc">#{concepto.recibo}</p:column>
             <p:columnGroup type="footer">
               <p:row>

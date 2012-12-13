@@ -283,6 +283,10 @@ public class PaymentBean implements Serializable {
 		this.visaXmlData = visaXmlData;
 	}
 
+	public String estiloCelda(final String recibo) {
+		return recibo != null && !recibo.isEmpty() ? "cuotaNoPagada": "cuotaPagada";
+	}
+
 	private String obtenerMontoTransaccionVisa(final Integer idTransaccion) {
 		try {
 			return VisaIntegrationUtil.formatBigDecimal(visaIntegration.obtenerMontoTransaccionVisa(idTransaccion));
