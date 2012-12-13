@@ -1,1 +1,1 @@
-<jsp:forward page="login.visa"></jsp:forward>
+<jsp:forward page="login.visa?faces-redirect=true"></jsp:forward>
