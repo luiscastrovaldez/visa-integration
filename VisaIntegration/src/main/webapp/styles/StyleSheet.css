@@ -110,20 +110,27 @@ a img {
 	width: 50%;
 }
 
-#TablaPagos {
+.TablaPagos {
 	width: 100%;
 	border: solid 1px #cccccc;
 }
 
-#TablaPagos thead tr th,#TablaPagos tfoot tr th,#TablaPagos tbody tr td
-	{
+.TablaPagos thead tr th, .TablaPagos tfoot tr th, .TablaPagos tbody tr td {
 	border: solid 1px #cccccc;
 }
 
-#TablaPagos thead tr th {
+.TablaPagos thead tr th {
 	background-color: #336699;
-	border: solid 1px #003366;
+	background-image: none;
+	border: solid 1px #003366 !important;
 	color: #FFFFFF;
+}
+
+.TablaPagos thead tr th div span {
+	color: #FFFFFF;
+}
+.TablaPagos tbody .cuotaPagada {
+	background-color: #cccccc;
 }
 
 .TablaDetallePago caption {

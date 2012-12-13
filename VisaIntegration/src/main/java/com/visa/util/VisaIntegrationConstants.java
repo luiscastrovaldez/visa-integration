@@ -77,4 +77,17 @@ public class VisaIntegrationConstants {
 	 * Pagina Error
 	 */
 	public static final String CLAVE_MENSAJE_SESION = "MENSAJE";
+
+	/*
+	 * Pagina Respuesta de Visa
+	 */
+	public static final String PAGINA_REPUESTA_TITULO = "Detalle de la Operación de Pago electrónico:";
+	public static final String NUMERO_PEDIDO_TEXTO = "Número Pedido:";
+	public static final String IMPORTE_TRANSACCION_TEXTO = "Importe de la transacción:";
+	public static final String DESCRIPCION_PRODUCTO_TEXTO = "Descripción del producto:";
+	public static final String CODIGO_COMPRADOR_TEXTO = "Código institucional del comprador:";
+	public static final String DESCRIPCION_CODIGO_TEXTO = "Descripción del código de acción:";
+	public static final String POLITICAS_DEVOLUCION_TEXTO = "Políticas de Devolución:";
+	public static final String TERMINOS_CONDICIONES_TEXTO = "Términos y Condiciones:";
+
 }
