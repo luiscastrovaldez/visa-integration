@@ -237,13 +237,15 @@ public class PaymentBean implements Serializable {
 		LOGGER.info("listaConceptosSeleccionados: " + listaConceptosSeleccionados.length);
 		double totalVisaNum = 0;
 		for (final Concepto concepto : listaConceptosSeleccionados) {
-			double monto;
-			try {
-				monto = Double.valueOf(concepto.getMonto());
-			} catch (Exception e) {
-				monto = 0;
+			if (concepto.getRecibo() == null || concepto.getRecibo().isEmpty()) {
+				double monto;
+				try {
+					monto = Double.valueOf(concepto.getMonto());
+				} catch (Exception e) {
+					monto = 0;
+				}
+				totalVisaNum += monto;
 			}
-			totalVisaNum += monto;
 		}
 		setTotalVisa(Double.toString(totalVisaNum));
 		LOGGER.info("total Visa: " + getTotalVisa());
