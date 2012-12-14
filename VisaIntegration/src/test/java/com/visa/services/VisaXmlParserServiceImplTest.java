@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import com.visa.util.VisaIntegrationConstants;
 import com.visa.xml.domain.ConsultaETicket;
+import com.visa.xml.domain.NuevoETicket;
 import com.visa.xml.domain.Parametro;
 import com.visa.xml.domain.RespuestaETicket;
 import com.visa.xml.domain.RespuestaVisa;
@@ -39,8 +40,8 @@ public class VisaXmlParserServiceImplTest {
 		assertNotNull(respuestaVisa);
 		assertEquals("699", respuestaVisa.getPedido().getId());
 		assertEquals("2000601061101112270844150156", respuestaVisa.getPedido().getEticket());
-		assertEquals(1, respuestaVisa.getPedido().getOperacion().getId());
-		assertEquals(5, respuestaVisa.getPedido().getOperacion().getCampos().size());
+		assertEquals(1, respuestaVisa.getPedido().getOperaciones().get(0).getId());
+		assertEquals(5, respuestaVisa.getPedido().getOperaciones().get(0).getCampos().size());
 		assertEquals(1, respuestaVisa.getMensajes().size());
 		assertEquals("1", respuestaVisa.getMensajes().get(0).getId());
 	}
@@ -81,5 +82,28 @@ public class VisaXmlParserServiceImplTest {
 		assertNotNull(xml);
 		System.out.println(xml);
 	}
+
+  @Test
+  public void testParseVisaNewETicketRequestToXml() {
+    final NuevoETicket nuevoETicket = new NuevoETicket();
+    final ArrayList<Parametro> parametros = new ArrayList<Parametro>();
+    Parametro parametro = new Parametro(VisaIntegrationConstants.CAMPO_CANAL, "3");
+    parametros.add(parametro);
+    parametro = new Parametro(VisaIntegrationConstants.CAMPO_PRODUCTO, "1");
+    parametros.add(parametro);
+    parametro = new Parametro(VisaIntegrationConstants.CAMPO_COD_TIENDA, "12345678");
+    parametros.add(parametro);
+    parametro = new Parametro(VisaIntegrationConstants.CAMPO_NUM_ORDEN, "030404034");
+    parametros.add(parametro);
+    parametro = new Parametro(VisaIntegrationConstants.CAMPO_MOUNT, "100.15");
+    parametros.add(parametro);
+    parametro = new Parametro(VisaIntegrationConstants.CAMPO_DATO_COMERCIO, "DATOS XXX");
+    parametros.add(parametro);
+    nuevoETicket.setParametros(parametros);
+
+    final String xml = visaXmlParserServiceImplTest.parseVisaNewETicketRequestToXml(nuevoETicket);
+    assertNotNull(xml);
+    System.out.println(xml);
+  }
 
 }
