@@ -133,6 +133,10 @@ a img {
 	background-color: #cccccc;
 }
 
+.TablaPagos tbody .cuotaPagada div.ui-chkbox-box {
+	display: none;
+}
+
 .TablaDetallePago caption {
 	margin-top: 15px;
 	font-weight: bold;
