@@ -39,6 +39,7 @@ public class PaymentBean implements Serializable {
 	private String montoTotal;
 	private String totalVisa;
 	private boolean pagarDeshabilitado;
+	private boolean aceptaTermino;
 	private String visaXmlData;
 
 	@ManagedProperty(value = "#{userManagedBean}")
@@ -180,6 +181,8 @@ public class PaymentBean implements Serializable {
 		}
 		LOGGER.info("cantidad de conceptos: " + listaConceptos.size());
 		setPagarDeshabilitado(listaConceptos.size() == 0);
+		setPagarDeshabilitado(aceptaTermino);
+		
 		double monto = 0;
 		for (final Concepto concepto : listaConceptos) {
 			monto += Double.valueOf(concepto.getMonto());
@@ -188,6 +191,13 @@ public class PaymentBean implements Serializable {
 		return listaConceptos;
 	}
 
+	
+	public void aceptaTerminosCondiciones(){
+		if (aceptaTermino){
+			setPagarDeshabilitado(aceptaTermino);
+		}
+	}
+	
 	public void cambioCarrera() {
 		LOGGER.info("cambioCarrera");
 		if (carrera != null && (carrera.getCodigo().length() > 0)) {
@@ -274,6 +284,15 @@ public class PaymentBean implements Serializable {
 	public void setPagarDeshabilitado(boolean pagarDeshabilitado) {
 		this.pagarDeshabilitado = pagarDeshabilitado;
 	}
+		
+
+	public boolean isAceptaTermino() {
+		return aceptaTermino;
+	}
+
+	public void setAceptaTermino(boolean aceptaTermino) {
+		this.aceptaTermino = aceptaTermino;
+	}
 
 	public String getVisaXmlData() {
 		LOGGER.info("getVisaXmlData");
@@ -307,5 +326,7 @@ public class PaymentBean implements Serializable {
 			return Integer.valueOf(0);
 		}
 	}
+	
+	
 
 }
