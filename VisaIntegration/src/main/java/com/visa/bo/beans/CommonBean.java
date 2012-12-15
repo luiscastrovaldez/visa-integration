@@ -111,5 +111,10 @@ public class CommonBean {
 		final FacesContext context = FacesContext.getCurrentInstance();
 		return (HttpSession) context.getExternalContext().getSession(false);
 	}
+	
+	public String getAceptoTerminosCondiciones(){
+		return VisaIntegrationConstants.ACEPTAR_TERMINOS_CONDICIONES;
+	}
+	
 
 }

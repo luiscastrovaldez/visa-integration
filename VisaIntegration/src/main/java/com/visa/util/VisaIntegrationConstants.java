@@ -94,5 +94,8 @@ public class VisaIntegrationConstants {
 	public static final String ERROR_RESPUESTA_VISA = "No se ha podido procesar la solicitud de pago electrónico. Revise los datos de su tarjeta.";
 	public static final String ERROR_PROCESO_SOLICITUD = "No se ha podido procesar la solicitud de pago electrónico.";
 	public static final String CORRECTO_PROCESO_SOLICITUD = "El pago electrónico se ha efectuado de forma satisfactoria.";
+	
+	
+	public static final String ACEPTAR_TERMINOS_CONDICIONES = "Acepto Terminos y Condiciones";
 
 }
