@@ -237,6 +237,7 @@ public class PaymentBean implements Serializable {
 			final HttpSession session = getCurrentSession();
 			session.setAttribute(VisaIntegrationConstants.CLAVE_USUARIO_SESION, userManagedBean.getUsername());
 			session.setAttribute(VisaIntegrationConstants.CLAVE_CARRERA_SESION, carrera.getCodigo());
+			session.setAttribute(VisaIntegrationConstants.CLAVE_TIPO_USUARIO_SESION, userManagedBean.getTipoUsuarioLogueado());
 			return "envioVisa";
 		} else {
 			final FacesContext context = FacesContext.getCurrentInstance();
