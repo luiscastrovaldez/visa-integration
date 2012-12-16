@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class VisaIntegrationConstants {
 
-  public static final String CODIGO_TIENDA = "466246301";
+	public static final String CODIGO_TIENDA = "466246301";
 	public static final String CAMPO_COD_TIENDA = "CODTIENDA";
 	public static final String CAMPO_NUM_ORDEN = "NUMORDEN";
 	public static final String CAMPO_E_TICKET = "ETICKET";
@@ -30,12 +30,12 @@ public class VisaIntegrationConstants {
 	public static final String CAMPO_FECHAYHORA_DEPOSITO = "fechayhora_deposito";
 	public static final String CAMPO_FECHAYHORA_DEVOLUCION = "fechayhora_devolucion";
 	public static final String CAMPO_DATO_COMERCIO_ = "dato_comercio";
-	
+
 	public static final String CAMPO_CANAL_VALOR = "3";
 	public static final String CAMPO_PRODUCTO_VALOR = "1";
-		
-	
+
 	public static final String MSG_ERROR_GENERICO = "Ha ocurrido un error, por favor intente más tarde.";
+	public static final String MSG_ERROR_WEBSERVICE_VISA = "Ha ocurrido un error en la comunicación con Visa, por favor intente más tarde.";
 	public static final String CAMPO_XML_SERVICE = "xmlService";
 
 	/*
@@ -75,8 +75,9 @@ public class VisaIntegrationConstants {
 	public static final String USUARIO_POSTULANTE = "Postulante:";
 	public static final String USUARIO_PROSPECTO = "Prospecto:";
 	public static final String MENSAJE_ERROR_PERIODO = "El periodo académico debe ser el mismo por cada operación";
-  public static final String CLAVE_USUARIO_SESION = "USUARIO_SESION";
-  public static final String CLAVE_CARRERA_SESION = "CARRERA_SESION";
+	public static final String CLAVE_USUARIO_SESION = "USUARIO_SESION";
+	public static final String CLAVE_CARRERA_SESION = "CARRERA_SESION";
+	public static final String CLAVE_TIPO_USUARIO_SESION = "TIPO_USUARIO_SESION";
 
 	/*
 	 * Pagina Error

@@ -15,10 +15,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.visa.beans.DatosCorreo;
+import com.visa.domain.InfoTranVISA;
+import com.visa.domain.NombreConcepto;
 import com.visa.domain.TranVisaRespuesta;
+import com.visa.domain.Usuario;
 import com.visa.services.VisaIntegration;
 import com.visa.util.VisaIntegrationConstants;
 import com.visa.util.VisaIntegrationUtil;
+import com.visa.util.services.EmailServices;
 import com.visa.webservice.consulteticket.WSConsultaEticketSoapProxy;
 import com.visa.webservice.createeticket.WSEticketSoapProxy;
 import com.visa.xml.domain.Campo;
@@ -31,12 +36,15 @@ import com.visa.xml.services.VisaXmlParserService;
 
 @Controller
 public class ComercioController {
-	
+
 	@Autowired
 	private VisaXmlParserService visaXmlParserService;
 
 	@Autowired
 	private VisaIntegration visaIntegration;
+
+	@Autowired
+	private EmailServices emailServices;
 
 	@Value("#{props.codigoTienda}")
 	public void setCodigoTienda(String codigoTienda) {
@@ -63,8 +71,14 @@ public class ComercioController {
 		xmlServiceStr = VisaIntegrationUtil.decodeUrl(xmlServiceStr);
 		LOGGER.info("Request Message");
 		LOGGER.info(xmlServiceStr);
+		String generaEticketXml = null;
 		final WSEticketSoapProxy sampleWSEticketSoapProxyid = new WSEticketSoapProxy();
-		final String generaEticketXml = sampleWSEticketSoapProxyid.generaEticket(xmlServiceStr);
+		try {
+			generaEticketXml = sampleWSEticketSoapProxyid.generaEticket(xmlServiceStr);
+		} catch (Exception ex) {
+			LOGGER.error("Error en creacion de E-ticket", ex);
+			return showErrorPage(VisaIntegrationConstants.MSG_ERROR_WEBSERVICE_VISA, session);
+		}
 		LOGGER.info("Response Message");
 		LOGGER.info(generaEticketXml);
 
@@ -113,20 +127,25 @@ public class ComercioController {
 
 		LOGGER.info("Request Message");
 		LOGGER.info(requestXml);
+		String consultaEticketXml = null;
 		final WSConsultaEticketSoapProxy sampleWSConsultaEticketSoapProxyid = new WSConsultaEticketSoapProxy();
-		final String consultaEticketXml = sampleWSConsultaEticketSoapProxyid.consultaEticket(requestXml);
+		try {
+			consultaEticketXml = sampleWSConsultaEticketSoapProxyid.consultaEticket(requestXml);
+		} catch (Exception ex) {
+			LOGGER.error("Error en consulta E-ticket", ex);
+			return showErrorPage(VisaIntegrationConstants.MSG_ERROR_WEBSERVICE_VISA, session);
+		}
 		LOGGER.info("Response Message");
 		LOGGER.info(consultaEticketXml);
 
-		final RespuestaVisa respuestaVisa = visaXmlParserService
-				.parseVisaOperationResponseXml(consultaEticketXml);
+		final RespuestaVisa respuestaVisa = visaXmlParserService.parseVisaOperationResponseXml(consultaEticketXml);
 		if (respuestaVisa == null) {
 			return showErrorPage(VisaIntegrationConstants.MSG_ERROR_GENERICO, session);
 		}
 		if (respuestaVisa.getMensajes() != null && respuestaVisa.getMensajes().size() > 0) {
 			return showErrorPage(respuestaVisa.getMensajes().get(0).getValue(), session);
 		}
-		final ModelAndView mav = new ModelAndView("visaResponse");
+		final ModelAndView mav = new ModelAndView(getRedirect("visaResponse"));
 		if (!CollectionUtils.isEmpty(respuestaVisa.getPedido().getOperaciones())) {
 			Operacion operacion = null;
 			for (Operacion operacionX : respuestaVisa.getPedido().getOperaciones()) {
@@ -176,16 +195,38 @@ public class ComercioController {
 						tranVisaRespuesta.setDatoComercio(campo.getValue());
 					}
 				}
-        final String usuario = (String) session.getAttribute(VisaIntegrationConstants.CLAVE_USUARIO_SESION);
-        final String carrera = (String) session.getAttribute(VisaIntegrationConstants.CLAVE_CARRERA_SESION);
-        tranVisaRespuesta.setAlumno(usuario);
-        tranVisaRespuesta.setCarrera(carrera);
+		        final String usuario = (String) session.getAttribute(VisaIntegrationConstants.CLAVE_USUARIO_SESION);
+		        final String carrera = (String) session.getAttribute(VisaIntegrationConstants.CLAVE_CARRERA_SESION);
+		        final String tipoUsuario = (String) session.getAttribute(VisaIntegrationConstants.CLAVE_TIPO_USUARIO_SESION);
+		        tranVisaRespuesta.setAlumno(usuario);
+		        tranVisaRespuesta.setCarrera(carrera);
 				// Registrar la Respuesta que envía VISA
-        final String estado = tranVisaRespuesta.getRespuesta().equals("0") ? "D" : "A"; 
+		        final String estado = tranVisaRespuesta.getRespuesta().equals("1") ? "A" : "D"; 
 				visaIntegration.registraTranVisaRespuesta(tranVisaRespuesta, estado);
+				final int intNOrdenT = Integer.valueOf(tranVisaRespuesta.getnOrdenT());
+				final InfoTranVISA infoTranVISA = visaIntegration.obtenerInformacionTransaccionVisa(intNOrdenT);
+				tranVisaRespuesta.setFechaHoraTx(infoTranVISA.toString());
+				tranVisaRespuesta.setImpAutorizado(VisaIntegrationUtil.formatBigDecimal(infoTranVISA.getMonto()));
+				StringBuilder sb = new StringBuilder();
+				for (NombreConcepto nombreConcepto : infoTranVISA.getListaConceptos()) {
+					sb.append(nombreConcepto.getNombre());
+					sb.append("<br />");
+				}
+				tranVisaRespuesta.setDescripcionProducto(sb.toString());
+				if (tranVisaRespuesta.getRespuesta().equals("1")) {
+					//ACTUALIZAR LOS DATOS EN LAS TABLAS DE TESORERIAS
+					visaIntegration.actualizarDatosVirtual(intNOrdenT, Integer.valueOf(tipoUsuario));
+	                enviarEmailConfirmaPago(tipoUsuario, usuario, intNOrdenT, VisaIntegrationUtil.formatBigDecimal(infoTranVISA.getMonto()));
+
+	                if (VisaIntegrationConstants.TIPO_USUARIO_POSTULANTE.equals(tipoUsuario)) {
+	                    enviarUsuarioClaveAlumno(usuario, carrera);
+	                }
+					mav.setViewName(getRedirect("pagos"));
+					return mav;
+				}
 				session.setAttribute(VisaIntegrationConstants.CLAVE_RESPUESTA_SESION, tranVisaRespuesta);
 			} else {
-	session.setAttribute(VisaIntegrationConstants.CLAVE_RESPUESTA_ERROR_SESION, VisaIntegrationConstants.ERROR_RESPUESTA_VISA);
+				session.setAttribute(VisaIntegrationConstants.CLAVE_RESPUESTA_ERROR_SESION, VisaIntegrationConstants.ERROR_RESPUESTA_VISA);
 			}
 		} else {
 			session.setAttribute(VisaIntegrationConstants.CLAVE_RESPUESTA_ERROR_SESION, VisaIntegrationConstants.ERROR_RESPUESTA_VISA);
@@ -202,4 +243,57 @@ public class ComercioController {
 	private String getRedirect(String url) {
 		return "redirect:" + url + ".visa";
 	}
+
+	private void enviarEmailConfirmaPago(final String tipoUsuario, final String comprador, int intNOrdenT, String monto) {
+		String strInfo = null;
+		String strConcepto = null;
+		try {
+			if (VisaIntegrationConstants.TIPO_USUARIO_ALUMNO.equals(tipoUsuario)) {
+				strInfo = visaIntegration.obtenerNombreAlumnoPG(comprador);
+				strConcepto = "Pago de Cuota a ";
+			} else if (VisaIntegrationConstants.TIPO_USUARIO_POSTULANTE.equals(tipoUsuario)) {
+				strInfo = visaIntegration.obtenerNombrePostulante(comprador);
+				strConcepto = "Pago de Matrícula y/o Cuota a ";
+			} else if (VisaIntegrationConstants.TIPO_USUARIO_PROSPECTO.equals(tipoUsuario)) {
+				strInfo = visaIntegration.obtenerNombreProspecto(comprador);
+				strConcepto = "Inscripción a ";
+			}
+			String[] datos = strInfo.split("|");
+			if (datos.length > 1 && !datos[0].isEmpty() && !datos[1].isEmpty()) {
+				final DatosCorreo datosCorreo = new DatosCorreo();
+				datosCorreo.setNombre(datos[0]);
+				datosCorreo.setConfirmacion(true);
+				datosCorreo.setConcepto(strConcepto);
+				datosCorreo.setIdCliente(comprador);
+				datosCorreo.setIdTransferencia(Integer.toString(intNOrdenT));
+				datosCorreo.setMonto(monto);
+				datosCorreo.setAddressTo(datos[1]);
+				emailServices.sendEmail(datosCorreo);
+			}
+		} catch (Exception ex) {
+			LOGGER.error("Error al mandar el correo confirma pago", ex);
+		}
+	}
+
+	private void enviarUsuarioClaveAlumno(final String idPostulante, final String carrera) {
+		String strInfo;
+		try {
+			strInfo = visaIntegration.obtenerNombrePostulante(idPostulante);
+			String[] datos = strInfo.split("|");
+			if (datos.length > 1 && !datos[0].isEmpty() && !datos[1].isEmpty()) {
+				final Usuario usuario = visaIntegration.obtenerDatosNuevoAlumno(idPostulante, carrera);
+				final DatosCorreo datosCorreo = new DatosCorreo();
+				datosCorreo.setNombre(datos[0]);
+				datosCorreo.setNuevoAlumno(true);
+				datosCorreo.setUsuario(usuario.getUsuario());
+				datosCorreo.setClave(usuario.getClave());
+				datosCorreo.setAddressTo(datos[1]);
+				emailServices.sendEmail(datosCorreo);
+			}
+		} catch (Exception e) {
+			LOGGER.error("Error al mandar el correo confirma pago", e);
+		}
+		
+	}
+
 }
