@@ -182,8 +182,8 @@ public class PaymentBean implements Serializable {
 		}
 		LOGGER.info("cantidad de conceptos: " + listaConceptos.size());
 		setPagarDeshabilitado(listaConceptos.size() == 0);
-		setPagarDeshabilitado(aceptaTermino);
-
+		setPagarDeshabilitado(!aceptaTermino);
+		
 		double monto = 0;
 		for (final Concepto concepto : listaConceptos) {
 			monto += Double.valueOf(concepto.getMonto());
@@ -192,10 +192,10 @@ public class PaymentBean implements Serializable {
 		return listaConceptos;
 	}
 
-	public void aceptaTerminosCondiciones(){
-		if (aceptaTermino){
-			setPagarDeshabilitado(aceptaTermino);
-		}
+	public void aceptaTerminosCondiciones() {
+
+		setPagarDeshabilitado(!aceptaTermino);
+
 	}
 
 	public void cambioCarrera() {
@@ -262,6 +262,7 @@ public class PaymentBean implements Serializable {
 			}
 		}
 		setTotalVisa(Double.toString(totalVisaNum));
+		setPagarDeshabilitado(aceptaTermino);
 		LOGGER.info("total Visa: " + getTotalVisa());
 	}
 

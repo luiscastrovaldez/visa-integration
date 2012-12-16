@@ -20,7 +20,7 @@
 				<h1><h:outputText value= "#{commonBean.appTitulo}"/></h1>
 				<div id="CerrarSesion">
 					<p:panel id="pnlCerrarSesion" styleClass="pnlLoginContent" rendered="#{userManagedBean.usuarioLogueado}">
-						<a href="#" onClick="javascript:print();">
+						<a href="#" onclick="window.print();return false;">
 							<h:outputText value= "#{commonBean.imprimirTexto}"/>
 						</a>
 						<h:outputText value= "#{commonBean.separadorLinksCabecera}"/>

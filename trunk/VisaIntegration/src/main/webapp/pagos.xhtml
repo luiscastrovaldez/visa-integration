@@ -76,7 +76,7 @@
 						</p:dialog>
 
 						 <p:selectBooleanCheckbox value="#{paymentBean.aceptaTermino}" >
-						 	<p:ajax update="botonPagar" listener="#{formBean.aceptaTerminosCondiciones}"/> 
+						 	<p:ajax update="botonPagar" listener="#{paymentBean.aceptaTerminosCondiciones}"/> 
 						 </p:selectBooleanCheckbox> 
 							<p:commandLink  id="downloadLink" value="#{commonBean.aceptoTerminosCondiciones}" ajax="false"
 								onclick="PrimeFaces.monitorDownload(start, stop)"
