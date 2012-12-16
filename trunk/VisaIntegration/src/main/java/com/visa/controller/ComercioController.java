@@ -175,14 +175,15 @@ public class ComercioController {
 					} else if (VisaIntegrationConstants.CAMPO_DATO_COMERCIO.equals(campo.getId())) {
 						tranVisaRespuesta.setDatoComercio(campo.getValue());
 					}
-					session.setAttribute(VisaIntegrationConstants.CLAVE_RESPUESTA_SESION, tranVisaRespuesta);
 				}
+        final String usuario = (String) session.getAttribute(VisaIntegrationConstants.CLAVE_USUARIO_SESION);
+        final String carrera = (String) session.getAttribute(VisaIntegrationConstants.CLAVE_CARRERA_SESION);
+        tranVisaRespuesta.setAlumno(usuario);
+        tranVisaRespuesta.setCarrera(carrera);
 				// Registrar la Respuesta que envía VISA
-				// TODO
-				// visaIntegration.registrarRespuestaVisa(tranVisaRespuesta);
-				// TODO
-				// Actualizar el ESTADO en las tablas de transaccion de VISA
-				// visaIntegration.actualizarTransaccionVisa(Integer.valueOf(tranVisaRespuesta.getnOrdenT()), Integer.valueOf(tranVisaRespuesta.getRespuesta()));
+        final String estado = tranVisaRespuesta.getRespuesta().equals("0") ? "D" : "A"; 
+				visaIntegration.registraTranVisaRespuesta(tranVisaRespuesta, estado);
+				session.setAttribute(VisaIntegrationConstants.CLAVE_RESPUESTA_SESION, tranVisaRespuesta);
 			} else {
 	session.setAttribute(VisaIntegrationConstants.CLAVE_RESPUESTA_ERROR_SESION, VisaIntegrationConstants.ERROR_RESPUESTA_VISA);
 			}

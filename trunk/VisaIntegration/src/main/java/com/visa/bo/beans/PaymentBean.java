@@ -11,6 +11,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
@@ -182,7 +183,7 @@ public class PaymentBean implements Serializable {
 		LOGGER.info("cantidad de conceptos: " + listaConceptos.size());
 		setPagarDeshabilitado(listaConceptos.size() == 0);
 		setPagarDeshabilitado(aceptaTermino);
-		
+
 		double monto = 0;
 		for (final Concepto concepto : listaConceptos) {
 			monto += Double.valueOf(concepto.getMonto());
@@ -191,13 +192,12 @@ public class PaymentBean implements Serializable {
 		return listaConceptos;
 	}
 
-	
 	public void aceptaTerminosCondiciones(){
 		if (aceptaTermino){
 			setPagarDeshabilitado(aceptaTermino);
 		}
 	}
-	
+
 	public void cambioCarrera() {
 		LOGGER.info("cambioCarrera");
 		if (carrera != null && (carrera.getCodigo().length() > 0)) {
@@ -234,6 +234,9 @@ public class PaymentBean implements Serializable {
 			parametros.add(parametro);
 			nuevoETicket.setParametros(parametros);
 			setVisaXmlData(visaXmlParserService.parseVisaNewETicketRequestToXml(nuevoETicket));
+			final HttpSession session = getCurrentSession();
+			session.setAttribute(VisaIntegrationConstants.CLAVE_USUARIO_SESION, userManagedBean.getUsername());
+			session.setAttribute(VisaIntegrationConstants.CLAVE_CARRERA_SESION, carrera.getCodigo());
 			return "envioVisa";
 		} else {
 			final FacesContext context = FacesContext.getCurrentInstance();
@@ -284,7 +287,6 @@ public class PaymentBean implements Serializable {
 	public void setPagarDeshabilitado(boolean pagarDeshabilitado) {
 		this.pagarDeshabilitado = pagarDeshabilitado;
 	}
-		
 
 	public boolean isAceptaTermino() {
 		return aceptaTermino;
@@ -326,7 +328,10 @@ public class PaymentBean implements Serializable {
 			return Integer.valueOf(0);
 		}
 	}
-	
-	
+
+	 private HttpSession getCurrentSession() {
+	    final FacesContext context = FacesContext.getCurrentInstance();
+	    return (HttpSession) context.getExternalContext().getSession(false);
+	  }
 
 }
