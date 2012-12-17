@@ -102,35 +102,8 @@
 			<h:commandButton type="submit" value=" Pagar con VISA " disabled="#{paymentBean.pagarDeshabilitado}"
           		action="#{paymentBean.registrarPago}" styleClass="Boton" id="botonPagar" onclick="return validarTransaccionVisa();">
           	</h:commandButton>
-			<div id="terminos">
-				<p:dialog modal="true" widgetVar="statusDialog" header="Status"
-					draggable="false" closable="false" resizable="false">
-					<p:graphicImage value="/images/ajaxLoadingBar.gif" />
-				</p:dialog>
 			
-				 <p:selectBooleanCheckbox value="#{paymentBean.aceptaTermino}" >
-				 	<p:ajax update="botonPagar" listener="#{paymentBean.aceptaTerminosCondiciones}"/> 
-				 </p:selectBooleanCheckbox> 
-					<p:commandLink  id="downloadLink" value="#{commonBean.aceptoTerminosCondiciones}" ajax="false"
-						onclick="PrimeFaces.monitorDownload(start, stop)"
-						icon="ui-icon-arrowthichk-s">
-						<p:fileDownload value="#{fileDownloadBean.file}" />
-					</p:commandLink >
 			
-				<script type="text/javascript">
-					function start() {
-						statusDialog.show();
-					}
-			
-					function stop() {
-						statusDialog.hide();
-					}
-				</script>
-			</div>
-			<br />
-			<h:commandButton type="submit" value=" Pagar con VISA " disabled="#{paymentBean.pagarDeshabilitado}"
-          		action="#{paymentBean.registrarPago}" styleClass="Boton" id="botonPagar" onclick="return validarTransaccionVisa();">
-          	</h:commandButton>
         </div>
         <p:dialog id="modalDialog" widgetVar="dlg2" modal="true">  
 		    <h:outputText value="#{commonBean.mensajeErrorPeriodo}" />
