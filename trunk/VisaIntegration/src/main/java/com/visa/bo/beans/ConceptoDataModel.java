@@ -5,7 +5,6 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import com.visa.domain.Concepto;
-import com.visa.web.beans.PrimeDataModel;
 
 public class ConceptoDataModel extends PrimeDataModel<Concepto> {
 
