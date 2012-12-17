@@ -1,8 +1,6 @@
 package com.visa.bo.beans;
 
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.Map;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -13,8 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
-import org.primefaces.event.SelectEvent;
-import org.primefaces.event.UnselectEvent;
 
 import com.visa.services.VisaIntegration;
 import com.visa.util.VisaIntegrationConstants;
@@ -33,12 +29,6 @@ public class UserManagedBean implements Serializable {
 	private String password;
 	private int numAtencion;
 	private String tipoUsuarioLogueado;
-	private String searchUser;
-	private Collection<User> searchUsersResults;
-	private User selectedUser;
-
-	private String firstname;
-	private String surname;
 
 	public VisaIntegration getVisaIntegration() {
 		return visaIntegration;
@@ -64,26 +54,6 @@ public class UserManagedBean implements Serializable {
 		this.tipoUsuarioLogueado = tipoUsuarioLogueado;
 	}
 
-	public String getFirstname() {
-		return firstname;
-	}
-
-	public void setFirstname(String firstname) {
-		this.firstname = firstname;
-	}
-
-	public String getSurname() {
-		return surname;
-	}
-
-	public void setSurname(String surname) {
-		this.surname = surname;
-	}
-
-	public void savePerson() {
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Welcome " + firstname + " " + surname + "!"));
-	}
-
 	public String getUsername() {
 		return username;
 	}
@@ -98,41 +68,6 @@ public class UserManagedBean implements Serializable {
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public User getSelectedUser() {
-		if (selectedUser == null) {
-			selectedUser = new User();
-		}
-		return selectedUser;
-	}
-
-	public void setSelectedUser(User selectedUser) {
-		this.selectedUser = selectedUser;
-	}
-
-	public Collection<User> getSearchUsersResults() {
-		return searchUsersResults;
-	}
-
-	public void setSearchUsersResults(Collection<User> searchUsersResults) {
-		this.searchUsersResults = searchUsersResults;
-	}
-
-	public String getSearchUser() {
-		return searchUser;
-	}
-
-	public void setSearchUser(String searchUser) {
-		this.searchUser = searchUser;
-	}
-
-	public void onUserSelect(SelectEvent event) {
-		selectedUser = (User) event.getObject();		
-	}
-
-	public void onUserUnselect(UnselectEvent event) {
-		selectedUser = null;
 	}
 
 	public String cerrarSesion() {
@@ -172,25 +107,12 @@ public class UserManagedBean implements Serializable {
 		return getUsername() != null;
 	}
 
-
-	private void manejoSession() {
-		FacesContext context = FacesContext.getCurrentInstance();
-		HttpSession session = (HttpSession) context.getExternalContext()
-				.getSession(false);
-		if (session.isNew()) {
-			session.setAttribute("username", getUsername());
-			session.setAttribute("password", getPassword());
-		} 
-	}
-	
-	
 	public String loginGeneral() throws Exception {
 
 		FacesContext context = FacesContext.getCurrentInstance();
 		String page = "";
 		try {
 			LOGGER.info("usuario " + getUsername());
-			
 			final String strTipoUsuario = getTipoUsuario();
 
 			if (VisaIntegrationConstants.TIPO_USUARIO_ALUMNO.equals(strTipoUsuario)) {
@@ -200,7 +122,6 @@ public class UserManagedBean implements Serializable {
 			} else if (VisaIntegrationConstants.TIPO_USUARIO_PROSPECTO.equals(strTipoUsuario)) {
 				page = prospectoLogin(context);
 			}
-
 			return page;
 		} catch (Exception e) {
 			LOGGER.error("Error Login General", e);

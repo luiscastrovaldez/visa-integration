@@ -90,7 +90,7 @@ public class CommonBean {
 	public String getErrorMessage() {
 		final HttpSession session = getCurrentSession();
 		if (session != null) {
-			return (String)session.getAttribute(VisaIntegrationConstants.CLAVE_MENSAJE_SESION);
+			return (String) session.getAttribute(VisaIntegrationConstants.CLAVE_MENSAJE_SESION);
 		}
 		LOGGER.info("No existe la sesion");
 		return VisaIntegrationConstants.MSG_ERROR_GENERICO;
@@ -99,7 +99,7 @@ public class CommonBean {
 	public String getEticket() {
 		final HttpSession session = getCurrentSession();
 		if (session != null) {
-			final String eTicket = (String)session.getAttribute(VisaIntegrationConstants.CAMPO_E_TICKET);
+			final String eTicket = (String) session.getAttribute(VisaIntegrationConstants.CAMPO_E_TICKET);
 			LOGGER.info(VisaIntegrationConstants.CAMPO_E_TICKET + ": " + eTicket);
 			return eTicket;
 		}
@@ -111,8 +111,8 @@ public class CommonBean {
 		final FacesContext context = FacesContext.getCurrentInstance();
 		return (HttpSession) context.getExternalContext().getSession(false);
 	}
-	
-	public String getAceptoTerminosCondiciones(){
+
+	public String getAceptoTerminosCondiciones() {
 		return VisaIntegrationConstants.ACEPTAR_TERMINOS_CONDICIONES;
 	}
 
