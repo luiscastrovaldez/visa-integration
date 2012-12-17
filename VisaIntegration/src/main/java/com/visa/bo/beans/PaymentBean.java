@@ -309,7 +309,7 @@ public class PaymentBean implements Serializable {
 	}
 
 	public String estiloCelda(final String recibo) {
-		return recibo != null && !recibo.isEmpty() ? "cuotaNoPagada": "cuotaPagada";
+		return recibo != null && !recibo.isEmpty() ? "cuotaPagada": "cuotaNoPagada";
 	}
 
 	private String obtenerMontoTransaccionVisa(final Integer idTransaccion) {

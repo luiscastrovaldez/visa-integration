@@ -45,64 +45,62 @@
             <p:ajax event="toggleSelect" update="TablaPagos" listener="#{paymentBean.totalizarPagos}"/>
             <p:column selectionMode="multiple" styleClass="#{paymentBean.estiloCelda(concepto.recibo)}" />
             <p:column headerText="Nro. Cuota" styleClass="#{paymentBean.estiloCelda(concepto.recibo)}">#{concepto.cuota}</p:column>
-            <p:column headerText="Codigo Servicio" styleClass="#{paymentBean.estiloCelda(concepto.recibo)}">#{concepto.codigoServicio}</p:column>
-            <p:column headerText="Descripcion" styleClass="#{paymentBean.estiloCelda(concepto.recibo)}">#{concepto.nombreServicio}</p:column>
+            <p:column headerText="#{commonBean.codigoServicioTexto}" styleClass="#{paymentBean.estiloCelda(concepto.recibo)}">#{concepto.codigoServicio}</p:column>
+            <p:column headerText="#{commonBean.descripcionTexto}" styleClass="#{paymentBean.estiloCelda(concepto.recibo)}">#{concepto.nombreServicio}</p:column>
             <p:column headerText="Fecha Vencimiento" styleClass="#{paymentBean.estiloCelda(concepto.recibo)}">#{concepto.fechaVencimiento}</p:column>
-            <p:column headerText="Periodo Academico" styleClass="#{paymentBean.estiloCelda(concepto.recibo)}">#{concepto.periodoacademico}</p:column>
+            <p:column headerText="#{commonBean.periodoAcademicoTexto}" styleClass="#{paymentBean.estiloCelda(concepto.recibo)}">#{concepto.periodoacademico}</p:column>
             <p:column headerText="Periodo de Pago" styleClass="#{paymentBean.estiloCelda(concepto.recibo)}">#{concepto.periodopago}</p:column>
-            <p:column headerText="Monto" styleClass="#{paymentBean.estiloCelda(concepto.recibo)}">#{concepto.monto}</p:column>
+            <p:column headerText="Monto (S/.)" styleClass="#{paymentBean.estiloCelda(concepto.recibo)}">#{concepto.monto}</p:column>
             <p:column headerText="Monto" style="text-align:right;display:none;" styleClass="nroDoc">#{concepto.recibo}</p:column>
             <p:columnGroup type="footer">
               <p:row>
-                <p:column colspan="7" style="text-align:right" footerText="Total S/.: "/>
+                <p:column colspan="7" style="text-align:right; font-weight: bold;" footerText="Total S/.: "/>
                 <p:column footerText="#{paymentBean.montoTotal}" />
               </p:row>
               <p:row>
-                <p:column colspan="7" style="text-align:right" footerText="Total (S/.) seleccionado para pagar con VISA: "/>
+                <p:column colspan="7" style="text-align:right; font-weight: bold;" footerText="Total (S/.) seleccionado para pagar con VISA: "/>
                 <p:column footerText="#{paymentBean.totalVisa}" />
               </p:row>
             </p:columnGroup>
           </p:dataTable>
           * Considere el orden de las cuotas para el pago.<br />
           ** Las cuotas sombreadas ya han sido canceladas.<br />
-          *** Considere que las cuotas deben ser del mismo periodo academico.<br />
+          *** <h:outputText value="#{commonBean.consideracionTexto}" /><br />
           <h:messages id="message" style="color:#ff0000; font-weight:bold;" >${message}</h:messages>
           <br />
 
-					<DIV id="terminos">
-						<p:dialog modal="true" widgetVar="statusDialog" header="Status"
-							draggable="false" closable="false" resizable="false">
-							<p:graphicImage value="/images/ajaxLoadingBar.gif" />
-						</p:dialog>
-
-						 <p:selectBooleanCheckbox value="#{paymentBean.aceptaTermino}" >
-						 	<p:ajax update="botonPagar" listener="#{paymentBean.aceptaTerminosCondiciones}"/> 
-						 </p:selectBooleanCheckbox> 
-							<p:commandLink  id="downloadLink" value="#{commonBean.aceptoTerminosCondiciones}" ajax="false"
-								onclick="PrimeFaces.monitorDownload(start, stop)"
-								icon="ui-icon-arrowthichk-s">
-								<p:fileDownload value="#{fileDownloadBean.file}" />
-							</p:commandLink >
-
-						
-
-						<script type="text/javascript">
-							function start() {
-								statusDialog.show();
-							}
-
-							function stop() {
-								statusDialog.hide();
-							}
-						</script>
-					</DIV>
-
-
-					<h:commandButton type="submit" value=" Pagar con VISA " disabled="#{paymentBean.pagarDeshabilitado}"
-            action="#{paymentBean.registrarPago}" styleClass="Boton" id="botonPagar" onclick="return validarTransaccionVisa();"></h:commandButton>
+			<div id="terminos">
+				<p:dialog modal="true" widgetVar="statusDialog" header="Status"
+					draggable="false" closable="false" resizable="false">
+					<p:graphicImage value="/images/ajaxLoadingBar.gif" />
+				</p:dialog>
+			
+				 <p:selectBooleanCheckbox value="#{paymentBean.aceptaTermino}" >
+				 	<p:ajax update="botonPagar" listener="#{paymentBean.aceptaTerminosCondiciones}"/> 
+				 </p:selectBooleanCheckbox> 
+					<p:commandLink  id="downloadLink" value="#{commonBean.aceptoTerminosCondiciones}" ajax="false"
+						onclick="PrimeFaces.monitorDownload(start, stop)"
+						icon="ui-icon-arrowthichk-s">
+						<p:fileDownload value="#{fileDownloadBean.file}" />
+					</p:commandLink >
+			
+				<script type="text/javascript">
+					function start() {
+						statusDialog.show();
+					}
+			
+					function stop() {
+						statusDialog.hide();
+					}
+				</script>
+			</div>
+			<br />
+			<h:commandButton type="submit" value=" Pagar con VISA " disabled="#{paymentBean.pagarDeshabilitado}"
+          		action="#{paymentBean.registrarPago}" styleClass="Boton" id="botonPagar" onclick="return validarTransaccionVisa();">
+          	</h:commandButton>
         </div>
         <p:dialog id="modalDialog" widgetVar="dlg2" modal="true">  
-		    <h:outputText value="#{commonBean.mensajeErrorPeriodo}" />  
+		    <h:outputText value="#{commonBean.mensajeErrorPeriodo}" />
 		</p:dialog>
       </h:form>
     </div>

@@ -77,9 +77,23 @@ a img {
 
 #PiePagina {
 	margin-top: 3px;
-	padding-top: 5px;
+	padding-top: 10px;
 	border-top: solid 1px #336699;
 	text-align: center;
+}
+
+#PiePagina a {
+    padding: 10px;
+}
+
+#PiePagina .visaTexto {
+	color: #4F4F4F;
+    float: left;
+    font-family: verdana,Arial;
+    margin-left: 335px;
+    padding-top: 15px;
+    text-align: left;
+    width: 300px;
 }
 
 #TablaLogin {
@@ -94,6 +108,7 @@ a img {
 	background-repeat: no-repeat;
 	background-position: left center;
 	font-size: 12px;
+	font-family: verdana,Arial;
 }
 
 #TablaLogin table:last-child tr:last-child td {
@@ -113,6 +128,7 @@ a img {
 .TablaPagos {
 	width: 100%;
 	border: solid 1px #cccccc;
+	padding: 2px;
 }
 
 .TablaPagos thead tr th, .TablaPagos tfoot tr th, .TablaPagos tbody tr td {
@@ -120,19 +136,44 @@ a img {
 }
 
 .TablaPagos thead tr th {
-	background-color: #336699;
-	background-image: none;
+	background-color: #336699 !important;
+	background-image: none !important;
 	border: solid 1px #003366 !important;
 	color: #FFFFFF;
+	box-shadow: none;
 }
 
 .TablaPagos thead tr th div span {
 	color: #FFFFFF;
-}
-.TablaPagos tbody .cuotaPagada {
-	background-color: #cccccc;
+	font-family: verdana,Arial;
+    font-size: 12px;
+    font-weight: normal;
+    text-shadow: 0 0 0 #FFFFFF;
 }
 
+.TablaPagos tfoot tr td.ui-state-default {
+	background-color: #FFFFFF;
+	color: #222222;
+	font-weight: normal;
+}
+
+.TablaPagos tbody .cuotaPagada {
+	background-color: #cccccc;
+	border: 1px solid #003366;
+}
+
+.TablaPagos tbody .cuotaNoPagada {
+	background-color: #FFFFFF;
+	border: 1px solid #003366;
+}
+
+.TablaPagos tbody tr.ui-state-highlight {
+    text-shadow: 0 0 0 #FFFFFF;
+}
+
+.TablaPagos tbody tr {
+	 text-shadow: 0 0 0 #FFFFFF;
+}
 .TablaPagos tbody .cuotaPagada div.ui-chkbox-box {
 	display: none;
 }
@@ -163,8 +204,8 @@ a img {
 	padding: 5px;
 	border-top: solid 1px #0066CC;
 	border-bottom: solid 1px #0066CC;
-	background-color: #F8F8F8;
-	border-radius: 0px;
+	background-color: #F8F8F8 !important;
+	border-radius: 0px !important;
 }
 
 div.pnlLayoutContenido .ui-layout-unit-content,#TablaLogin {
@@ -186,6 +227,11 @@ div.pnlLayoutContenido .ui-layout-unit-content,#TablaLogin {
 	font-weight: bold;
 	border: solid 1px #000000;
 	cursor: pointer;
+	font-size: 13px !important;
+}
+
+.Boton:disabled {
+    color: #CCCCCC;
 }
 
 .CajaTexto {
