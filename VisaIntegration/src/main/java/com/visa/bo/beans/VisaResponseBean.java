@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 
 import com.visa.domain.TranVisaRespuesta;
+import com.visa.util.CodigosAccionUtil;
 import com.visa.util.VisaIntegrationConstants;
 
 @ManagedBean(name = "visaResponseBean")
@@ -109,7 +110,7 @@ public class VisaResponseBean implements Serializable {
 			setImporteTransaccion(tranVisaRespuesta.getImpAutorizado());
 			setDescripcionProducto(tranVisaRespuesta.getDescripcionProducto());
 			setCodigoComprador(tranVisaRespuesta.getAlumno());
-			setDescripcionCodigo(VisaIntegrationConstants.CODIGOSACCIONMAP.get(tranVisaRespuesta.getCodAccion()));
+			setDescripcionCodigo(CodigosAccionUtil.MAP.get(tranVisaRespuesta.getCodAccion()));
 			setMensaje(VisaIntegrationConstants.CORRECTO_PROCESO_SOLICITUD);
 		}
 		LOGGER.info("No existe la sesion");
