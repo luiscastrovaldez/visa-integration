@@ -46,6 +46,7 @@ public class VisaIntegrationConstants {
 	public static final String LOGIN_CERRAR_SESION = "[ Cerrar sesión ]";
 	public static final String SEPARADOR_LINKS_CABECERA = "   |   ";
 	public static final String IMPRIMIR_TEXTO = "[Imprimir]";
+	public static final String VISA_TEXTO = "Esta tienda está autorizada por Visa para realizar transacciones electrónicas.";
 
 	/*
 	 * Pagina Login
@@ -78,6 +79,10 @@ public class VisaIntegrationConstants {
 	public static final String CLAVE_USUARIO_SESION = "USUARIO_SESION";
 	public static final String CLAVE_CARRERA_SESION = "CARRERA_SESION";
 	public static final String CLAVE_TIPO_USUARIO_SESION = "TIPO_USUARIO_SESION";
+	public static final String CODIGO_SERVICIO_TEXTO = "Código Servicio";
+	public static final String DESCRIPCION_TEXTO = "Descripción";
+	public static final String PERIODO_ACADEMICO_TEXTO = "Periodo Académico";
+	public static final String CONSIDERACION_TEXTO = "Considere que las cuotas deben ser del mismo periodo académico.";
 
 	/*
 	 * Pagina Error

@@ -115,6 +115,24 @@ public class CommonBean {
 	public String getAceptoTerminosCondiciones(){
 		return VisaIntegrationConstants.ACEPTAR_TERMINOS_CONDICIONES;
 	}
-	
 
+	public String getVisaTexto() {
+		return VisaIntegrationConstants.VISA_TEXTO;
+	}
+
+	public String getCodigoServicioTexto() {
+		return VisaIntegrationConstants.CODIGO_SERVICIO_TEXTO;
+	}
+
+	public String getPeriodoAcademicoTexto() {
+		return VisaIntegrationConstants.PERIODO_ACADEMICO_TEXTO;
+	}
+
+	public String getDescripcionTexto() {
+		return VisaIntegrationConstants.DESCRIPCION_TEXTO;
+	}
+
+	public String getConsideracionTexto() {
+		return VisaIntegrationConstants.CONSIDERACION_TEXTO;
+	}
 }

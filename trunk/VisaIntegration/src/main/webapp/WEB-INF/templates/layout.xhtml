@@ -34,12 +34,21 @@
 			<ui:insert name="content"></ui:insert>
 		</p:layoutUnit>
 	   	<div id="PiePagina">
-		    <h:outputLink value="www.visanet.com.pe" title="" alt="">
-				<h:graphicImage value="images/NVO.visa-logo.jpg"/>
-			</h:outputLink>
-			<h:outputLink value="www.visanet.com.pe/visa.htm" title="" alt="">
-				<h:graphicImage value="images/V_byVBM_FC.JPG"/>
-			</h:outputLink>
+	   		<div class="visaTexto">
+	   			<h:outputText value= "#{commonBean.visaTexto}"/>
+	   		</div>
+	   		<div style="float: left;">
+		    	<h:outputLink value="http://www.VisaNet.com.pe" target="_blank" title="" alt="">
+					<h:graphicImage value="images/NVO.visa-logo.jpg"/>
+				</h:outputLink>
+				<h:outputLink value="http://www.VisaNet.com.pe/visa.htm" target="_blank" title="" alt=""
+				onclick="javascript:window.open(this.href, this.target, 'width=606,height=402,resizable,scrollbars');return false;">
+					<h:graphicImage value="images/V_byVBM_FC.JPG"/>
+				</h:outputLink>
+				<h:outputLink value="http://www.VisaNet.com.pe/promovbv/bancos.html" target="_blank" title="" alt="">
+					<h:graphicImage value="images/afiliateVisa.gif"/>
+				</h:outputLink>
+			</div>
 	    </div>
 	</div>
 </h:body>
