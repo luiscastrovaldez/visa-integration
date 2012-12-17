@@ -57,19 +57,13 @@ public class PaymentBean implements Serializable {
 		LOGGER.info("--------------PaymentBean------------");
 	}
 
-	
-	
 	public boolean isHabilitaCheck() {
 		return habilitaCheck;
 	}
 
-
-
 	public void setHabilitaCheck(boolean habilitaCheck) {
 		this.habilitaCheck = habilitaCheck;
 	}
-
-
 
 	public UserManagedBean getUserManagedBean() {
 		return userManagedBean;
@@ -347,9 +341,9 @@ public class PaymentBean implements Serializable {
 		}
 	}
 
-	 private HttpSession getCurrentSession() {
-	    final FacesContext context = FacesContext.getCurrentInstance();
-	    return (HttpSession) context.getExternalContext().getSession(false);
-	  }
+	private HttpSession getCurrentSession() {
+		final FacesContext context = FacesContext.getCurrentInstance();
+		return (HttpSession) context.getExternalContext().getSession(false);
+	}
 
 }

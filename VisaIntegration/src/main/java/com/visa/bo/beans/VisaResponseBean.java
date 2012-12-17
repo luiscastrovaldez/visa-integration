@@ -17,7 +17,7 @@ import com.visa.util.VisaIntegrationConstants;
 public class VisaResponseBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private static final Logger LOGGER = Logger.getLogger(PaymentBean.class);
+	private static final Logger LOGGER = Logger.getLogger(VisaResponseBean.class);
 
 	private String numeroPedido;
 	private String numeroTarjeta;
@@ -105,11 +105,9 @@ public class VisaResponseBean implements Serializable {
 
 			setNumeroPedido(tranVisaRespuesta.getnOrdenT());
 			setNumeroTarjeta(tranVisaRespuesta.getPan());
-			/* datos ke vienen de servicio*/
 			setFechaHoraPedido(tranVisaRespuesta.getFechaHoraTx());
 			setImporteTransaccion(tranVisaRespuesta.getImpAutorizado());
 			setDescripcionProducto(tranVisaRespuesta.getDescripcionProducto());
-			/* datos ke vienen de servicio*/
 			setCodigoComprador(tranVisaRespuesta.getAlumno());
 			setDescripcionCodigo(VisaIntegrationConstants.CODIGOSACCIONMAP.get(tranVisaRespuesta.getCodAccion()));
 			setMensaje(VisaIntegrationConstants.CORRECTO_PROCESO_SOLICITUD);

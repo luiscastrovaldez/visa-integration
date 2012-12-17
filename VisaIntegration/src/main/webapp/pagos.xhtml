@@ -68,11 +68,6 @@
           *** <h:outputText value="#{commonBean.consideracionTexto}" /><br />
           <h:messages id="message" style="color:#ff0000; font-weight:bold;" >${message}</h:messages>
           <br />
-
-					
-
-
-					
 			<div id="terminos">
 				<p:dialog modal="true" widgetVar="statusDialog" header="Status"
 					draggable="false" closable="false" resizable="false">
@@ -102,8 +97,6 @@
 			<h:commandButton type="submit" value=" Pagar con VISA " disabled="#{paymentBean.pagarDeshabilitado}"
           		action="#{paymentBean.registrarPago}" styleClass="Boton" id="botonPagar" onclick="return validarTransaccionVisa();">
           	</h:commandButton>
-			
-			
         </div>
         <p:dialog id="modalDialog" widgetVar="dlg2" modal="true">  
 		    <h:outputText value="#{commonBean.mensajeErrorPeriodo}" />
