@@ -2,6 +2,7 @@ package com.visa.bo.beans;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Map;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -127,8 +128,7 @@ public class UserManagedBean implements Serializable {
 	}
 
 	public void onUserSelect(SelectEvent event) {
-		selectedUser = (User) event.getObject();
-		System.out.println("selectedUser = " + selectedUser);
+		selectedUser = (User) event.getObject();		
 	}
 
 	public void onUserUnselect(UnselectEvent event) {
@@ -206,14 +206,14 @@ public class UserManagedBean implements Serializable {
 			LOGGER.error("Error Login General", e);
 			context = FacesContext.getCurrentInstance();
 			context.addMessage("messaje", new FacesMessage("Ha ocurrido un error. Por favor, vuelva a intentarlo en unos minutos."));
-			return "error";
+			return "error?faces-redirect=true";
 		}
 
 	}
 
 	private String getTipoUsuario() {
 		final HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-		return request.getParameter("usr") == null ? VisaIntegrationConstants.TIPO_USUARIO_ALUMNO : request.getParameter("usr");
+		return request.getParameter("usr") == null ? VisaIntegrationConstants.TIPO_USUARIO_ALUMNO : request.getParameter("usr");		
 	}
 
 	private String postulanteLogin(FacesContext context) throws Exception {
@@ -221,12 +221,12 @@ public class UserManagedBean implements Serializable {
 		intPostulante = this.visaIntegration.verificaPostulanteExiste(getUsername(), getPassword());
 		if (intPostulante == 1) {
 			setTipoUsuarioLogueado(VisaIntegrationConstants.TIPO_USUARIO_POSTULANTE);
-			return "pagos";
+			return "pagos?faces-redirect=true";
 		} else {
 			context.addMessage("messaje", new FacesMessage(
 					"Los datos ingresados no corresponden a un usuario registrado. Verifique y vuelva a intentarlo."));
 		}
-		return "login";
+		return "login?faces-redirect=true";
 	}
 
 	private String prospectoLogin(FacesContext context) throws Exception {
@@ -243,12 +243,12 @@ public class UserManagedBean implements Serializable {
 		if (intProspecto == 1) {
 			setTipoUsuarioLogueado(VisaIntegrationConstants.TIPO_USUARIO_PROSPECTO);
 			setNumAtencion(intAtencion);
-			return "pagos";
+			return "pago?faces-redirect=trues";
 		} else {
 			context.addMessage("messaje", new FacesMessage(
 					"Los datos ingresados no corresponden a un usuario registrado. Verifique y vuelva a intentarlo."));
 		}
-		return "login";
+		return "login?faces-redirect=true";
 
 	}
 

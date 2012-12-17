@@ -41,6 +41,7 @@ public class PaymentBean implements Serializable {
 	private String totalVisa;
 	private boolean pagarDeshabilitado;
 	private boolean aceptaTermino;
+	private boolean habilitaCheck;
 	private String visaXmlData;
 
 	@ManagedProperty(value = "#{userManagedBean}")
@@ -55,6 +56,20 @@ public class PaymentBean implements Serializable {
 	public PaymentBean() {
 		LOGGER.info("--------------PaymentBean------------");
 	}
+
+	
+	
+	public boolean isHabilitaCheck() {
+		return habilitaCheck;
+	}
+
+
+
+	public void setHabilitaCheck(boolean habilitaCheck) {
+		this.habilitaCheck = habilitaCheck;
+	}
+
+
 
 	public UserManagedBean getUserManagedBean() {
 		return userManagedBean;
@@ -182,6 +197,7 @@ public class PaymentBean implements Serializable {
 		}
 		LOGGER.info("cantidad de conceptos: " + listaConceptos.size());
 		setPagarDeshabilitado(listaConceptos.size() == 0);
+		setHabilitaCheck(listaConceptos.size() == 0);
 		setPagarDeshabilitado(!aceptaTermino);
 		
 		double monto = 0;
