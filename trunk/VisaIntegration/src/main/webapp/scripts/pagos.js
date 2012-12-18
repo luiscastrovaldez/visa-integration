@@ -16,20 +16,46 @@ jQuery(function($) {
 	$tabs.tabs('select', 0);
 });
 
-function validarCuotasPagadas(){
-  $('#tab div.ui-datatable table tbody td.nroDoc div').each(function() {
-    var strNroDoc = $(this).text();
-
-    if (strNroDoc != '') {
-      $(this).parent().parent().find("td").css({ 'background-color': '#cccccc' });
-      $(this).parent().parent().find("td div").first().hide();
-    }
-  });
-}
-
 function validarTransaccionVisa() {
-	var strCadena = '';
-    var intCant = 0;
-    var strCuotas = ''; //Variable para verificar el orden de las cuotas seleccionadas
+    // validar que existan items seleccionados
+	var contador = 0;
+	var periodo = '';
+	var periodoError = '';
+	var cuotasSeleccionadas = '';
+	$('#tab div.ui-datatable table tbody td div.ui-chkbox span').each(function() {
+	    if($(this).hasClass('ui-icon') && $(this).hasClass('ui-icon-check') && $(this).closest('td').hasClass('cuotaNoPagada')) {
+	        contador++;
+	        var periodoPago = $(this).closest('tr').find('td.periodo div').text();
+			if (periodo == '') {
+				periodo = periodoPago;
+			} else {
+				if (periodoPago != periodo) {
+					periodoError = 'El periodo académico debe ser el mismo por cada operación.';
+				}
+			}
+			cuotasSeleccionadas = cuotasSeleccionadas + '|' + $(this).closest('tr').find('td.cuota div').text();
+	    }
+	});
+	if (contador == 0) {
+		alert('Por favor seleccione al menos una cuota a pagar.');
+		return false;
+	}
+	// validar que el periodo academico sea el mismo para todas las cuotass seleccionadas
+	if (periodoError != '') {
+		alert(periodoError);
+		return false;
+	}
+    // validar el orden de las cuotas
+	var strCuotas = '';
+	$('#tab div.ui-datatable table tbody td.nroDoc div').each(function() {
+	    var strNroDoc = $(this).text();
+	    if (strNroDoc == '') {
+	    	strCuotas = strCuotas + '|' + $(this).closest('tr').find('td.cuota div').text();
+	    }
+	});
+	if (strCuotas != cuotasSeleccionadas.substring(0, strCuotas.length)) {
+		alert('Por favor considere el orden de las cuotas al seleccionar los conceptos que pagará.');
+	    return false;
+    }
 	return true;
 }
