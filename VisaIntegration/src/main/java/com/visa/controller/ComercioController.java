@@ -270,9 +270,7 @@ public class ComercioController {
 				datosCorreo.setIdCliente(comprador);
 				datosCorreo.setIdTransferencia(Integer.toString(intNOrdenT));
 				datosCorreo.setMonto(monto);
-				// TODO cambiar a datos[1]
-				datosCorreo.setAddressTo("gluiscastro@gmail.com");
-				LOGGER.info(datosCorreo.getAddressTo());
+				datosCorreo.setAddressTo(datos[1]);
 				emailServices.sendEmail(datosCorreo);
 			}
 		} catch (Exception ex) {
@@ -281,6 +279,7 @@ public class ComercioController {
 	}
 
 	private void enviarUsuarioClaveAlumno(final String idPostulante, final String carrera) {
+		LOGGER.info("enviarUsuarioClaveAlumno");
 		String strInfo;
 		try {
 			strInfo = visaIntegration.obtenerNombrePostulante(idPostulante);
@@ -293,8 +292,7 @@ public class ComercioController {
 				datosCorreo.setNuevoAlumno(true);
 				datosCorreo.setUsuario(usuario.getUsuario());
 				datosCorreo.setClave(usuario.getClave());
-				// TODO cambiar a datos[1]
-				datosCorreo.setAddressTo("gluiscastro@gmail.com");
+				datosCorreo.setAddressTo(datos[1]);
 				emailServices.sendEmail(datosCorreo);
 			}
 		} catch (Exception e) {
