@@ -111,7 +111,7 @@ public class VisaResponseBean implements Serializable {
 			setDescripcionProducto(tranVisaRespuesta.getDescripcionProducto());
 			setCodigoComprador(tranVisaRespuesta.getAlumno());
 			setDescripcionCodigo(CodigosAccionUtil.MAP.get(tranVisaRespuesta.getCodAccion()));
-			setMensaje(VisaIntegrationConstants.CORRECTO_PROCESO_SOLICITUD);
+			setMensaje(VisaIntegrationConstants.ERROR_PROCESO_SOLICITUD);
 		}
 		LOGGER.info("No existe la sesion");
 	}

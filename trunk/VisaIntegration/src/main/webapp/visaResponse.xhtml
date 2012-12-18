@@ -9,7 +9,7 @@
     <center>
     <p:panel id="TablaLogin">
         <h:form>
-        	<span class="titulo"><h:outputText value="#{commonBean.paginaRespuestaTitulo}"/></span>
+        	<span><h:outputText value="#{commonBean.paginaRespuestaTitulo}"/></span>
             <h:panelGrid columns="2" cellpadding="2" columnClasses="ColumnaLabel, ColumnaTexto">
             	<h:outputText value="Nombre del negocio:"/>
             	<h:outputText value="Universidad Privada Norbert Wiener" styleClass="nombreInstitucion"/>
@@ -24,21 +24,18 @@
             	<h:outputText value="Moneda:"/>
             	<h:outputText value="Nuevos Soles Peruanos ( S/. )"/>
             	<h:outputText value="#{commonBean.descripcionProductoTexto}"/>
-            	<h:outputText value="#{visaResponseBean.descripcionProducto}"/>
+            	<h:outputText escape="false" value="#{visaResponseBean.descripcionProducto}"/>
             	<h:outputText value="#{commonBean.codigoCompradorTexto}"/>
             	<h:outputText value="#{visaResponseBean.codigoComprador}"/>
             	<h:outputText value="#{commonBean.descripcionCodigoTexto}"/>
             	<h:outputText value="#{visaResponseBean.descripcionCodigo}"/>
-            	<p:row>
-					<p:column colspan="2"><h:outputText value="#{visaResponseBean.mensaje}"/></p:column>
-				</p:row>
-				<a href="Documentos/politicas-comerciales-devolución-dinero.pdf">
-					<h:outputText value= "#{commonBean.politicasDevolucionTexto}"/>
-				</a>
-				<a href="Documentos/terminos-condiciones-de-uso.pdf">
-					<h:outputText value= "#{commonBean.terminosCondicionesTexto}"/>
-				</a>
             </h:panelGrid>
+            <br/>
+            <center>
+	            <div>
+	            	<h:outputText style="color:red;" value="#{visaResponseBean.mensaje}"/>
+	            </div>
+            </center>
         </h:form>
     </p:panel>
     </center>

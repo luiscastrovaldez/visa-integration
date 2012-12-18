@@ -218,9 +218,9 @@ public class PaymentBean implements Serializable {
 	}
 
 	public String registrarPago() {
-	  if (listaConceptosSeleccionados == null || listaConceptosSeleccionados.length == 0) {
-	    return "pagos";
-	  }
+		if (listaConceptosSeleccionados == null || listaConceptosSeleccionados.length == 0) {
+			return "pagos";
+		}
 		LOGGER.info("registrarPago");
 		final String usuario = VisaIntegrationConstants.TIPO_USUARIO_ALUMNO.equals(userManagedBean.getTipoUsuarioLogueado())?
 		userManagedBean.getUsername().substring(1): userManagedBean.getUsername();
@@ -248,10 +248,11 @@ public class PaymentBean implements Serializable {
 			session.setAttribute(VisaIntegrationConstants.CLAVE_USUARIO_SESION, userManagedBean.getUsername());
 			session.setAttribute(VisaIntegrationConstants.CLAVE_CARRERA_SESION, carrera.getCodigo());
 			session.setAttribute(VisaIntegrationConstants.CLAVE_TIPO_USUARIO_SESION, userManagedBean.getTipoUsuarioLogueado());
+			limpiarVariables();
 			return "envioVisa";
 		} else {
 			final FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage("messaje", new FacesMessage("Ha ocurrido un error, su operación no puede procesarse. Por favor, vuelva a intentarlo en unos minutos."));
+			context.addMessage("message", new FacesMessage("Ha ocurrido un error, su operación no puede procesarse. Por favor, vuelva a intentarlo en unos minutos."));
 			return "pagos";
 		}
 	}
@@ -344,6 +345,11 @@ public class PaymentBean implements Serializable {
 	private HttpSession getCurrentSession() {
 		final FacesContext context = FacesContext.getCurrentInstance();
 		return (HttpSession) context.getExternalContext().getSession(false);
+	}
+
+	private void limpiarVariables() {
+		listaCarreras = null;
+		listaConceptosSeleccionados = null;
 	}
 
 }

@@ -8,15 +8,15 @@ import org.simpleframework.xml.Root;
 @Root(name = "nuevo_eticket")
 public class NuevoETicket {
 
-  @ElementList(entry = "parametro", inline = false)
-  private ArrayList<Parametro> parametros;
+	@ElementList(entry = "parametro", inline = false)
+	private ArrayList<Parametro> parametros;
 
-  public ArrayList<Parametro> getParametros() {
-    return parametros;
-  }
+	public ArrayList<Parametro> getParametros() {
+		return parametros;
+	}
 
-  public void setParametros(final ArrayList<Parametro> parametros) {
-    this.parametros = parametros;
-  }
+	public void setParametros(final ArrayList<Parametro> parametros) {
+		this.parametros = parametros;
+	}
 
 }
