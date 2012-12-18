@@ -44,11 +44,11 @@
             <p:ajax event="rowUnselectCheckbox" update="TablaPagos" listener="#{paymentBean.totalizarPagos}"/>
             <p:ajax event="toggleSelect" update="TablaPagos" listener="#{paymentBean.totalizarPagos}"/>
             <p:column selectionMode="multiple" styleClass="#{paymentBean.estiloCelda(concepto.recibo)}" />
-            <p:column headerText="Nro. Cuota" styleClass="#{paymentBean.estiloCelda(concepto.recibo)}">#{concepto.cuota}</p:column>
+            <p:column headerText="Nro. Cuota" styleClass="#{paymentBean.estiloCelda(concepto.recibo)} cuota">#{concepto.cuota}</p:column>
             <p:column headerText="#{commonBean.codigoServicioTexto}" styleClass="#{paymentBean.estiloCelda(concepto.recibo)}">#{concepto.codigoServicio}</p:column>
             <p:column headerText="#{commonBean.descripcionTexto}" styleClass="#{paymentBean.estiloCelda(concepto.recibo)}">#{concepto.nombreServicio}</p:column>
             <p:column headerText="Fecha Vencimiento" styleClass="#{paymentBean.estiloCelda(concepto.recibo)}">#{concepto.fechaVencimiento}</p:column>
-            <p:column headerText="#{commonBean.periodoAcademicoTexto}" styleClass="#{paymentBean.estiloCelda(concepto.recibo)}">#{concepto.periodoacademico}</p:column>
+            <p:column headerText="#{commonBean.periodoAcademicoTexto}" styleClass="#{paymentBean.estiloCelda(concepto.recibo)} periodo">#{concepto.periodoacademico}</p:column>
             <p:column headerText="Periodo de Pago" styleClass="#{paymentBean.estiloCelda(concepto.recibo)}">#{concepto.periodopago}</p:column>
             <p:column headerText="Monto (S/.)" styleClass="#{paymentBean.estiloCelda(concepto.recibo)}">#{concepto.monto}</p:column>
             <p:column headerText="Monto" style="text-align:right;display:none;" styleClass="nroDoc">#{concepto.recibo}</p:column>
@@ -73,7 +73,7 @@
 					draggable="false" closable="false" resizable="false">
 					<p:graphicImage value="/images/ajaxLoadingBar.gif" />
 				</p:dialog>
-			
+
 				 <p:selectBooleanCheckbox value="#{paymentBean.aceptaTermino}" disabled="#{paymentBean.habilitaCheck}">
 				 	<p:ajax update="botonPagar" listener="#{paymentBean.aceptaTerminosCondiciones}"/> 
 				 </p:selectBooleanCheckbox> 
