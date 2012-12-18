@@ -350,6 +350,7 @@ public class PaymentBean implements Serializable {
 	private void limpiarVariables() {
 		listaCarreras = null;
 		listaConceptosSeleccionados = null;
+		totalVisa = "0.00";
 	}
 
 }

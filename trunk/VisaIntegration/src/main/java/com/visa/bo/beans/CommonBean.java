@@ -135,4 +135,9 @@ public class CommonBean {
 	public String getConsideracionTexto() {
 		return VisaIntegrationConstants.CONSIDERACION_TEXTO;
 	}
+
+	public String getPaginaPagoTexto() {
+		return VisaIntegrationConstants.PAGINA_PAGO_TEXTO;
+	}
+
 }
