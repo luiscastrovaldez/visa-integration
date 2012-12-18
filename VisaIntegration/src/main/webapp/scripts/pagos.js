@@ -53,7 +53,7 @@ function validarTransaccionVisa() {
 	    	strCuotas = strCuotas + '|' + $(this).closest('tr').find('td.cuota div').text();
 	    }
 	});
-	if (strCuotas != cuotasSeleccionadas.substring(0, strCuotas.length)) {
+	if (strCuotas.substring(0, cuotasSeleccionadas.length) != cuotasSeleccionadas) {
 		alert('Por favor considere el orden de las cuotas al seleccionar los conceptos que pagará.');
 	    return false;
     }
