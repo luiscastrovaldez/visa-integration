@@ -6,6 +6,7 @@ public class VisaIntegrationConstants {
 	public static final String CAMPO_COD_TIENDA = "CODTIENDA";
 	public static final String CAMPO_NUM_ORDEN = "NUMORDEN";
 	public static final String CAMPO_E_TICKET = "ETICKET";
+	public static final String CAMPO_E_TICKET_RESPUESTA = "eticket";
 	public static final String CAMPO_CANAL = "CANAL";
 	public static final String CAMPO_PRODUCTO = "PRODUCTO";
 	public static final String CAMPO_MOUNT = "MOUNT";
