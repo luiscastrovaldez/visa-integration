@@ -110,22 +110,24 @@ public class UserManagedBean implements Serializable {
 	}
 		
 	public String loginGeneral() throws Exception {
-
-		FacesContext context = FacesContext.getCurrentInstance();
-		String page = "";
+		
+		String page = "login";
 		try {
 			LOGGER.info("usuario " + getUsername());
 			final String strTipoUsuario = getTipoUsuario();
+			LOGGER.info("strTipoUsuario  " + strTipoUsuario);
 
 			if (VisaIntegrationConstants.TIPO_USUARIO_ALUMNO.equals(strTipoUsuario)) {
-				page = this.alumnoLogin(context);
+				page = this.alumnoLogin();
 			} else if (VisaIntegrationConstants.TIPO_USUARIO_POSTULANTE.equals(strTipoUsuario)) {
-				page = this.postulanteLogin(context);
+				page = this.postulanteLogin();
 			} else if (VisaIntegrationConstants.TIPO_USUARIO_PROSPECTO.equals(strTipoUsuario)) {
-				page = this.prospectoLogin(context);
-			}
+				page = this.prospectoLogin();
+			}			
+			
 			return page;
 		} catch (Exception e) {
+			FacesContext context = FacesContext.getCurrentInstance();
 			LOGGER.error("Error Login General", e);
 			context = FacesContext.getCurrentInstance();
 			context.addMessage("messaje", new FacesMessage("Ha ocurrido un error. Por favor, vuelva a intentarlo en unos minutos."));
@@ -139,21 +141,25 @@ public class UserManagedBean implements Serializable {
 		return request.getParameter("usr") == null ? VisaIntegrationConstants.TIPO_USUARIO_ALUMNO : request.getParameter("usr");		
 	}
 
-	private String postulanteLogin(FacesContext context) throws Exception {
+	private String postulanteLogin() throws Exception {
 		int intPostulante;
+		FacesContext context = FacesContext.getCurrentInstance();
 		intPostulante = this.visaIntegration.verificaDatosPostulante(getUsername(), getPassword());
+		LOGGER.info(" postulanteLogin = " + intPostulante);
 		if (intPostulante == 1) {
 			setTipoUsuarioLogueado(VisaIntegrationConstants.TIPO_USUARIO_POSTULANTE);
 			return "pagos?faces-redirect=true";
 		} else {
 			context.addMessage("messaje", new FacesMessage(
 					"Los datos ingresados no corresponden a un usuario registrado. Verifique y vuelva a intentarlo."));
+			return "login";
 		}
-		return "login?faces-redirect=true";
+		
 	}
 
-	private String prospectoLogin(FacesContext context) throws Exception {
+	private String prospectoLogin() throws Exception {
 		int intAtencion = 0;
+		FacesContext context = FacesContext.getCurrentInstance();
 		String [] strIdentificacion = getPassword().trim().split("-");
 		if (strIdentificacion.length > 1) {
 			try {
@@ -163,6 +169,7 @@ public class UserManagedBean implements Serializable {
 			}	
 		}
 		int intProspecto = this.visaIntegration.verificaProspectoExiste(getUsername(), getPassword(), intAtencion);
+		LOGGER.info(" intProspecto = " + intProspecto);
 		if (intProspecto == 1) {
 			setTipoUsuarioLogueado(VisaIntegrationConstants.TIPO_USUARIO_PROSPECTO);
 			setNumAtencion(intAtencion);
@@ -170,16 +177,18 @@ public class UserManagedBean implements Serializable {
 		} else {
 			context.addMessage("messaje", new FacesMessage(
 					"Los datos ingresados no corresponden a un usuario registrado. Verifique y vuelva a intentarlo."));
+			return "login";
 		}
-		return "login?faces-redirect=true";
+		
 
 	}
 
-	private String alumnoLogin(FacesContext context) throws Exception {
+	private String alumnoLogin() throws Exception {
+		FacesContext context = FacesContext.getCurrentInstance();
 		int flag = -1;
 		flag = this.visaIntegration.verificarAccesoUsuario(Constants.INTINSTITUCION, getUsername(), getPassword(),Constants.PERFIL_ALUMNO,Constants.DOMINIO);
 		LOGGER.info(" verificaUsuarioExiste = " + flag);
-
+		
 		switch (flag) {
 		case 0:
 			setTipoUsuarioLogueado(VisaIntegrationConstants.TIPO_USUARIO_ALUMNO);
@@ -187,28 +196,28 @@ public class UserManagedBean implements Serializable {
 		case 1:
 			context.addMessage("messaje", new FacesMessage(
 					"El nombre de usuario y/o la contraseña son incorrectos. Verifique y vuelva a intentarlo."));
-			break;
+			return "login";			
 		case 2:
 			context.addMessage("messaje", new FacesMessage(
 					"Ud. no está matriculado en el presente periodo o ha dejado de estudiar en la institución."));
-			break;
+			return "login";
 		case 3:
 			context.addMessage("messaje", new FacesMessage(
 					"Ud. no tiene contrato activo con la institución. Por favor, verifique y vuelva a intentarlo."));
-			break;
+			return "login";
 		case 4:
 			context.addMessage("messaje", new FacesMessage(
 					"Ud. no está programado para dictar curso alguno de esta institución. Verifique y vuelva a intentarlo."));
-			break;
+			return "login";
 
 		default:
 			context
 					.addMessage("messaje",
 							new FacesMessage("Se ha producido un error inesperado. Por favor vuelva a intentarlo en unos minutos."));
-			break;
+			return "login";
 		}
 	
-		return "login?faces-redirect=true";
+		
 	}
 
 }
