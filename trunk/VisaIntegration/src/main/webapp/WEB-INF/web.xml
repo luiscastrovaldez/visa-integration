@@ -43,6 +43,8 @@
     <servlet-name>Faces Servlet</servlet-name>
     <url-pattern>*.faces</url-pattern>
   </servlet-mapping>
+  
+  
 
 <!-- Mapping with servlet and url for the http requests. -->
   <servlet-mapping>
@@ -79,7 +81,7 @@
   
   <error-page>
     <exception-type>javax.faces.application.ViewExpiredException</exception-type>
-    <location>/login.xhtml</location>
-</error-page>
+    <location>/login.visa</location>
+	</error-page>
 
 </web-app>
