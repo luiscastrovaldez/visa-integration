@@ -3,6 +3,8 @@ package com.visa.util;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URLDecoder;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 public class VisaIntegrationUtil {
@@ -42,4 +44,13 @@ public class VisaIntegrationUtil {
 	public static String formatBigDecimal(BigDecimal number) {
 		return String.format(Locale.ENGLISH, "%1$,.2f", number);
 	}
+
+	public static String formatDate(final Date date) {
+		if (date == null) {
+			return null;
+		}
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+	    return dateFormat.format(date);
+	}
+
 }

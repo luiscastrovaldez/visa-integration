@@ -205,12 +205,12 @@ public class ComercioController {
 				visaIntegration.registraTranVisaRespuesta(tranVisaRespuesta, estado);
 				final int intNOrdenT = Integer.valueOf(tranVisaRespuesta.getnOrdenT());
 				final InfoTranVISA infoTranVISA = visaIntegration.obtenerInformacionTransaccionVisa(intNOrdenT);
-				tranVisaRespuesta.setFechaHoraTx(infoTranVISA.toString());
+				tranVisaRespuesta.setFechaHoraTx(VisaIntegrationUtil.formatDate(infoTranVISA.getFechaTran()));
 				tranVisaRespuesta.setImpAutorizado(VisaIntegrationUtil.formatBigDecimal(infoTranVISA.getMonto()));
 				StringBuilder sb = new StringBuilder();
 				for (NombreConcepto nombreConcepto : infoTranVISA.getListaConceptos()) {
 					sb.append(nombreConcepto.getNombre());
-					sb.append("<br />");
+					sb.append("<br/>");
 				}
 				tranVisaRespuesta.setDescripcionProducto(sb.toString());
 				if (tranVisaRespuesta.getRespuesta().equals("1")) {
@@ -245,6 +245,7 @@ public class ComercioController {
 	}
 
 	private void enviarEmailConfirmaPago(final String tipoUsuario, final String comprador, int intNOrdenT, String monto) {
+		LOGGER.info("enviarEmailConfirmaPago");
 		String strInfo = null;
 		String strConcepto = null;
 		try {
@@ -258,7 +259,9 @@ public class ComercioController {
 				strInfo = visaIntegration.obtenerNombreProspecto(comprador);
 				strConcepto = "Inscripción a ";
 			}
-			String[] datos = strInfo.split("|");
+			strInfo = strInfo.replace("|", "-");
+			LOGGER.info(strInfo);
+			final String[] datos = strInfo.split("-");
 			if (datos.length > 1 && !datos[0].isEmpty() && !datos[1].isEmpty()) {
 				final DatosCorreo datosCorreo = new DatosCorreo();
 				datosCorreo.setNombre(datos[0]);
@@ -267,7 +270,9 @@ public class ComercioController {
 				datosCorreo.setIdCliente(comprador);
 				datosCorreo.setIdTransferencia(Integer.toString(intNOrdenT));
 				datosCorreo.setMonto(monto);
-				datosCorreo.setAddressTo(datos[1]);
+				// TODO cambiar a datos[1]
+				datosCorreo.setAddressTo("gluiscastro@gmail.com");
+				LOGGER.info(datosCorreo.getAddressTo());
 				emailServices.sendEmail(datosCorreo);
 			}
 		} catch (Exception ex) {
@@ -279,7 +284,8 @@ public class ComercioController {
 		String strInfo;
 		try {
 			strInfo = visaIntegration.obtenerNombrePostulante(idPostulante);
-			String[] datos = strInfo.split("|");
+			strInfo = strInfo.replace("|", "-");
+			String[] datos = strInfo.split("-");
 			if (datos.length > 1 && !datos[0].isEmpty() && !datos[1].isEmpty()) {
 				final Usuario usuario = visaIntegration.obtenerDatosNuevoAlumno(idPostulante, carrera);
 				final DatosCorreo datosCorreo = new DatosCorreo();
@@ -287,7 +293,8 @@ public class ComercioController {
 				datosCorreo.setNuevoAlumno(true);
 				datosCorreo.setUsuario(usuario.getUsuario());
 				datosCorreo.setClave(usuario.getClave());
-				datosCorreo.setAddressTo(datos[1]);
+				// TODO cambiar a datos[1]
+				datosCorreo.setAddressTo("gluiscastro@gmail.com");
 				emailServices.sendEmail(datosCorreo);
 			}
 		} catch (Exception e) {

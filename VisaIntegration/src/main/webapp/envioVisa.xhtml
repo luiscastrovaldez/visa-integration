@@ -3,9 +3,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html">
-<body onload="fm.submit();">
+<h:body onload="fm.submit();">
+	<style>
+		body ul {
+		    display: none;
+		}
+	</style>
     <form name="fm" id="FrmVisaSend" action="createETicket.html" method="post">
         <h:inputHidden id="xmlService" value="#{paymentBean.visaXmlData}" />
     </form>
-</body>
+</h:body>
 </html>
