@@ -104,7 +104,7 @@ public class ComercioController {
 	public ModelAndView visaResponse(@RequestBody final String parameterList, final HttpSession session) throws Exception {
 		LOGGER.info("Visa Post eTicket");
 		LOGGER.info(parameterList);
-		final String eTicket = VisaIntegrationUtil.getParameterValue(parameterList, VisaIntegrationConstants.CAMPO_E_TICKET);
+		final String eTicket = VisaIntegrationUtil.getParameterValue(parameterList, VisaIntegrationConstants.CAMPO_E_TICKET_RESPUESTA);
 		if (eTicket == null) {
 			return showErrorPage(VisaIntegrationConstants.MSG_ERROR_GENERICO, session);
 		}
