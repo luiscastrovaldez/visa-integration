@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.application.ViewExpiredException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
@@ -55,6 +56,15 @@ public class PaymentBean implements Serializable {
 
 	public PaymentBean() {
 		LOGGER.info("--------------PaymentBean------------");
+		
+		FacesContext context = FacesContext.getCurrentInstance();
+		HttpSession session = (HttpSession) context.getExternalContext()
+				.getSession(false);
+		
+		if (session == null || !session.isNew()){
+			throw new ViewExpiredException();
+		}
+		
 	}
 
 	public boolean isHabilitaCheck() {
@@ -349,8 +359,9 @@ public class PaymentBean implements Serializable {
 
 	private void limpiarVariables() {
 		listaCarreras = null;
-		listaConceptosSeleccionados = null;
+		listaConceptosSeleccionados = null;		
 		totalVisa = "0.00";
+		setAceptaTermino(Boolean.FALSE);		
 	}
 
 }
