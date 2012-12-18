@@ -55,15 +55,7 @@ public class PaymentBean implements Serializable {
 	private VisaXmlParserService visaXmlParserService;
 
 	public PaymentBean() {
-		LOGGER.info("--------------PaymentBean------------");
-		
-		FacesContext context = FacesContext.getCurrentInstance();
-		HttpSession session = (HttpSession) context.getExternalContext()
-				.getSession(false);
-		
-		if (session == null || !session.isNew()){
-			throw new ViewExpiredException();
-		}
+		LOGGER.info("--------------PaymentBean------------");			
 		
 	}
 
