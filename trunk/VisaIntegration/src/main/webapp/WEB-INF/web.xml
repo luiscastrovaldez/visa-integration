@@ -72,5 +72,14 @@
     <servlet-name>spring</servlet-name>
     <url-pattern>*.html</url-pattern>
   </servlet-mapping>
+  
+  <session-config>
+      <session-timeout>30</session-timeout>
+  </session-config>
+  
+  <error-page>
+    <exception-type>javax.faces.application.ViewExpiredException</exception-type>
+    <location>/login.xhtml</location>
+</error-page>
 
 </web-app>
