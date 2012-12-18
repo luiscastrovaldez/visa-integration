@@ -105,5 +105,6 @@ public class VisaIntegrationConstants {
 	public static final String CORRECTO_PROCESO_SOLICITUD = "El pago electrónico se ha efectuado de forma satisfactoria.";
 	public static final String ACEPTAR_TERMINOS_CONDICIONES = "Acepto Términos y Condiciones";
 	public static final String PAGINA_PAGO_TEXTO = "Volver a la página de pagos";
+	public static final String CORREO_COPIA = "pagovisa@wienergroup.com";
 
 }

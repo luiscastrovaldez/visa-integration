@@ -271,6 +271,7 @@ public class ComercioController {
 				datosCorreo.setIdTransferencia(Integer.toString(intNOrdenT));
 				datosCorreo.setMonto(monto);
 				datosCorreo.setAddressTo(datos[1]);
+				datosCorreo.setAddressCc(VisaIntegrationConstants.CORREO_COPIA);
 				emailServices.sendEmail(datosCorreo);
 			}
 		} catch (Exception ex) {
@@ -293,6 +294,7 @@ public class ComercioController {
 				datosCorreo.setUsuario(usuario.getUsuario());
 				datosCorreo.setClave(usuario.getClave());
 				datosCorreo.setAddressTo(datos[1]);
+				datosCorreo.setAddressCc(VisaIntegrationConstants.CORREO_COPIA);
 				emailServices.sendEmail(datosCorreo);
 			}
 		} catch (Exception e) {
