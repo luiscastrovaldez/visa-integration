@@ -274,8 +274,7 @@ public class PaymentBean implements Serializable {
 				totalVisaNum += monto;
 			}
 		}
-		setTotalVisa(Double.toString(totalVisaNum));
-		setPagarDeshabilitado(aceptaTermino);
+		setTotalVisa(Double.toString(totalVisaNum));		
 		LOGGER.info("total Visa: " + getTotalVisa());
 	}
 

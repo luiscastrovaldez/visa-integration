@@ -128,10 +128,9 @@ public class UserManagedBean implements Serializable {
 			return page;
 		} catch (Exception e) {
 			FacesContext context = FacesContext.getCurrentInstance();
-			LOGGER.error("Error Login General", e);
-			context = FacesContext.getCurrentInstance();
+			LOGGER.error("Error Login General", e);		
 			context.addMessage("messaje", new FacesMessage("Ha ocurrido un error. Por favor, vuelva a intentarlo en unos minutos."));
-			return "error?faces-redirect=true";
+			return "error";
 		}
 
 	}
