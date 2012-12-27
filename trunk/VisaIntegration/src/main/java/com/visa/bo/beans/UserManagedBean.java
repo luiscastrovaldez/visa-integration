@@ -185,7 +185,7 @@ public class UserManagedBean implements Serializable {
 	private String alumnoLogin() throws Exception {
 		FacesContext context = FacesContext.getCurrentInstance();
 		int flag = -1;
-		flag = this.visaIntegration.verificarAccesoUsuario(Constants.INTINSTITUCION, getUsername(), getPassword(),Constants.PERFIL_ALUMNO,Constants.DOMINIO);
+		flag = this.visaIntegration.verificaAccesoUsuario(Constants.INTINSTITUCION, getUsername(), getPassword(),Constants.PERFIL_ALUMNO,Constants.DOMINIO);
 		LOGGER.info(" verificaUsuarioExiste = " + flag);
 		
 		switch (flag) {

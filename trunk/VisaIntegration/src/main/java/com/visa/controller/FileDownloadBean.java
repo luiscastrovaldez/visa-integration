@@ -16,32 +16,15 @@ public class FileDownloadBean {
 
 	private StreamedContent file;
 
-	
-	
-	/*public FileDownloadBean() {
-		try {
-			InputStream stream = null;
-			stream = ((ServletContext) FacesContext
-					.getCurrentInstance().getExternalContext().getContext())
-					.getResourceAsStream("/files/terminos-condiciones.pdf");
-			
-			file = new DefaultStreamedContent(stream, "application/pdf",
-					"terminos-condiciones.pdf");
-			stream.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		} 
-	}*/
-
 	public StreamedContent getFile() {
 		try {
 			InputStream stream = null;
 			stream = ((ServletContext) FacesContext
 					.getCurrentInstance().getExternalContext().getContext())
-					.getResourceAsStream("/files/terminos-condiciones.pdf");
+					.getResourceAsStream("/files/Politicas Comerciales.pdf");
 			
 			file = new DefaultStreamedContent(stream, "application/pdf",
-					"terminos-condiciones.pdf");
+					"Politicas Comerciales.pdf");
 			
 		} catch (Exception e) {
 			e.printStackTrace();
