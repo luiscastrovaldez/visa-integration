@@ -221,7 +221,7 @@ public class ComercioController {
 	                if (VisaIntegrationConstants.TIPO_USUARIO_POSTULANTE.equals(tipoUsuario)) {
 	                    enviarUsuarioClaveAlumno(usuario, carrera);
 	                }
-					mav.setViewName(getRedirect("pagos"));
+					mav.setViewName(getRedirect("visaResponse"));
 					return mav;
 				}
 				session.setAttribute(VisaIntegrationConstants.CLAVE_RESPUESTA_SESION, tranVisaRespuesta);
