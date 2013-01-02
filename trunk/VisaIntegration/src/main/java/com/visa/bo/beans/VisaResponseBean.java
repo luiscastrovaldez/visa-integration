@@ -103,15 +103,18 @@ public class VisaResponseBean implements Serializable {
 				return;
 			}
 			final TranVisaRespuesta tranVisaRespuesta = (TranVisaRespuesta) session.getAttribute(VisaIntegrationConstants.CLAVE_RESPUESTA_SESION);
-
-			setNumeroPedido(tranVisaRespuesta.getnOrdenT());
-			setNumeroTarjeta(tranVisaRespuesta.getPan());
-			setFechaHoraPedido(tranVisaRespuesta.getFechaHoraTx());
-			setImporteTransaccion(tranVisaRespuesta.getImpAutorizado());
-			setDescripcionProducto(tranVisaRespuesta.getDescripcionProducto());
-			setCodigoComprador(tranVisaRespuesta.getAlumno());
-			setDescripcionCodigo(CodigosAccionUtil.MAP.get(tranVisaRespuesta.getCodAccion()));
-			setMensaje(tranVisaRespuesta.getMensaje());
+			if (tranVisaRespuesta != null) {
+				setNumeroPedido(tranVisaRespuesta.getnOrdenT());
+				setNumeroTarjeta(tranVisaRespuesta.getPan());
+				setFechaHoraPedido(tranVisaRespuesta.getFechaHoraTx());
+				setImporteTransaccion(tranVisaRespuesta.getImpAutorizado());
+				setDescripcionProducto(tranVisaRespuesta.getDescripcionProducto());
+				setCodigoComprador(tranVisaRespuesta.getAlumno());
+				setDescripcionCodigo(CodigosAccionUtil.MAP.get(tranVisaRespuesta.getCodAccion()));
+				setMensaje(tranVisaRespuesta.getMensaje());
+			} else {
+				setMensaje(VisaIntegrationConstants.MSG_ERROR_GENERICO);
+			}
 		}
 		LOGGER.info("No existe la sesion");
 	}
