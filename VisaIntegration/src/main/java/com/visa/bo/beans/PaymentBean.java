@@ -4,10 +4,10 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
-import javax.faces.application.ViewExpiredException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
@@ -195,7 +195,7 @@ public class PaymentBean implements Serializable {
 		setPagarDeshabilitado(listaConceptos.size() == 0);
 		setHabilitaCheck(listaConceptos.size() == 0);
 		setPagarDeshabilitado(!aceptaTermino);
-		
+
 		double monto = 0;
 		for (final Concepto concepto : listaConceptos) {
 			monto += Double.valueOf(concepto.getMonto());
@@ -220,15 +220,24 @@ public class PaymentBean implements Serializable {
 	}
 
 	public String registrarPago() {
+		LOGGER.info("registrarPago");
+		LOGGER.info("length: " + listaConceptosSeleccionados.length);
 		if (listaConceptosSeleccionados == null || listaConceptosSeleccionados.length == 0) {
 			return "pagos";
 		}
-		LOGGER.info("registrarPago");
+		final List<Concepto> listaDetalle = Arrays.asList(listaConceptosSeleccionados);
+		Iterator<Concepto> iter = listaDetalle.iterator();
+		while (iter.hasNext()) {
+			Concepto conceptoTemp = iter.next();
+			if (conceptoTemp.getRecibo() != null && !conceptoTemp.getRecibo().isEmpty()) {
+				iter.remove();
+			}
+		}
+		LOGGER.info("size: " + listaDetalle.size());
 		final String usuario = VisaIntegrationConstants.TIPO_USUARIO_ALUMNO.equals(userManagedBean.getTipoUsuarioLogueado())?
 		userManagedBean.getUsername().substring(1): userManagedBean.getUsername();
 		final Integer numOperacion = registraTransaccionVisa(carrera.getCodigo(), usuario, BigDecimal.valueOf(Double.parseDouble(getTotalVisa())),
-		    listaConceptosSeleccionados[0].getPeriodoacademico(), Integer.toString(userManagedBean.getNumAtencion()),
-		    Arrays.asList(listaConceptosSeleccionados));
+				listaDetalle.get(0).getPeriodoacademico(), Integer.toString(userManagedBean.getNumAtencion()), listaDetalle);
 		if (numOperacion > 0) {
 			final NuevoETicket nuevoETicket = new NuevoETicket();
 			final ArrayList<Parametro> parametros = new ArrayList<Parametro>();
@@ -274,7 +283,7 @@ public class PaymentBean implements Serializable {
 				totalVisaNum += monto;
 			}
 		}
-		setTotalVisa(Double.toString(totalVisaNum));		
+		setTotalVisa(Double.toString(totalVisaNum));
 		LOGGER.info("total Visa: " + getTotalVisa());
 	}
 
