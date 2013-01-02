@@ -221,9 +221,11 @@ public class ComercioController {
 	                if (VisaIntegrationConstants.TIPO_USUARIO_POSTULANTE.equals(tipoUsuario)) {
 	                    enviarUsuarioClaveAlumno(usuario, carrera);
 	                }
+	                tranVisaRespuesta.setMensaje(VisaIntegrationConstants.CORRECTO_PROCESO_SOLICITUD);
 					mav.setViewName(getRedirect("visaResponse"));
 					return mav;
 				}
+				tranVisaRespuesta.setMensaje(VisaIntegrationConstants.ERROR_PROCESO_SOLICITUD);
 				session.setAttribute(VisaIntegrationConstants.CLAVE_RESPUESTA_SESION, tranVisaRespuesta);
 			} else {
 				session.setAttribute(VisaIntegrationConstants.CLAVE_RESPUESTA_ERROR_SESION, VisaIntegrationConstants.ERROR_RESPUESTA_VISA);
