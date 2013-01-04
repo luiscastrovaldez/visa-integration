@@ -77,6 +77,10 @@ public class CodigosAccionUtil {
 			put("424", "Operación Denegada. Contactar con emisor.");
 			put("425", "Operación Denegada. País emisor incorrecto.");
 			put("666", "Operación Denegada. Problemas de comunicación. Intente mas tarde.");
+			put("667", "Operación Denegada. Transacción sin autenticación por error de comunicación.");
+			put("668", "Operación Denegada. Error de comunicación de Autenticador VbV.");
+			put("669", "Operación Denegada. Transacción denegada por Autenticadores.");
+			put("670", "Operación Denegada. Transacción denegada por Autenticador CBS.");
 			put("807", "Operación Denegada. Contactar con emisor.");
 			put("900", "Operación Denegada. Contactar con emisor.");
 			put("904", "Operación Denegada. Formato de mensaje erróneo.");
