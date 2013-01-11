@@ -107,4 +107,22 @@ public class VisaIntegrationConstants {
 	public static final String PAGINA_PAGO_TEXTO = "Volver a la página de pagos";
 	public static final String CORREO_COPIA = "pagovisa@wienergroup.com";
 
+	
+	//Variables url dev y prod
+	//public static final String WSCONSULTAETICKETSOAP_ADDRESS_DEV = "http://cal2testing.sytes.net/WSConsulta/WSConsultaEticket.asmx";
+	public static final String WSCONSULTAETICKETSOAP_ADDRESS_PRD = "https://www.multimerchantvisanet.com/WSConsulta/WSConsultaEticket.asmx";
+	
+	public static final String CONSULTA_TICKET = "https://www.multimerchantvisanet.com/ConsultaEnLineaEticket";
+	
+	public static final String CONSULTA_SOAP_URL = "https://www.multimerchantvisanet.com/ConsultaEnLineaEticket/ConsultaEticket";
+	
+	//public static final String WSETICKETSOAP_ADDRESS_DEV = "http://cal2testing.sytes.net/WSGenerarEticket/WSEticket.asmx";
+	public static final String WSETICKETSOAP_ADDRESS_PRD = "https://www.multimerchantvisanet.com/WSGenerarEticket/WSEticket.asmx";
+	
+	public static final String GENERA_TICKET = "https://www.multimerchantvisanet.com/solicitudtransaccion";
+	public static final String GENERA_SOAP_URL = "https://www.multimerchantvisanet.com/solicitudtransaccion/GeneraEticket";
+		
+	//public static final String URL_POST_VISA_DEV = "http://cal2testing.sytes.net/formularioweb/formulariopago.aspx";
+	public static final String URL_POST_VISA_PRD = "https://www.multimerchantvisanet.com/formularioweb/formulariopago.aspx";
+	
 }

@@ -7,6 +7,8 @@
 
 package com.visa.webservice.consulteticket;
 
+import com.visa.util.VisaIntegrationConstants;
+
 public class WSConsultaEticketLocator extends org.apache.axis.client.Service implements com.visa.webservice.consulteticket.WSConsultaEticket {
 
 /**
@@ -26,7 +28,7 @@ public class WSConsultaEticketLocator extends org.apache.axis.client.Service imp
     }
 
     // Use to get a proxy class for WSConsultaEticketSoap
-    private java.lang.String WSConsultaEticketSoap_address = "http://cal2testing.sytes.net/WSConsulta/WSConsultaEticket.asmx";
+    private java.lang.String WSConsultaEticketSoap_address = VisaIntegrationConstants.WSCONSULTAETICKETSOAP_ADDRESS_PRD;
 
     public java.lang.String getWSConsultaEticketSoapAddress() {
         return WSConsultaEticketSoap_address;
@@ -109,7 +111,7 @@ public class WSConsultaEticketLocator extends org.apache.axis.client.Service imp
     }
 
     public javax.xml.namespace.QName getServiceName() {
-        return new javax.xml.namespace.QName("https://www.multimerchantvisanet.com/ConsultaEnLineaEticket", "WSConsultaEticket");
+        return new javax.xml.namespace.QName(VisaIntegrationConstants.CONSULTA_TICKET, "WSConsultaEticket");
     }
 
     private java.util.HashSet ports = null;
@@ -117,7 +119,7 @@ public class WSConsultaEticketLocator extends org.apache.axis.client.Service imp
     public java.util.Iterator getPorts() {
         if (ports == null) {
             ports = new java.util.HashSet();
-            ports.add(new javax.xml.namespace.QName("https://www.multimerchantvisanet.com/ConsultaEnLineaEticket", "WSConsultaEticketSoap"));
+            ports.add(new javax.xml.namespace.QName(VisaIntegrationConstants.CONSULTA_TICKET, "WSConsultaEticketSoap"));
         }
         return ports.iterator();
     }

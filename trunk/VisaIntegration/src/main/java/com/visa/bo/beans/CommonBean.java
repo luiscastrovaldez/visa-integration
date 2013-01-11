@@ -139,5 +139,12 @@ public class CommonBean {
 	public String getPaginaPagoTexto() {
 		return VisaIntegrationConstants.PAGINA_PAGO_TEXTO;
 	}
+	
+	/*public String getUrlPostVisaDev(){
+		return VisaIntegrationConstants.URL_POST_VISA_DEV; 
+	}*/
 
+	public String getUrlPostVisaPrd(){
+		return VisaIntegrationConstants.URL_POST_VISA_PRD; 
+	}
 }

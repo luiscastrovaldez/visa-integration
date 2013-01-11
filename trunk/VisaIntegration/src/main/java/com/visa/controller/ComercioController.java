@@ -93,7 +93,7 @@ public class ComercioController {
 		final ModelAndView mav = new ModelAndView(getRedirect("formularioSubmit"));
 		for (Iterator<Campo> iterator = eTicket.getRegistro().iterator(); iterator.hasNext();) {
 			final Campo campo = (Campo) iterator.next();
-			if (VisaIntegrationConstants.CAMPO_E_TICKET.equals(campo.getId())) {
+			if (VisaIntegrationConstants.CAMPO_E_TICKET.equals(campo.getId())) {				
 				session.setAttribute(VisaIntegrationConstants.CAMPO_E_TICKET, campo.getValue());
 			}
 		}
@@ -101,13 +101,23 @@ public class ComercioController {
 	}
 
 	@RequestMapping(value = "/visaResponse", method = RequestMethod.POST)
-	public ModelAndView visaResponse(@RequestBody final String parameterList, final HttpSession session) throws Exception {
-		LOGGER.info("Visa Post eTicket");
+	public ModelAndView visaResponse(@RequestBody String parameterList, final HttpSession session) throws Exception {
+		TranVisaRespuesta tranVisaRespuesta = new TranVisaRespuesta();	
+		session.removeAttribute(VisaIntegrationConstants.CLAVE_RESPUESTA_SESION);
+		session.removeAttribute(VisaIntegrationConstants.CLAVE_RESPUESTA_ERROR_SESION);
+		session.removeAttribute(VisaIntegrationConstants.CLAVE_RESPUESTA_ERROR_SESION);
+				
+		LOGGER.info("Visa Post eTicket");		
 		LOGGER.info(parameterList);
-		final String eTicket = VisaIntegrationUtil.getParameterValue(parameterList, VisaIntegrationConstants.CAMPO_E_TICKET_RESPUESTA);
+		parameterList = parameterList.toUpperCase();
+		LOGGER.info(parameterList);
+		final String eTicket = VisaIntegrationUtil.getParameterValue(parameterList, VisaIntegrationConstants.CAMPO_E_TICKET);
+		LOGGER.info("Visa Post eTicket = " + eTicket);
+	
 		if (eTicket == null) {
 			return showErrorPage(VisaIntegrationConstants.MSG_ERROR_GENERICO, session);
 		}
+		LOGGER.info("Visa Post eTicket = " + eTicket);
 		final ConsultaETicket consultaETicket = new ConsultaETicket();
 		final ArrayList<Parametro> parametros = new ArrayList<Parametro>();
 		Parametro parametro = new Parametro();
@@ -155,7 +165,7 @@ public class ComercioController {
 				}
 			}
 			if (operacion != null && !CollectionUtils.isEmpty(operacion.getCampos())) {
-				final TranVisaRespuesta tranVisaRespuesta = new TranVisaRespuesta();
+				
 				for (Campo campo : operacion.getCampos()) {
 					if (VisaIntegrationConstants.CAMPO_ESTADO.equals(campo.getId())) {
 						tranVisaRespuesta.setEstado(campo.getValue());
@@ -165,6 +175,7 @@ public class ComercioController {
 						tranVisaRespuesta.setCodTienda(campo.getValue());
 					} else if (VisaIntegrationConstants.CAMPO_NORDENT.equals(campo.getId())) {
 						tranVisaRespuesta.setnOrdenT(campo.getValue());
+						LOGGER.info(" ID ORDEN = " + tranVisaRespuesta.getnOrdenT());
 					} else if (VisaIntegrationConstants.CAMPO_COD_ACCION.equals(campo.getId())) {
 						tranVisaRespuesta.setCodAccion(campo.getValue());
 					} else if (VisaIntegrationConstants.CAMPO_PAN.equals(campo.getId())) {
@@ -196,6 +207,7 @@ public class ComercioController {
 					}
 				}
 		        final String usuario = (String) session.getAttribute(VisaIntegrationConstants.CLAVE_USUARIO_SESION);
+		        LOGGER.info("usuario " + usuario);
 		        final String carrera = (String) session.getAttribute(VisaIntegrationConstants.CLAVE_CARRERA_SESION);
 		        final String tipoUsuario = (String) session.getAttribute(VisaIntegrationConstants.CLAVE_TIPO_USUARIO_SESION);
 		        tranVisaRespuesta.setAlumno(usuario);
@@ -212,7 +224,8 @@ public class ComercioController {
 					sb.append(nombreConcepto.getNombre());
 					sb.append("<br/>");
 				}
-				tranVisaRespuesta.setDescripcionProducto(sb.toString());
+				tranVisaRespuesta.setDescripcionProducto(sb.toString());	
+				LOGGER.info("RESPUESTA =  " + tranVisaRespuesta.getRespuesta());
 				if (tranVisaRespuesta.getRespuesta().equals("1")) {
 					//ACTUALIZAR LOS DATOS EN LAS TABLAS DE TESORERIAS
 					visaIntegration.actualizarDatosVirtual(intNOrdenT, Integer.valueOf(tipoUsuario));
@@ -221,11 +234,13 @@ public class ComercioController {
 	                if (VisaIntegrationConstants.TIPO_USUARIO_POSTULANTE.equals(tipoUsuario)) {
 	                    enviarUsuarioClaveAlumno(usuario, carrera);
 	                }
-	                tranVisaRespuesta.setMensaje(VisaIntegrationConstants.CORRECTO_PROCESO_SOLICITUD);
+	                tranVisaRespuesta.setMensaje(VisaIntegrationConstants.CORRECTO_PROCESO_SOLICITUD);	                
+	                session.setAttribute(VisaIntegrationConstants.CLAVE_RESPUESTA_SESION, tranVisaRespuesta);
 					mav.setViewName(getRedirect("visaResponse"));
+					LOGGER.info("visaResponse ");
 					return mav;
-				}
-				tranVisaRespuesta.setMensaje(VisaIntegrationConstants.ERROR_PROCESO_SOLICITUD);
+				}				
+				tranVisaRespuesta.setMensaje(VisaIntegrationConstants.ERROR_PROCESO_SOLICITUD);				
 				session.setAttribute(VisaIntegrationConstants.CLAVE_RESPUESTA_SESION, tranVisaRespuesta);
 			} else {
 				session.setAttribute(VisaIntegrationConstants.CLAVE_RESPUESTA_ERROR_SESION, VisaIntegrationConstants.ERROR_RESPUESTA_VISA);
@@ -237,13 +252,13 @@ public class ComercioController {
 	}
 
 	private ModelAndView showErrorPage(final String mensaje, final HttpSession session) {
-		final ModelAndView mav = new ModelAndView(getRedirect("error"));
+		final ModelAndView mav = new ModelAndView(getRedirect("error"));		
 		session.setAttribute(VisaIntegrationConstants.CLAVE_MENSAJE_SESION, mensaje);
 		return mav;
 	}
 
 	private String getRedirect(String url) {
-		return "redirect:" + url + ".visa";
+		return "redirect:" + url + ".faces";
 	}
 
 	private void enviarEmailConfirmaPago(final String tipoUsuario, final String comprador, int intNOrdenT, String monto) {
