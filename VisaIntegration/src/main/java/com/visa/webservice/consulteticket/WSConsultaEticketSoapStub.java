@@ -7,6 +7,8 @@
 
 package com.visa.webservice.consulteticket;
 
+import com.visa.util.VisaIntegrationConstants;
+
 public class WSConsultaEticketSoapStub extends org.apache.axis.client.Stub implements com.visa.webservice.consulteticket.WSConsultaEticketSoap {
     private java.util.Vector cachedSerClasses = new java.util.Vector();
     private java.util.Vector cachedSerQNames = new java.util.Vector();
@@ -25,12 +27,12 @@ public class WSConsultaEticketSoapStub extends org.apache.axis.client.Stub imple
         org.apache.axis.description.ParameterDesc param;
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("ConsultaEticket");
-        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("https://www.multimerchantvisanet.com/ConsultaEnLineaEticket", "xmlIn"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName(VisaIntegrationConstants.CONSULTA_TICKET, "xmlIn"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
         param.setOmittable(true);
         oper.addParameter(param);
         oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         oper.setReturnClass(java.lang.String.class);
-        oper.setReturnQName(new javax.xml.namespace.QName("https://www.multimerchantvisanet.com/ConsultaEnLineaEticket", "ConsultaEticketResult"));
+        oper.setReturnQName(new javax.xml.namespace.QName(VisaIntegrationConstants.CONSULTA_TICKET, "ConsultaEticketResult"));
         oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
         oper.setUse(org.apache.axis.constants.Use.LITERAL);
         _operations[0] = oper;
@@ -95,12 +97,12 @@ public class WSConsultaEticketSoapStub extends org.apache.axis.client.Stub imple
         org.apache.axis.client.Call _call = createCall();
         _call.setOperation(_operations[0]);
         _call.setUseSOAPAction(true);
-        _call.setSOAPActionURI("https://www.multimerchantvisanet.com/ConsultaEnLineaEticket/ConsultaEticket");
+        _call.setSOAPActionURI(VisaIntegrationConstants.CONSULTA_SOAP_URL);
         _call.setEncodingStyle(null);
         _call.setProperty(org.apache.axis.client.Call.SEND_TYPE_ATTR, Boolean.FALSE);
         _call.setProperty(org.apache.axis.AxisEngine.PROP_DOMULTIREFS, Boolean.FALSE);
         _call.setSOAPVersion(org.apache.axis.soap.SOAPConstants.SOAP11_CONSTANTS);
-        _call.setOperationName(new javax.xml.namespace.QName("https://www.multimerchantvisanet.com/ConsultaEnLineaEticket", "ConsultaEticket"));
+        _call.setOperationName(new javax.xml.namespace.QName(VisaIntegrationConstants.CONSULTA_TICKET, "ConsultaEticket"));
 
         setRequestHeaders(_call);
         setAttachments(_call);

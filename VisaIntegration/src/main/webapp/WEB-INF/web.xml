@@ -72,11 +72,11 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>spring</servlet-name>
-    <url-pattern>*.html</url-pattern>
+    <url-pattern>*.visa</url-pattern>
   </servlet-mapping>
   
   <session-config>
-      <session-timeout>30</session-timeout>
+      <session-timeout>300</session-timeout>
   </session-config>
   
   <error-page>

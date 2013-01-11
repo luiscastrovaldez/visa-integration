@@ -7,6 +7,8 @@
 
 package com.visa.webservice.createeticket;
 
+import com.visa.util.VisaIntegrationConstants;
+
 public class WSEticketLocator extends org.apache.axis.client.Service implements com.visa.webservice.createeticket.WSEticket {
 
 /**
@@ -26,7 +28,7 @@ public class WSEticketLocator extends org.apache.axis.client.Service implements 
     }
 
     // Use to get a proxy class for WSEticketSoap
-    private java.lang.String WSEticketSoap_address = "http://cal2testing.sytes.net/WSGenerarEticket/WSEticket.asmx";
+    private java.lang.String WSEticketSoap_address = VisaIntegrationConstants.WSETICKETSOAP_ADDRESS_PRD;
 
     public java.lang.String getWSEticketSoapAddress() {
         return WSEticketSoap_address;
@@ -109,7 +111,7 @@ public class WSEticketLocator extends org.apache.axis.client.Service implements 
     }
 
     public javax.xml.namespace.QName getServiceName() {
-        return new javax.xml.namespace.QName("https://www.multimerchantvisanet.com/solicitudtransaccion", "WSEticket");
+        return new javax.xml.namespace.QName(VisaIntegrationConstants.GENERA_TICKET, "WSEticket");
     }
 
     private java.util.HashSet ports = null;
@@ -117,7 +119,7 @@ public class WSEticketLocator extends org.apache.axis.client.Service implements 
     public java.util.Iterator getPorts() {
         if (ports == null) {
             ports = new java.util.HashSet();
-            ports.add(new javax.xml.namespace.QName("https://www.multimerchantvisanet.com/solicitudtransaccion", "WSEticketSoap"));
+            ports.add(new javax.xml.namespace.QName(VisaIntegrationConstants.GENERA_TICKET, "WSEticketSoap"));
         }
         return ports.iterator();
     }

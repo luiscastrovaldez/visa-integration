@@ -3,7 +3,7 @@ package com.visa.bo.beans;
 import java.io.Serializable;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 
@@ -14,7 +14,7 @@ import com.visa.util.CodigosAccionUtil;
 import com.visa.util.VisaIntegrationConstants;
 
 @ManagedBean(name = "visaResponseBean")
-@SessionScoped
+@RequestScoped
 public class VisaResponseBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -97,13 +97,16 @@ public class VisaResponseBean implements Serializable {
 		final HttpSession session = getCurrentSession();
 		if (session != null) {
 			final String mensajeError = (String) session.getAttribute(VisaIntegrationConstants.CLAVE_RESPUESTA_ERROR_SESION);
+			LOGGER.info("mensajeError = " + mensajeError);
 			if (mensajeError != null && !mensajeError.isEmpty()) {
 				setMensaje(mensajeError);
 				LOGGER.info(mensajeError);
 				return;
 			}
 			final TranVisaRespuesta tranVisaRespuesta = (TranVisaRespuesta) session.getAttribute(VisaIntegrationConstants.CLAVE_RESPUESTA_SESION);
+			LOGGER.info("tranVisaRespuesta = " + tranVisaRespuesta);
 			if (tranVisaRespuesta != null) {
+				LOGGER.info("tranVisaRespuesta = " + tranVisaRespuesta.getnOrdenT());
 				setNumeroPedido(tranVisaRespuesta.getnOrdenT());
 				setNumeroTarjeta(tranVisaRespuesta.getPan());
 				setFechaHoraPedido(tranVisaRespuesta.getFechaHoraTx());
@@ -115,8 +118,10 @@ public class VisaResponseBean implements Serializable {
 			} else {
 				setMensaje(VisaIntegrationConstants.MSG_ERROR_GENERICO);
 			}
+		} else {
+			LOGGER.info("No existe la sesion");
 		}
-		LOGGER.info("No existe la sesion");
+		//LOGGER.info("No existe la sesion");
 	}
 
 	private HttpSession getCurrentSession() {
